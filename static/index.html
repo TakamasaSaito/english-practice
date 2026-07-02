@@ -724,7 +724,10 @@ function fcTurn(idx) {
     setStatus('YOUR TURN');
     setBody(`
       <div class="sp-lbl mono">YOUR TURN</div>
-      <p style="font-size:.84rem;color:rgba(18,33,61,.55);margin-bottom:14px">英語で答えてください</p>
+      <div class="hint-box">
+        <div class="hint-lbl mono">HINT</div>
+        ${esc(turn.hint||'')}
+      </div>
       ${micHtml()}
     `);
     setTimeout(() => launchMicFC(turn.text, idx), 400);
