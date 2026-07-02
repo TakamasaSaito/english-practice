@@ -147,6 +147,11 @@ html,body{height:100%;background:var(--bg);color:#fff;
 .mic-dot{width:10px;height:10px;border-radius:50%;background:var(--error);
   animation:pls 1s infinite;flex-shrink:0}
 @keyframes pls{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
+/* live transcript */
+.live-transcript{min-height:2.6em;background:rgba(18,33,61,.05);border-radius:6px;
+  padding:9px 12px;font-size:.9rem;line-height:1.55;color:var(--dk);margin:4px 0 8px}
+.interim-text{color:rgba(18,33,61,.38);font-style:italic}
+.btn-confirm{width:100%;margin-bottom:8px;font-size:.8rem;padding:8px 14px}
 .fb-toggle{font-size:.68rem;color:rgba(18,33,61,.42);cursor:pointer;
   text-decoration:underline;background:none;border:none;padding:0;margin-top:2px;display:block}
 .fb-area{display:none;gap:8px;margin-top:10px}
@@ -240,33 +245,86 @@ function speak(text, onDone) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// SPEECH RECOGNITION
+// SPEECH RECOGNITION  (continuous + silence-timer 2.5s)
 // ═══════════════════════════════════════════════════════════
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recog = null;
+let silenceTimer = null;
+let finalBuffer = '';
+let pendingOnResult = null;
+let recogDone = false;
 
 function startRecog(onResult, onErr) {
   if (!SR || S.useFallback) { S.useFallback = true; if (onErr) onErr('unsupported'); return; }
   stopRecog();
+  finalBuffer = '';
+  pendingOnResult = onResult;
+  recogDone = false;
+
   recog = new SR();
   recog.lang = 'en-US';
-  recog.continuous = false;
-  recog.interimResults = false;
-  recog.onresult = e => { stopRecog(); onResult(e.results[0][0].transcript); };
+  recog.continuous = true;       // ← 途中確定しない
+  recog.interimResults = true;   // ← リアルタイム表示用
+
+  recog.onresult = e => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalBuffer += e.results[i][0].transcript + ' ';
+      else interim += e.results[i][0].transcript;
+    }
+    updateLiveTranscript(finalBuffer.trim(), interim);
+    // 最後の音声から 2.5 秒無音で確定
+    clearTimeout(silenceTimer);
+    silenceTimer = setTimeout(deliverTranscript, 2500);
+  };
+
   recog.onerror = e => {
-    stopRecog();
-    if (e.error === 'no-speech') { onResult(''); return; }
+    if (e.error === 'no-speech') { deliverTranscript(); return; }
+    clearTimeout(silenceTimer);
     S.useFallback = true;
+    stopRecog();
     if (onErr) onErr(e.error);
   };
-  recog.onend = () => { S.recognizing = false; };
+
+  // ブラウザが勝手に終了した場合もここで確定
+  recog.onend = () => {
+    S.recognizing = false;
+    if (!recogDone) deliverTranscript();
+  };
+
   try { recog.start(); S.recognizing = true; }
   catch(e) { S.useFallback = true; if (onErr) onErr('start'); }
 }
 
+// バッファを確定して判定へ渡す（二重呼び出し防止）
+function deliverTranscript() {
+  if (recogDone) return;
+  recogDone = true;
+  clearTimeout(silenceTimer);
+  stopRecog();
+  const t = finalBuffer.trim();
+  finalBuffer = '';
+  const cb = pendingOnResult;
+  pendingOnResult = null;
+  if (cb) cb(t);
+}
+
+// 「これで確定」ボタンから呼ぶ
+function forceConfirm() { deliverTranscript(); }
+
 function stopRecog() {
+  clearTimeout(silenceTimer);
   if (recog) { try { recog.stop(); } catch(_){} recog = null; }
   S.recognizing = false;
+}
+
+// ライブ字幕を更新
+function updateLiveTranscript(final, interim) {
+  const el = $id('live-transcript');
+  if (!el) return;
+  el.innerHTML =
+    (final ? esc(final) : '') +
+    (interim ? `<em class="interim-text"> ${esc(interim)}</em>` : '');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -496,7 +554,9 @@ function launchMic(expected) {
   if (!area) return;
   if (S.useFallback) { showFallback(area, expected); return; }
   area.innerHTML = `
-    <div class="mic-row"><div class="mic-dot"></div>録音中... 英語で話してください</div>
+    <div class="mic-row"><div class="mic-dot"></div>録音中... 英語で話してください（2.5秒の無音で自動確定）</div>
+    <div class="live-transcript" id="live-transcript"></div>
+    <button class="btn btn-primary btn-confirm" onclick="forceConfirm()">✓ これで確定</button>
     <button class="fb-toggle" onclick="toggleFB()">うまく聞き取れない時はテキスト入力</button>
     <div class="fb-area" id="fb-area">
       <input type="text" id="fb-in" placeholder="Type English here...">
@@ -529,6 +589,8 @@ function toggleFB() {
 function submitFB(expected) {
   const v = ($id('fb-in')?.value||'').trim();
   if (!v) return;
+  recogDone = true;          // onend からの二重確定を防ぐ
+  pendingOnResult = null;
   stopRecog();
   onTranscript(v, expected);
 }
