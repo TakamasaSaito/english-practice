@@ -1,0 +1,2432 @@
+[
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 1,
+    "title_jp": "保安検査場",
+    "title_en": "Security Check",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Please remove your shoes and jacket, and place them in the tray."
+      },
+      {
+        "speaker": "user",
+        "text": "Do I need to take off my belt too?",
+        "hint": "ベルトも外すか聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "Yes, please. Do you have any liquids or electronics in your bag?"
+      },
+      {
+        "speaker": "user",
+        "text": "I have a laptop, but no liquids.",
+        "hint": "ノートPCはあるが液体はないと伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 2,
+    "title_jp": "入国審査",
+    "title_en": "Immigration",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "What is the purpose of your visit?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'm here on a business trip.",
+        "hint": "出張だと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "How long will you be staying?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'll be staying for four nights.",
+        "hint": "滞在日数を伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 3,
+    "title_jp": "タクシー乗車",
+    "title_en": "Taxi",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Where would you like to go?"
+      },
+      {
+        "speaker": "user",
+        "text": "To the Hilton Hotel Munich, please.",
+        "hint": "行き先のホテル名を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure. Do you have the address?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, here it is. Could you take the fastest route?",
+        "hint": "住所を渡し最短ルートを頼む"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 4,
+    "title_jp": "ホテルチェックイン",
+    "title_en": "Hotel Check-in",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Welcome, do you have a reservation with us?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, under the name Saito.",
+        "hint": "予約名を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Great, could I see your passport, please?"
+      },
+      {
+        "speaker": "user",
+        "text": "Sure, here you go.",
+        "hint": "パスポートを渡す"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 5,
+    "title_jp": "航空券チェックインカウンター",
+    "title_en": "Airline Check-in Counter",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "May I see your passport and ticket, please?"
+      },
+      {
+        "speaker": "user",
+        "text": "Here you are.",
+        "hint": "パスポートを渡す"
+      },
+      {
+        "speaker": "agent",
+        "text": "Would you like a window or aisle seat?"
+      },
+      {
+        "speaker": "user",
+        "text": "A window seat, please, if it's available.",
+        "hint": "窓側を希望する"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 6,
+    "title_jp": "預け荷物",
+    "title_en": "Baggage Drop",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Please place your bag on the scale."
+      },
+      {
+        "speaker": "user",
+        "text": "Is it under the weight limit?",
+        "hint": "重量制限を確認する"
+      },
+      {
+        "speaker": "agent",
+        "text": "Yes, it's fine. Do you have any fragile items inside?"
+      },
+      {
+        "speaker": "user",
+        "text": "No, nothing fragile.",
+        "hint": "壊れやすい物はないと伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 7,
+    "title_jp": "搭乗ゲート",
+    "title_en": "Boarding Gate Ticket Check",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "May I see your boarding pass, please?"
+      },
+      {
+        "speaker": "user",
+        "text": "Sure, here it is.",
+        "hint": "見せる"
+      },
+      {
+        "speaker": "agent",
+        "text": "This is a connecting flight, do you have your next boarding pass too?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, here's the one for my connecting flight.",
+        "hint": "乗継便のパスも見せる"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 8,
+    "title_jp": "機内(ドリンク)",
+    "title_en": "In-flight Drinks",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Would you like something to drink?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could I have some orange juice, please?",
+        "hint": "オレンジジュースを頼む"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure, would you like ice with that?"
+      },
+      {
+        "speaker": "user",
+        "text": "No ice, thank you.",
+        "hint": "氷はいらないと伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 9,
+    "title_jp": "機内(食事)",
+    "title_en": "In-flight Meal",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Would you like chicken or pasta?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'll have the chicken, please.",
+        "hint": "チキンを選ぶ"
+      },
+      {
+        "speaker": "agent",
+        "text": "Would you like coffee or tea after the meal?"
+      },
+      {
+        "speaker": "user",
+        "text": "Coffee would be great, thanks.",
+        "hint": "コーヒーを頼む"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 10,
+    "title_jp": "機内(毛布・ヘッドホン)",
+    "title_en": "Blanket / Headphones",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Is there anything else I can get you?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could I get a blanket, please?",
+        "hint": "毛布を頼む"
+      },
+      {
+        "speaker": "agent",
+        "text": "Of course. Would you like headphones as well?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, that would be great, thank you.",
+        "hint": "ヘッドホンも頼む"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 11,
+    "title_jp": "乗継案内",
+    "title_en": "Connecting Flight Directions",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Can I help you find something?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, could you tell me where Gate B12 is?",
+        "hint": "乗継ゲートの場所を聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "It's about a ten-minute walk that way, past the shops."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you. Do I have enough time before boarding?",
+        "hint": "時間があるか確認する"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 12,
+    "title_jp": "手荷物紛失",
+    "title_en": "Lost Baggage",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "How can I help you today?"
+      },
+      {
+        "speaker": "user",
+        "text": "My baggage didn't come out on the belt.",
+        "hint": "荷物が出てこないと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "I'm sorry to hear that. Could I see your baggage claim tag?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, here it is.",
+        "hint": "タグを渡す"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 13,
+    "title_jp": "両替",
+    "title_en": "Currency Exchange",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "How much would you like to exchange?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'd like to exchange 200 dollars, please.",
+        "hint": "金額を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure. Would you like that in fifties or smaller bills?"
+      },
+      {
+        "speaker": "user",
+        "text": "Smaller bills would be easier, thanks.",
+        "hint": "小額紙幣を希望"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 14,
+    "title_jp": "SIMカード購入",
+    "title_en": "SIM Card / WiFi",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Are you looking for a SIM card or a WiFi rental?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'm looking for a SIM card for two weeks.",
+        "hint": "SIMカードが欲しいと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "This plan covers all of Europe, would that work for you?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, that sounds perfect.",
+        "hint": "それでいいと伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 15,
+    "title_jp": "空港内案内",
+    "title_en": "Asking Directions in Airport",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Excuse me, is there something I can help you with?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could you tell me where the business lounge is?",
+        "hint": "ラウンジの場所を聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "It's on the third floor, near Gate 22."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you very much for your help.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 16,
+    "title_jp": "ラウンジ入場",
+    "title_en": "Lounge Access",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Do you have a lounge pass or membership card?"
+      },
+      {
+        "speaker": "user",
+        "text": "I have this credit card, does it give me access?",
+        "hint": "クレジットカードの特典で入れるか聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "Let me check... yes, that card qualifies."
+      },
+      {
+        "speaker": "user",
+        "text": "Great, thank you.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 17,
+    "title_jp": "電車の切符購入",
+    "title_en": "Train Ticket Purchase",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Where are you headed today?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'd like a ticket to the Central Station, please.",
+        "hint": "中央駅までの切符が欲しいと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Single or return ticket?"
+      },
+      {
+        "speaker": "user",
+        "text": "Just a single ticket is fine, thanks.",
+        "hint": "片道でいいと伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 18,
+    "title_jp": "電車遅延・ホーム確認",
+    "title_en": "Train Delay / Platform",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "The train is running about fifteen minutes late."
+      },
+      {
+        "speaker": "user",
+        "text": "I see. Which platform will it arrive at?",
+        "hint": "どのホームか確認する"
+      },
+      {
+        "speaker": "agent",
+        "text": "It should still be platform 3."
+      },
+      {
+        "speaker": "user",
+        "text": "Thanks for letting me know.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 19,
+    "title_jp": "レイトチェックアウト",
+    "title_en": "Hotel Late Checkout",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Front desk, how may I help you?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could I get a late checkout, please?",
+        "hint": "レイトチェックアウトを頼む"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure, we can extend it to 1 PM. Is that alright?"
+      },
+      {
+        "speaker": "user",
+        "text": "That works perfectly, thank you.",
+        "hint": "それで大丈夫と伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 20,
+    "title_jp": "ルームサービス",
+    "title_en": "Room Service",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Room service, what can I get for you?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could I order a club sandwich, please?",
+        "hint": "サンドイッチを頼む"
+      },
+      {
+        "speaker": "agent",
+        "text": "Of course, would you like anything to drink with that?"
+      },
+      {
+        "speaker": "user",
+        "text": "Just a bottle of water, thanks.",
+        "hint": "水を頼む"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 21,
+    "title_jp": "客室トラブル報告",
+    "title_en": "Reporting a Room Issue",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Front desk, how can I help?"
+      },
+      {
+        "speaker": "user",
+        "text": "The WiFi in my room isn't working.",
+        "hint": "WiFiが繋がらないと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "I'm sorry about that, I'll send someone up to check it."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you, I appreciate it.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 22,
+    "title_jp": "モーニングコール",
+    "title_en": "Wake-up Call",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Is there anything else you need?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could I get a wake-up call at 6 AM, please?",
+        "hint": "モーニングコールを頼む"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure, I'll set that up for you."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you very much.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 23,
+    "title_jp": "コンシェルジュへの相談",
+    "title_en": "Concierge Recommendation",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "How can I help you today?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could you recommend a good restaurant nearby?",
+        "hint": "近くのレストランを聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "There's a great Bavarian place two blocks from here."
+      },
+      {
+        "speaker": "user",
+        "text": "Could you help me make a reservation there?",
+        "hint": "予約できるか聞く"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 24,
+    "title_jp": "レンタカー受取",
+    "title_en": "Rental Car Pickup",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Do you have your reservation confirmation?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, here it is on my phone.",
+        "hint": "確認書を見せる"
+      },
+      {
+        "speaker": "agent",
+        "text": "Great, would you like to add insurance coverage?"
+      },
+      {
+        "speaker": "user",
+        "text": "The basic coverage should be fine, thanks.",
+        "hint": "基本保険で十分と伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 25,
+    "title_jp": "駐車場・給油所の案内",
+    "title_en": "Parking / Gas Station Directions",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Can I help you find something?"
+      },
+      {
+        "speaker": "user",
+        "text": "Is there a gas station nearby?",
+        "hint": "近くのガソリンスタンドを聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "Yes, there's one just past the next intersection."
+      },
+      {
+        "speaker": "user",
+        "text": "Thanks, that's really helpful.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 26,
+    "title_jp": "タクシーで急いでいる時",
+    "title_en": "Taxi - In a Hurry",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Traffic looks pretty heavy today."
+      },
+      {
+        "speaker": "user",
+        "text": "I'm actually in a bit of a hurry, is there another way?",
+        "hint": "急いでいることを伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "I can try a side street, it might save some time."
+      },
+      {
+        "speaker": "user",
+        "text": "That would be great, thank you.",
+        "hint": "それで頼むと伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 27,
+    "title_jp": "追加のセキュリティチェック",
+    "title_en": "Security Re-check",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "We need to do a quick additional check, is that okay?"
+      },
+      {
+        "speaker": "user",
+        "text": "Sure, no problem.",
+        "hint": "了解したと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "I'll just need to pat down your jacket pocket."
+      },
+      {
+        "speaker": "user",
+        "text": "Okay, go ahead.",
+        "hint": "了解と伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 28,
+    "title_jp": "フライト遅延・振替",
+    "title_en": "Flight Delay / Rebooking",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I'm sorry, but your flight has been delayed by three hours."
+      },
+      {
+        "speaker": "user",
+        "text": "Will this affect my connecting flight?",
+        "hint": "乗継便に影響するか聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "It might. Let me check if we can rebook you."
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, please, that would help a lot.",
+        "hint": "お願いすると伝える"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 29,
+    "title_jp": "乗継便に乗り遅れた時",
+    "title_en": "Missing Connection",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "How can I help you?"
+      },
+      {
+        "speaker": "user",
+        "text": "I missed my connecting flight.",
+        "hint": "乗継便に乗り遅れたと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "I'm sorry to hear that. Let me find you the next available flight."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you, I really appreciate your help.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "travel",
+    "category_jp": "移動系",
+    "no": 30,
+    "title_jp": "カンファレンス受付",
+    "title_en": "Conference Registration Desk",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Welcome! Can I get your name for registration?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, it's Takamasa Saito from my company.",
+        "hint": "名前と会社名を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Great, here's your badge and welcome packet."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you. Could you tell me where the main hall is?",
+        "hint": "お礼を言い会場の場所を聞く"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 1,
+    "title_jp": "乾杯前の自己紹介",
+    "title_en": "Icebreaker Self-introduction",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Hi there, I don't think we've met yet."
+      },
+      {
+        "speaker": "user",
+        "text": "Hi, I'm Takamasa, I work in IT architecture back in Japan.",
+        "hint": "自己紹介する"
+      },
+      {
+        "speaker": "agent",
+        "text": "Nice to meet you! What brings you to this event?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'm here for the conference, it's my first time in Munich.",
+        "hint": "出張・カンファレンスと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 2,
+    "title_jp": "天気・フライトの雑談",
+    "title_en": "Weather / Flight Small Talk",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "How was your flight over?"
+      },
+      {
+        "speaker": "user",
+        "text": "It was long, about twelve hours, but not too bad.",
+        "hint": "長時間フライトだったと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's quite a trip! Have you had a chance to see the city yet?"
+      },
+      {
+        "speaker": "user",
+        "text": "Not yet, I just arrived this morning.",
+        "hint": "まだ見れていないと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 3,
+    "title_jp": "仕事内容の説明",
+    "title_en": "Explaining Your Role",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "So what do you do exactly?"
+      },
+      {
+        "speaker": "user",
+        "text": "I work in enterprise architecture, mainly on IT strategy.",
+        "hint": "仕事内容を説明する"
+      },
+      {
+        "speaker": "agent",
+        "text": "Interesting, what does that involve day to day?"
+      },
+      {
+        "speaker": "user",
+        "text": "A lot of it is reviewing systems and simplifying how they connect.",
+        "hint": "簡単に説明する"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 4,
+    "title_jp": "料理のおすすめを聞く",
+    "title_en": "Food Recommendations",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Have you tried the food here yet?"
+      },
+      {
+        "speaker": "user",
+        "text": "Not yet, actually. What would you recommend?",
+        "hint": "おすすめを聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "The pretzels and the roast pork are both excellent."
+      },
+      {
+        "speaker": "user",
+        "text": "I'll definitely try those, thanks for the tip.",
+        "hint": "試してみると伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 5,
+    "title_jp": "会の終わりの挨拶",
+    "title_en": "End of Event Goodbye",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "It was great talking with you tonight."
+      },
+      {
+        "speaker": "user",
+        "text": "Likewise! Should we exchange contact information?",
+        "hint": "同意し連絡先交換を提案"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure, do you have LinkedIn?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, you can find me under Takamasa Saito.",
+        "hint": "名前を伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 6,
+    "title_jp": "会場・街の雑談",
+    "title_en": "Small Talk about Venue / City",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "What do you think of the venue?"
+      },
+      {
+        "speaker": "user",
+        "text": "It's beautiful, I love the old architecture.",
+        "hint": "感想を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Munich has a lot of history like this."
+      },
+      {
+        "speaker": "user",
+        "text": "I'd love to explore more of it while I'm here.",
+        "hint": "観光したいと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 7,
+    "title_jp": "時差ぼけの話",
+    "title_en": "Trip So Far / Jet Lag",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "How are you holding up with the time difference?"
+      },
+      {
+        "speaker": "user",
+        "text": "Honestly, I'm still a bit jet-lagged.",
+        "hint": "時差ぼけだと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's normal after a flight like that. Any tips that help you?"
+      },
+      {
+        "speaker": "user",
+        "text": "I try to go to bed early and get some sunlight.",
+        "hint": "早く寝るようにしていると伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 8,
+    "title_jp": "相手の役職を聞く",
+    "title_en": "Asking About Their Role",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "And what about you, what's your role here?"
+      },
+      {
+        "speaker": "user",
+        "text": "Oh nice, what does that involve?",
+        "hint": "興味を示して聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "I lead the product team on the platform side."
+      },
+      {
+        "speaker": "user",
+        "text": "That sounds like a big responsibility.",
+        "hint": "興味を示す"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 9,
+    "title_jp": "料理・ワインを褒める",
+    "title_en": "Complimenting Food / Wine",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "What do you think of the wine?"
+      },
+      {
+        "speaker": "user",
+        "text": "It's really good, very smooth.",
+        "hint": "美味しいと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "It's a local vineyard, I'm glad you like it."
+      },
+      {
+        "speaker": "user",
+        "text": "Oh nice, is it from around here?",
+        "hint": "詳しく聞く"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 10,
+    "title_jp": "食の好みを聞かれる",
+    "title_en": "Dietary Preferences",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Is there anything you don't eat?"
+      },
+      {
+        "speaker": "user",
+        "text": "Not really, I eat pretty much everything.",
+        "hint": "特にないと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Great, you should try the sausage platter then."
+      },
+      {
+        "speaker": "user",
+        "text": "Sounds great, I'm looking forward to it.",
+        "hint": "楽しみだと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 11,
+    "title_jp": "週末の予定・趣味",
+    "title_en": "Weekend Plans / Hobbies",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Do you have any plans for the weekend?"
+      },
+      {
+        "speaker": "user",
+        "text": "Nothing set yet, maybe just relaxing.",
+        "hint": "特に予定はないと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "What do you usually do for fun back home?"
+      },
+      {
+        "speaker": "user",
+        "text": "I actually play tennis quite a bit.",
+        "hint": "趣味を伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 12,
+    "title_jp": "スポーツ・文化の話",
+    "title_en": "Sports / Local Culture",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Are you a football fan at all?"
+      },
+      {
+        "speaker": "user",
+        "text": "Not a huge expert, but I enjoy watching sometimes.",
+        "hint": "あまり詳しくないと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Bayern Munich is the big local team here."
+      },
+      {
+        "speaker": "user",
+        "text": "I'd love to catch a game if I get the chance.",
+        "hint": "興味を示す"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 13,
+    "title_jp": "乾杯の挨拶",
+    "title_en": "Making a Toast",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I think it's about time for a toast."
+      },
+      {
+        "speaker": "user",
+        "text": "Good idea, go ahead.",
+        "hint": "賛成する"
+      },
+      {
+        "speaker": "agent",
+        "text": "Here's to a successful partnership and a great trip!"
+      },
+      {
+        "speaker": "user",
+        "text": "Cheers to that!",
+        "hint": "乾杯に応じる"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 14,
+    "title_jp": "お酒を断る",
+    "title_en": "Declining Alcohol",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Can I get you a glass of wine?"
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you, but I'll pass on the alcohol tonight.",
+        "hint": "丁寧に断る"
+      },
+      {
+        "speaker": "agent",
+        "text": "No problem, would you like something else instead?"
+      },
+      {
+        "speaker": "user",
+        "text": "Just a sparkling water would be great, thanks.",
+        "hint": "ソフトドリンクを頼む"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 15,
+    "title_jp": "聞き取れず聞き返す",
+    "title_en": "Asking Someone to Repeat",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "So the launch date is set for the third quarter, contingent on the vendor's delivery schedule."
+      },
+      {
+        "speaker": "user",
+        "text": "Sorry, could you say that again a bit more slowly?",
+        "hint": "聞き返す"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure, I said the launch is planned for Q3."
+      },
+      {
+        "speaker": "user",
+        "text": "Got it, thanks for clarifying.",
+        "hint": "理解したと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 16,
+    "title_jp": "同僚を紹介する場面",
+    "title_en": "Introducing a Colleague",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I don't think you've met my colleague yet."
+      },
+      {
+        "speaker": "user",
+        "text": "Nice to meet you, I'm Takamasa.",
+        "hint": "紹介を受けて挨拶"
+      },
+      {
+        "speaker": "agent",
+        "text": "She works on our data team."
+      },
+      {
+        "speaker": "user",
+        "text": "That's great, I'd love to hear more about that.",
+        "hint": "興味を示す"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 17,
+    "title_jp": "家族の話",
+    "title_en": "Family Small Talk",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Do you have any family back home?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, I have a wife and we keep pretty busy.",
+        "hint": "簡単に答える"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's nice. Do you get to travel together often?"
+      },
+      {
+        "speaker": "user",
+        "text": "Not as often as we'd like, but we try.",
+        "hint": "たまにと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 18,
+    "title_jp": "旅行・休暇の話",
+    "title_en": "Travel / Vacation Plans",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Any travel plans coming up after this trip?"
+      },
+      {
+        "speaker": "user",
+        "text": "Nothing planned yet, this trip has kept me pretty busy.",
+        "hint": "特にないと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Understandable. Where would you like to go if you had the chance?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'd love to visit Italy sometime.",
+        "hint": "行きたい場所を伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 19,
+    "title_jp": "お手洗いの場所を聞く",
+    "title_en": "Restroom Location",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Is everything alright?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, I'm just looking for the restroom.",
+        "hint": "場所を聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "It's just around that corner, past the bar."
+      },
+      {
+        "speaker": "user",
+        "text": "Thanks so much.",
+        "hint": "お礼を言う"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 20,
+    "title_jp": "発表の感想を話す",
+    "title_en": "Commenting on Presentation",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "What did you think of today's session?"
+      },
+      {
+        "speaker": "user",
+        "text": "It was really informative, especially the roadmap part.",
+        "hint": "感想を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "I agree, that part stood out to me too."
+      },
+      {
+        "speaker": "user",
+        "text": "I actually had a question about the timeline.",
+        "hint": "質問があったと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 21,
+    "title_jp": "名刺交換",
+    "title_en": "Exchanging Business Cards",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Here's my card, feel free to reach out anytime."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you, here's mine as well.",
+        "hint": "自分のカードを渡す"
+      },
+      {
+        "speaker": "agent",
+        "text": "Great, I'll follow up with you next week."
+      },
+      {
+        "speaker": "user",
+        "text": "Looking forward to it.",
+        "hint": "楽しみと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 22,
+    "title_jp": "LinkedInでつながる",
+    "title_en": "LinkedIn Follow-up",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "It was great meeting you today."
+      },
+      {
+        "speaker": "user",
+        "text": "You too! Let's connect on LinkedIn.",
+        "hint": "つながりましょうと提案"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sounds good, I'll send a request."
+      },
+      {
+        "speaker": "user",
+        "text": "Perfect, I'll accept it right away.",
+        "hint": "承知したと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 23,
+    "title_jp": "翌日の朝食の約束",
+    "title_en": "Breakfast Meeting Plans",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Are you free for breakfast tomorrow?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, that works for me.",
+        "hint": "大丈夫と伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Great, how about 8 AM at the hotel restaurant?"
+      },
+      {
+        "speaker": "user",
+        "text": "Sounds perfect, see you then.",
+        "hint": "了解と伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 24,
+    "title_jp": "時差の話",
+    "title_en": "Jet Lag / Time Zones",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "What time is it back home for you right now?"
+      },
+      {
+        "speaker": "user",
+        "text": "It's about eight hours ahead, so quite late there.",
+        "hint": "時差を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "That must be tough to adjust to."
+      },
+      {
+        "speaker": "user",
+        "text": "I'm starting to get used to it, actually.",
+        "hint": "慣れてきたと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 25,
+    "title_jp": "観光のおすすめを聞く",
+    "title_en": "Local Recommendations",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Is this your first time in Munich?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, it's my first time here.",
+        "hint": "初めてだと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "You should definitely check out the old town if you have time."
+      },
+      {
+        "speaker": "user",
+        "text": "I'll try to make time for that, thanks.",
+        "hint": "行ってみたいと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 26,
+    "title_jp": "会場の装飾を褒める",
+    "title_en": "Complimenting Venue / Decor",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "What do you think of the decorations tonight?"
+      },
+      {
+        "speaker": "user",
+        "text": "They're beautiful, very elegant.",
+        "hint": "感想を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "The team put a lot of effort into it."
+      },
+      {
+        "speaker": "user",
+        "text": "It really shows, everything looks great.",
+        "hint": "賞賛を伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 27,
+    "title_jp": "気候の違いの話",
+    "title_en": "Weather Comparison",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "The weather here is pretty mild today."
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, it's quite different from back home right now.",
+        "hint": "自国との比較"
+      },
+      {
+        "speaker": "agent",
+        "text": "Oh, what's the weather like there this time of year?"
+      },
+      {
+        "speaker": "user",
+        "text": "It's usually much hotter and more humid.",
+        "hint": "説明する"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 28,
+    "title_jp": "主催者へのお礼と別れの挨拶",
+    "title_en": "Saying Goodbye / Thanking Host",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Thank you so much for coming tonight."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you for having me, I had a wonderful time.",
+        "hint": "感謝を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "I'm so glad to hear that."
+      },
+      {
+        "speaker": "user",
+        "text": "I hope we can do this again sometime.",
+        "hint": "また会いたいと伝える"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 29,
+    "title_jp": "列に並んでいる時の雑談",
+    "title_en": "Waiting in Line Small Talk",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "This line is pretty long tonight."
+      },
+      {
+        "speaker": "user",
+        "text": "Yeah, but I've heard the food is worth the wait.",
+        "hint": "同意する"
+      },
+      {
+        "speaker": "agent",
+        "text": "I hope so, I'm starving."
+      },
+      {
+        "speaker": "user",
+        "text": "Same here, let's hope it moves quickly.",
+        "hint": "共感する"
+      }
+    ]
+  },
+  {
+    "category": "social",
+    "category_jp": "社交系",
+    "no": 30,
+    "title_jp": "フライトの感想を聞かれる",
+    "title_en": "How Was Your Flight",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "So, how was your flight?"
+      },
+      {
+        "speaker": "user",
+        "text": "It was smooth, thankfully, just a bit long.",
+        "hint": "感想を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's good to hear. Did you manage to get any sleep?"
+      },
+      {
+        "speaker": "user",
+        "text": "A little, not as much as I'd hoped though.",
+        "hint": "少し寝られたと伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 1,
+    "title_jp": "会議の開始",
+    "title_en": "Opening the Meeting",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "It's about time, should we get started?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, let's get started. Thank you all for joining today.",
+        "hint": "会議を始める"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sounds good, go ahead."
+      },
+      {
+        "speaker": "user",
+        "text": "I appreciate everyone making time for this.",
+        "hint": "参加者に感謝"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 2,
+    "title_jp": "アジェンダの共有",
+    "title_en": "Sharing the Agenda",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "What's on the agenda for today?"
+      },
+      {
+        "speaker": "user",
+        "text": "Today we'll cover the project status, budget, and next steps.",
+        "hint": "アジェンダを共有する"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sounds comprehensive. How much time do we have?"
+      },
+      {
+        "speaker": "user",
+        "text": "We have about 45 minutes, so let's keep things focused.",
+        "hint": "時間を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 3,
+    "title_jp": "質問の切り出し方",
+    "title_en": "Asking a Question",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Any questions before we move on?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, actually, I have a question about the timeline.",
+        "hint": "質問を切り出す"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure, go ahead."
+      },
+      {
+        "speaker": "user",
+        "text": "Is the deadline still set for the end of this month?",
+        "hint": "質問内容を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 4,
+    "title_jp": "Yes-andで広げる",
+    "title_en": "Yes-and Building on an Idea",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I think we should focus on the SPM module first."
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, and we could also use it as a proof of concept for other modules.",
+        "hint": "同意して広げる"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's a good point, let's explore that further."
+      },
+      {
+        "speaker": "user",
+        "text": "We could start with a small pilot team next month.",
+        "hint": "具体案を出す"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 5,
+    "title_jp": "受け止めて意見を返す",
+    "title_en": "Acknowledge + Give Opinion",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "So the vendor says the migration will take six months."
+      },
+      {
+        "speaker": "user",
+        "text": "I see. That seems long, though I understand it depends on scope.",
+        "hint": "受け止めて意見を返す"
+      },
+      {
+        "speaker": "agent",
+        "text": "What would you suggest instead?"
+      },
+      {
+        "speaker": "user",
+        "text": "Maybe we could break it into phases to move faster.",
+        "hint": "提案する"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 6,
+    "title_jp": "会議での自己紹介",
+    "title_en": "Introducing Yourself in a Meeting",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Let's go around and introduce ourselves."
+      },
+      {
+        "speaker": "user",
+        "text": "I'm Takamasa, I lead enterprise architecture on the client side.",
+        "hint": "自己紹介"
+      },
+      {
+        "speaker": "agent",
+        "text": "Great, thanks for that."
+      },
+      {
+        "speaker": "user",
+        "text": "Looking forward to working with everyone.",
+        "hint": "期待を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 7,
+    "title_jp": "確認・明確化を求める",
+    "title_en": "Asking for Clarification",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "We'll need to align the CMDB with the new schema."
+      },
+      {
+        "speaker": "user",
+        "text": "Sorry, could you clarify what you mean by 'new schema'?",
+        "hint": "確認する"
+      },
+      {
+        "speaker": "agent",
+        "text": "I mean the updated CSDM structure we discussed last time."
+      },
+      {
+        "speaker": "user",
+        "text": "Got it, that makes sense now.",
+        "hint": "理解したと伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 8,
+    "title_jp": "丁寧に反対する",
+    "title_en": "Politely Disagreeing",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I think we should delay the launch by a month."
+      },
+      {
+        "speaker": "user",
+        "text": "I see your point, but I'm not sure I agree with delaying it.",
+        "hint": "丁寧に反対する"
+      },
+      {
+        "speaker": "agent",
+        "text": "What's your concern?"
+      },
+      {
+        "speaker": "user",
+        "text": "We'd risk missing the budget cycle if we push it back.",
+        "hint": "理由を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 9,
+    "title_jp": "代替案を出す",
+    "title_en": "Proposing an Alternative",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "The current plan seems too risky."
+      },
+      {
+        "speaker": "user",
+        "text": "What if we tried a smaller pilot before the full rollout instead?",
+        "hint": "代替案を出す"
+      },
+      {
+        "speaker": "agent",
+        "text": "That could work. How would that look?"
+      },
+      {
+        "speaker": "user",
+        "text": "We'd test it with one team for a month first.",
+        "hint": "詳細を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 10,
+    "title_jp": "議論をまとめる",
+    "title_en": "Summarizing the Discussion",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I think we've covered a lot today."
+      },
+      {
+        "speaker": "user",
+        "text": "Let me quickly summarize what we agreed on.",
+        "hint": "まとめる"
+      },
+      {
+        "speaker": "agent",
+        "text": "Please go ahead."
+      },
+      {
+        "speaker": "user",
+        "text": "We'll move forward with the pilot and review results in a month.",
+        "hint": "要点をまとめる"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 11,
+    "title_jp": "次のステップを確認",
+    "title_en": "Confirming Next Steps",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "So what are the next steps from here?"
+      },
+      {
+        "speaker": "user",
+        "text": "I'll draft the proposal, and you'll review it by Friday, correct?",
+        "hint": "次のステップを確認する"
+      },
+      {
+        "speaker": "agent",
+        "text": "That sounds right."
+      },
+      {
+        "speaker": "user",
+        "text": "Great, so we're aligned on the Friday deadline.",
+        "hint": "締切を再確認"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 12,
+    "title_jp": "ゆっくり話してほしいと頼む",
+    "title_en": "Asking to Slow Down",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "As previously mentioned in the pre-read, the integration layer needs to support both synchronous and asynchronous calls."
+      },
+      {
+        "speaker": "user",
+        "text": "Sorry, could you slow down a bit? I want to make sure I follow.",
+        "hint": "聞き返す"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sure, no problem. Let me repeat that."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you, that helps a lot.",
+        "hint": "感謝を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 13,
+    "title_jp": "丁寧に割り込む",
+    "title_en": "Interrupting Politely",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "So as I was saying, the budget allocation..."
+      },
+      {
+        "speaker": "user",
+        "text": "Sorry to interrupt, could I add a quick point here?",
+        "hint": "丁寧に割り込む"
+      },
+      {
+        "speaker": "agent",
+        "text": "Of course, go ahead."
+      },
+      {
+        "speaker": "user",
+        "text": "I just wanted to flag a risk with the current budget assumption.",
+        "hint": "意見を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 14,
+    "title_jp": "相手の意見を聞く",
+    "title_en": "Asking for Opinion",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "We're still deciding between two vendors."
+      },
+      {
+        "speaker": "user",
+        "text": "What's your take on which one would be a better fit?",
+        "hint": "相手の意見を聞く"
+      },
+      {
+        "speaker": "agent",
+        "text": "I lean toward the first one, honestly."
+      },
+      {
+        "speaker": "user",
+        "text": "Interesting, what makes you prefer that one?",
+        "hint": "理由を尋ねる"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 15,
+    "title_jp": "強く同意する",
+    "title_en": "Expressing Strong Agreement",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I think we should prioritize the ServiceNow review this quarter."
+      },
+      {
+        "speaker": "user",
+        "text": "I completely agree, that should be our top priority.",
+        "hint": "強く同意する"
+      },
+      {
+        "speaker": "agent",
+        "text": "Glad we're aligned on that."
+      },
+      {
+        "speaker": "user",
+        "text": "Should we set up a follow-up session to plan it out?",
+        "hint": "次のアクションを提案"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 16,
+    "title_jp": "条件付きで同意する",
+    "title_en": "Partial Agreement with a Caveat",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I think we should roll this out to all regions at once."
+      },
+      {
+        "speaker": "user",
+        "text": "I agree with the direction, but I'd suggest starting with one region first.",
+        "hint": "一部同意しつつ条件をつける"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's fair, why do you think that's safer?"
+      },
+      {
+        "speaker": "user",
+        "text": "It lets us catch issues before a full rollout.",
+        "hint": "理由を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 17,
+    "title_jp": "フォローアップ会議を依頼",
+    "title_en": "Requesting a Follow-up Meeting",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "We're running short on time today."
+      },
+      {
+        "speaker": "user",
+        "text": "Should we set up a follow-up meeting to finish this discussion?",
+        "hint": "次回の設定を提案"
+      },
+      {
+        "speaker": "agent",
+        "text": "That sounds good, when works for you?"
+      },
+      {
+        "speaker": "user",
+        "text": "How about sometime next Tuesday afternoon?",
+        "hint": "候補日を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 18,
+    "title_jp": "会議を締める",
+    "title_en": "Wrapping Up the Meeting",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I think that covers everything for today."
+      },
+      {
+        "speaker": "user",
+        "text": "Great, let's wrap up here then.",
+        "hint": "締める"
+      },
+      {
+        "speaker": "agent",
+        "text": "Sounds good, thanks everyone."
+      },
+      {
+        "speaker": "user",
+        "text": "Thank you all for your time today.",
+        "hint": "感謝を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 19,
+    "title_jp": "参加者への感謝",
+    "title_en": "Thanking Participants",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "That was a productive session."
+      },
+      {
+        "speaker": "user",
+        "text": "I agree, thank you all for the great discussion.",
+        "hint": "感謝を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Looking forward to the next one."
+      },
+      {
+        "speaker": "user",
+        "text": "Same here, see you all next time.",
+        "hint": "同意する"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 20,
+    "title_jp": "締切を確認する",
+    "title_en": "Asking About Timeline / Deadline",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "We still need to finalize the schedule."
+      },
+      {
+        "speaker": "user",
+        "text": "What's the deadline we're working toward?",
+        "hint": "締め切りを確認する"
+      },
+      {
+        "speaker": "agent",
+        "text": "We're targeting the end of next month."
+      },
+      {
+        "speaker": "user",
+        "text": "Do you think that's realistic given the current scope?",
+        "hint": "現実的か確認する"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 21,
+    "title_jp": "データを共有する",
+    "title_en": "Presenting a Data Point",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Could you share the latest numbers?"
+      },
+      {
+        "speaker": "user",
+        "text": "Sure, we've reduced SaaS costs by about fifteen percent so far.",
+        "hint": "データを共有する"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's great progress."
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, and we expect further savings next quarter.",
+        "hint": "補足する"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 22,
+    "title_jp": "厳しい質問に答える",
+    "title_en": "Responding to a Tough Question",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Why has this taken so much longer than planned?"
+      },
+      {
+        "speaker": "user",
+        "text": "That's a fair question. A lot of it came down to unexpected vendor delays.",
+        "hint": "丁寧に説明する"
+      },
+      {
+        "speaker": "agent",
+        "text": "I see, what's being done about it now?"
+      },
+      {
+        "speaker": "user",
+        "text": "We've added a buffer and are tracking progress weekly.",
+        "hint": "対応を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 23,
+    "title_jp": "考える時間が欲しいと伝える",
+    "title_en": "Asking for More Time to Think",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "So, are you ready to make a decision on this?"
+      },
+      {
+        "speaker": "user",
+        "text": "Could I have a bit more time to think it over?",
+        "hint": "少し時間が欲しいと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Of course, when can you get back to us?"
+      },
+      {
+        "speaker": "user",
+        "text": "I can give you an answer by tomorrow afternoon.",
+        "hint": "期限を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 24,
+    "title_jp": "議題を後回しにする",
+    "title_en": "Tabling a Topic",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "We still haven't resolved the vendor question."
+      },
+      {
+        "speaker": "user",
+        "text": "Should we table this for now and come back to it next week?",
+        "hint": "後回しを提案"
+      },
+      {
+        "speaker": "agent",
+        "text": "That works, let's move on."
+      },
+      {
+        "speaker": "user",
+        "text": "Sounds good, thanks for understanding.",
+        "hint": "同意する"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 25,
+    "title_jp": "認識合わせをする",
+    "title_en": "Checking Alignment",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "I want to make sure we're all on the same page."
+      },
+      {
+        "speaker": "user",
+        "text": "Agreed, is everyone aligned with the direction we discussed?",
+        "hint": "確認する"
+      },
+      {
+        "speaker": "agent",
+        "text": "I think so, but let's double check with the team."
+      },
+      {
+        "speaker": "user",
+        "text": "Good idea, let's confirm before we finalize anything.",
+        "hint": "同意する"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 26,
+    "title_jp": "進捗状況を聞く",
+    "title_en": "Asking for a Status Update",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Could you give us a quick status update?"
+      },
+      {
+        "speaker": "user",
+        "text": "Sure, we're about seventy percent through the migration.",
+        "hint": "状況を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "That's good progress. Any blockers?"
+      },
+      {
+        "speaker": "user",
+        "text": "Just one, we're waiting on approval from the security team.",
+        "hint": "課題を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 27,
+    "title_jp": "懸念事項をエスカレーションする",
+    "title_en": "Escalating a Concern",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "How's the project going overall?"
+      },
+      {
+        "speaker": "user",
+        "text": "Mostly on track, but I do want to flag a resourcing concern.",
+        "hint": "懸念点を伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Tell me more about that."
+      },
+      {
+        "speaker": "user",
+        "text": "We're short one engineer, which could delay the next phase.",
+        "hint": "詳細を伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 28,
+    "title_jp": "アクションアイテムを引き受ける",
+    "title_en": "Volunteering for an Action Item",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Who can take ownership of the follow-up document?"
+      },
+      {
+        "speaker": "user",
+        "text": "I can take that on and share a draft by Friday.",
+        "hint": "引き受ける"
+      },
+      {
+        "speaker": "agent",
+        "text": "Thanks, that would be a big help."
+      },
+      {
+        "speaker": "user",
+        "text": "No problem, happy to help.",
+        "hint": "了解と伝える"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 29,
+    "title_jp": "遅刻・技術トラブルを詫びる",
+    "title_en": "Apologizing for Being Late / a Technical Issue",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Sorry, we had some audio issues at the start."
+      },
+      {
+        "speaker": "user",
+        "text": "No worries at all, thanks for sorting it out.",
+        "hint": "気にしないと伝える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Appreciate your patience."
+      },
+      {
+        "speaker": "user",
+        "text": "Of course, let's go ahead and get started.",
+        "hint": "続けようと促す"
+      }
+    ]
+  },
+  {
+    "category": "meeting",
+    "category_jp": "会議系",
+    "no": 30,
+    "title_jp": "会議前の雑談",
+    "title_en": "Small Talk Before the Meeting",
+    "turns": [
+      {
+        "speaker": "agent",
+        "text": "Good morning, how's your day going so far?"
+      },
+      {
+        "speaker": "user",
+        "text": "Pretty good, thanks, just settling in with some coffee.",
+        "hint": "軽く答える"
+      },
+      {
+        "speaker": "agent",
+        "text": "Same here. Ready to dive in?"
+      },
+      {
+        "speaker": "user",
+        "text": "Yes, let's get started whenever you're ready.",
+        "hint": "準備できたと伝える"
+      }
+    ]
+  }
+]

@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GATE ENGLISH · MUNICH TRIP</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg:      #12213D;
+  --accent:  #F6A21C;
+  --card:    #F5F2EA;
+  --success: #3E8E63;
+  --error:   #C0463A;
+  --dk:      #12213D;
+  --board:   #060d18;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+  -webkit-font-smoothing:antialiased}
+#app{min-height:100dvh;max-width:448px;margin:0 auto;
+  padding-bottom:env(safe-area-inset-bottom,16px)}
+
+/* ── typography ── */
+.mono{font-family:'Courier New','Lucida Console',monospace}
+
+/* ── common header ── */
+.app-hd{padding:24px 16px 16px;border-bottom:1px solid rgba(246,162,28,.22)}
+.app-hd h1{font-family:'Courier New',monospace;font-size:.82rem;
+  letter-spacing:.24em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.app-hd .sub{font-size:.68rem;color:rgba(255,255,255,.38);margin-top:4px;letter-spacing:.07em}
+
+/* ── spinner ── */
+.spinner{width:28px;height:28px;border:2px solid rgba(246,162,28,.18);
+  border-top-color:var(--accent);border-radius:50%;
+  animation:spin .7s linear infinite;margin:60px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══════════════════ HOME ══════════════════ */
+.cat-grid{padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+.cat-card{background:var(--card);border-radius:8px;padding:18px 18px 18px 22px;
+  display:flex;align-items:center;gap:14px;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .1s,box-shadow .1s}
+.cat-card:active{transform:scale(.975)}
+.cat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;
+  width:4px;background:var(--accent)}
+.cat-icon{font-size:1.9rem;line-height:1;flex-shrink:0}
+.cat-body{flex:1;min-width:0}
+.cat-lbl{font-family:'Courier New',monospace;font-size:.7rem;
+  letter-spacing:.2em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.cat-jp{font-size:.95rem;color:var(--dk);font-weight:600;margin-top:2px}
+.cat-score{font-family:'Courier New',monospace;font-size:1.05rem;
+  font-weight:700;color:var(--dk);flex-shrink:0;text-align:right}
+.cat-score .denom{font-size:.72rem;opacity:.5}
+.cat-score.done{color:var(--success)}
+.reset-btn{display:block;text-align:center;font-size:.68rem;
+  color:rgba(255,255,255,.28);background:none;border:none;
+  text-decoration:underline;cursor:pointer;margin:8px auto 20px}
+
+/* ══════════════════ DEPARTURE BOARD ══════════════════ */
+.bw{padding:16px}
+.bw-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.btn-back{background:none;border:1px solid rgba(246,162,28,.38);
+  color:var(--accent);font-family:'Courier New',monospace;
+  font-size:.7rem;letter-spacing:.1em;padding:6px 12px;border-radius:4px;cursor:pointer}
+.bw-title{font-family:'Courier New',monospace;font-size:.75rem;
+  letter-spacing:.18em;color:var(--accent);font-weight:700;text-transform:uppercase}
+
+.dboard{background:var(--board);border:1px solid rgba(246,162,28,.28);border-radius:6px;overflow:hidden}
+.dboard-hd{display:grid;grid-template-columns:1fr 82px;
+  padding:7px 14px;background:rgba(246,162,28,.1);
+  border-bottom:1px solid rgba(246,162,28,.22)}
+.dboard-hd span{font-family:'Courier New',monospace;font-size:.6rem;
+  letter-spacing:.22em;color:rgba(246,162,28,.65);text-transform:uppercase}
+.drow{display:grid;grid-template-columns:1fr 82px;
+  padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);
+  cursor:pointer;transition:background .1s;align-items:center}
+.drow:last-child{border-bottom:none}
+.drow:active{background:rgba(255,255,255,.07)}
+.drow-en{font-family:'Courier New',monospace;font-size:.68rem;
+  letter-spacing:.1em;color:#fff;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow-jp{font-size:.67rem;color:rgba(255,255,255,.38);margin-top:2px}
+.dstatus{font-family:'Courier New',monospace;font-size:.65rem;
+  letter-spacing:.07em;font-weight:700;text-align:right}
+.dstatus.ready{color:var(--accent)}
+.dstatus.cleared{color:var(--success)}
+
+/* ══════════════════ PRACTICE ══════════════════ */
+.pw{padding:12px 16px 24px}
+.pw-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+
+/* boarding pass card */
+.pass{background:var(--card);border-radius:10px;overflow:hidden;
+  box-shadow:0 4px 28px rgba(0,0,0,.38)}
+
+.pass-hd{background:var(--dk);padding:16px 18px 14px;
+  border-bottom:3px dashed rgba(246,162,28,.38)}
+.pass-en{font-family:'Courier New',monospace;font-size:.88rem;
+  letter-spacing:.2em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.pass-jp{font-size:.78rem;color:rgba(255,255,255,.55);margin-top:3px}
+.pass-meta{display:flex;align-items:center;gap:10px;margin-top:10px}
+.turn-lbl{font-family:'Courier New',monospace;font-size:.62rem;
+  letter-spacing:.14em;color:rgba(255,255,255,.5);flex-shrink:0}
+.prog-bar{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .35s}
+
+/* status (split-flap) */
+.sboard{background:#030810;padding:11px 18px;text-align:center;min-height:42px;
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid rgba(246,162,28,.12)}
+.stxt{font-family:'Courier New',monospace;font-size:.95rem;
+  letter-spacing:.24em;color:var(--accent);font-weight:700;text-transform:uppercase}
+
+/* pass body */
+.pbody{padding:18px 18px 20px;color:var(--dk)}
+.sp-lbl{font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.2em;color:rgba(18,33,61,.4);text-transform:uppercase;margin-bottom:6px}
+.agent-box{font-size:.97rem;line-height:1.6;background:rgba(18,33,61,.06);
+  border-left:3px solid var(--accent);padding:11px 14px;
+  border-radius:0 6px 6px 0;margin-bottom:16px}
+.hint-box{background:rgba(18,33,61,.07);border-radius:6px;
+  padding:11px 14px;font-size:.9rem;line-height:1.55;margin-bottom:14px}
+.hint-lbl{font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.18em;color:var(--accent);margin-bottom:4px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  padding:10px 18px;border-radius:6px;font-size:.84rem;font-weight:600;
+  cursor:pointer;border:none;transition:opacity .14s,transform .1s}
+.btn:active{transform:scale(.96);opacity:.82}
+.btn-primary{background:var(--accent);color:#12213D}
+.btn-sub{background:rgba(18,33,61,.1);color:var(--dk);
+  border:1px solid rgba(18,33,61,.18)}
+.btn-outline{background:none;border:1px solid rgba(246,162,28,.6);
+  color:var(--accent);font-family:'Courier New',monospace;
+  font-size:.72rem;letter-spacing:.08em}
+.btn-row{display:flex;gap:10px;margin-top:16px}
+.btn-row .btn{flex:1}
+
+/* mic recording */
+.mic-area{margin-top:4px}
+.mic-row{display:flex;align-items:center;gap:8px;padding:10px 0;
+  font-size:.82rem;color:var(--dk);opacity:.72}
+.mic-dot{width:10px;height:10px;border-radius:50%;background:var(--error);
+  animation:pls 1s infinite;flex-shrink:0}
+@keyframes pls{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
+.fb-toggle{font-size:.68rem;color:rgba(18,33,61,.42);cursor:pointer;
+  text-decoration:underline;background:none;border:none;padding:0;margin-top:2px;display:block}
+.fb-area{display:none;gap:8px;margin-top:10px}
+.fb-area.open{display:flex}
+.fb-area input{flex:1;padding:9px 11px;border:1px solid rgba(18,33,61,.22);
+  border-radius:6px;font-size:.88rem;background:#fff;color:var(--dk)}
+
+/* result */
+.rsec{margin-bottom:13px}
+.rlbl{font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.2em;color:rgba(18,33,61,.4);text-transform:uppercase;margin-bottom:5px}
+.rtxt{font-size:.88rem;line-height:1.55;color:var(--dk);
+  background:rgba(18,33,61,.05);padding:10px 12px;border-radius:6px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;
+  border-radius:20px;font-family:'Courier New',monospace;font-size:.75rem;
+  letter-spacing:.1em;font-weight:700;margin:10px 0}
+.badge.pass{background:rgba(62,142,99,.12);color:var(--success);
+  border:1px solid rgba(62,142,99,.32)}
+.badge.fail{background:rgba(192,70,58,.09);color:var(--error);
+  border:1px solid rgba(192,70,58,.28)}
+.diff-box{background:rgba(18,33,61,.06);border-radius:6px;
+  padding:10px 12px;font-size:.76rem;color:rgba(18,33,61,.65);line-height:1.7}
+.diff-hd{font-family:'Courier New',monospace;font-size:.56rem;
+  letter-spacing:.18em;color:rgba(18,33,61,.38);margin-bottom:5px}
+.diff-miss{color:var(--error)}
+.diff-xtra{color:#1d61c4}
+
+/* clear screen */
+.clear-sc{padding:32px 18px;text-align:center}
+.clear-title{font-family:'Courier New',monospace;font-size:1.35rem;
+  letter-spacing:.22em;color:var(--success);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.clear-sub{font-size:.83rem;color:rgba(18,33,61,.5);margin-bottom:24px}
+</style>
+</head>
+<body>
+<div id="app"><div class="spinner"></div></div>
+<script>
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+const S = {
+  screen: 'home',
+  categories: [],
+  selectedCat: null,
+  scenarios: [],
+  scenario: null,
+  turnIdx: 0,
+  phase: '',
+  transcript: '',
+  recognizing: false,
+  useFallback: false,
+};
+
+// ═══════════════════════════════════════════════════════════
+// API
+// ═══════════════════════════════════════════════════════════
+const api = {
+  get:  url => fetch(url).then(r => r.json()),
+  post: url => fetch(url, { method: 'POST' }).then(r => r.json()),
+};
+
+// ═══════════════════════════════════════════════════════════
+// SPEECH SYNTHESIS
+// ═══════════════════════════════════════════════════════════
+let bestVoice = null;
+function pickVoice() {
+  const vs = speechSynthesis.getVoices();
+  bestVoice =
+    vs.find(v => v.lang === 'en-US' && v.localService) ||
+    vs.find(v => v.lang.startsWith('en-US')) ||
+    vs.find(v => v.lang.startsWith('en')) || null;
+}
+speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+
+let listenTimer = null;
+function speak(text, onDone) {
+  speechSynthesis.cancel();
+  clearTimeout(listenTimer);
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.95;
+  pickVoice();
+  if (bestVoice) u.voice = bestVoice;
+  const done = () => { clearTimeout(listenTimer); if (onDone) onDone(); };
+  u.onend = done;
+  u.onerror = done;
+  // fallback: auto-advance if onend never fires
+  listenTimer = setTimeout(done, Math.max(text.split(' ').length * 700, 5000));
+  speechSynthesis.speak(u);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPEECH RECOGNITION
+// ═══════════════════════════════════════════════════════════
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recog = null;
+
+function startRecog(onResult, onErr) {
+  if (!SR || S.useFallback) { S.useFallback = true; if (onErr) onErr('unsupported'); return; }
+  stopRecog();
+  recog = new SR();
+  recog.lang = 'en-US';
+  recog.continuous = false;
+  recog.interimResults = false;
+  recog.onresult = e => { stopRecog(); onResult(e.results[0][0].transcript); };
+  recog.onerror = e => {
+    stopRecog();
+    if (e.error === 'no-speech') { onResult(''); return; }
+    S.useFallback = true;
+    if (onErr) onErr(e.error);
+  };
+  recog.onend = () => { S.recognizing = false; };
+  try { recog.start(); S.recognizing = true; }
+  catch(e) { S.useFallback = true; if (onErr) onErr('start'); }
+}
+
+function stopRecog() {
+  if (recog) { try { recog.stop(); } catch(_){} recog = null; }
+  S.recognizing = false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPLIT-FLAP
+// ═══════════════════════════════════════════════════════════
+const FLAP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ:./ -';
+function splitFlap(el, target) {
+  const T = target.toUpperCase();
+  const len = T.length;
+  let f = 0;
+  const SETTLE = 3, total = len * SETTLE + 5;
+  const tick = () => {
+    let out = '';
+    for (let i = 0; i < len; i++) {
+      if (f >= i * SETTLE + SETTLE) out += T[i];
+      else out += T[i] === ' ' ? ' ' : FLAP[Math.floor(Math.random() * FLAP.length)];
+    }
+    el.textContent = out;
+    if (++f < total) setTimeout(tick, 36);
+    else el.textContent = T;
+  };
+  tick();
+}
+
+// ═══════════════════════════════════════════════════════════
+// WORD MATCHING
+// ═══════════════════════════════════════════════════════════
+const norm = s => s.toLowerCase().replace(/[^a-z0-9\s']/g,'').split(/\s+/).filter(Boolean);
+
+function matchPct(spoken, expected) {
+  const exp = norm(expected);
+  if (!exp.length) return 100;
+  const sp = new Set(norm(spoken));
+  return Math.round(exp.filter(w => sp.has(w)).length / exp.length * 100);
+}
+
+function diff(spoken, expected) {
+  const expW = norm(expected), spSet = new Set(norm(spoken)), expSet = new Set(expW);
+  return {
+    missing: expW.filter(w => !spSet.has(w)),
+    extra:   norm(spoken).filter(w => !expSet.has(w)),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER SHORTCUTS
+// ═══════════════════════════════════════════════════════════
+const $app  = document.getElementById('app');
+const $id   = id => document.getElementById(id);
+const esc   = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function setStatus(lbl) { const el = $id('stxt'); if (el) splitFlap(el, lbl); }
+function setProgress(done) {
+  const f = $id('prog-fill'); if (f) f.style.width = Math.round(done/4*100)+'%';
+  const l = $id('turn-lbl'); if (l) l.textContent = `TURN ${Math.min(done+1,4)} / 4`;
+}
+function setBody(html) { const b=$id('pbody'); if (b) b.innerHTML = html; }
+
+// ═══════════════════════════════════════════════════════════
+// HOME
+// ═══════════════════════════════════════════════════════════
+const CAT = {
+  travel:  { icon:'✈️', lbl:'AIRPORT & TRANSIT' },
+  social:  { icon:'🍺', lbl:'PARTIES & SMALL TALK' },
+  meeting: { icon:'💼', lbl:'MEETING RESPONSES' },
+};
+
+function renderHome() {
+  $app.innerHTML = `
+  <div class="app-hd">
+    <h1 class="mono">MUNICH TRIP · GATE ENGLISH</h1>
+    <div class="sub">カテゴリを選んで練習を開始してください</div>
+  </div>
+  <div class="cat-grid">
+    ${S.categories.map(c => {
+      const m = CAT[c.category]||{icon:'📋',lbl:c.category.toUpperCase()};
+      const done = c.cleared===c.total;
+      return `<div class="cat-card" onclick="goScenarios('${c.category}')">
+        <div class="cat-icon">${m.icon}</div>
+        <div class="cat-body">
+          <div class="cat-lbl mono">${m.lbl}</div>
+          <div class="cat-jp">${esc(c.category_jp)}</div>
+        </div>
+        <div class="cat-score${done?' done':''}">
+          ${c.cleared}<span class="denom"> / ${c.total}</span>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>
+  <button class="reset-btn" onclick="doReset()">進捗をリセット</button>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SCENARIOS
+// ═══════════════════════════════════════════════════════════
+function renderScenarios() {
+  const m = CAT[S.selectedCat]||{lbl:S.selectedCat.toUpperCase()};
+  $app.innerHTML = `
+  <div class="bw">
+    <div class="bw-nav">
+      <button class="btn-back mono" onclick="goHome()">← HOME</button>
+      <div class="bw-title mono">${m.lbl}</div>
+    </div>
+    <div class="dboard">
+      <div class="dboard-hd"><span>SCENARIO</span><span style="text-align:right">STATUS</span></div>
+      ${S.scenarios.map(s => `
+      <div class="drow" onclick="goPractice(${s.id})">
+        <div>
+          <div class="drow-en">${esc(s.title_en.toUpperCase())}</div>
+          <div class="drow-jp">${esc(s.title_jp)}</div>
+        </div>
+        <div class="dstatus ${s.cleared?'cleared':'ready'}">${s.cleared?'CLEARED':'READY'}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// PRACTICE SHELL
+// ═══════════════════════════════════════════════════════════
+function renderPractice() {
+  const sc = S.scenario;
+  $app.innerHTML = `
+  <div class="pw">
+    <div class="pw-nav">
+      <button class="btn-back mono" onclick="exitPractice()">← LIST</button>
+    </div>
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="pass-en">${esc(sc.title_en.toUpperCase())}</div>
+        <div class="pass-jp">${esc(sc.title_jp)}</div>
+        <div class="pass-meta">
+          <span class="turn-lbl mono" id="turn-lbl">TURN 1 / 4</span>
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="sboard"><span class="stxt mono" id="stxt">· · · · · ·</span></div>
+      <div class="pbody" id="pbody"></div>
+    </div>
+  </div>`;
+  startTurn(0);
+}
+
+// ═══════════════════════════════════════════════════════════
+// TURN LOGIC
+// ═══════════════════════════════════════════════════════════
+function startTurn(idx) {
+  S.turnIdx = idx;
+  S.transcript = '';
+  const turn = S.scenario.turns[idx];
+  if (turn.speaker === 'agent') phListen(turn);
+  else phReady(turn);
+}
+
+// ─── LISTEN (agent TTS) ───────────────────────────────────
+function phListen(turn) {
+  S.phase = 'listen';
+  setStatus('LISTEN');
+  setBody(`
+    <div class="sp-lbl mono">STAFF / PARTNER</div>
+    <div class="agent-box" id="agent-box">${esc(turn.text)}</div>
+    <button class="btn btn-outline" onclick="replayTTS()">🔊&nbsp; もう一度聞く</button>
+    <button class="btn btn-sub" style="margin-left:8px;font-size:.75rem" onclick="phRepeat(curTurn())">スキップ →</button>
+  `);
+  speak(turn.text, () => { if (S.phase==='listen') phRepeat(turn); });
+}
+
+function replayTTS() {
+  const t = curTurn();
+  speak(t.text, () => { if (S.phase==='listen') phRepeat(t); });
+}
+
+// ─── REPEAT (shadowing) ───────────────────────────────────
+function phRepeat(turn) {
+  S.phase = 'repeat';
+  setStatus('YOUR TURN: REPEAT');
+  setBody(`
+    <div class="sp-lbl mono">SHADOW THIS</div>
+    <div class="agent-box">${esc(turn.text)}</div>
+    ${micHtml()}
+  `);
+  setTimeout(() => launchMic(turn.text), 400);
+}
+
+// ─── GET READY (user turn hint) ──────────────────────────
+function phReady(turn) {
+  S.phase = 'ready';
+  setStatus('GET READY');
+  setBody(`
+    <div class="sp-lbl mono">YOUR TURN</div>
+    <div class="hint-box">
+      <div class="hint-lbl mono">HINT</div>
+      ${esc(turn.hint||'')}
+    </div>
+    <p style="font-size:.78rem;color:rgba(18,33,61,.5);margin-bottom:14px">
+      ヒントを参考に英語で答えてください
+    </p>
+    <button class="btn btn-primary" onclick="phAnswer()">準備ができたら → 話す</button>
+  `);
+}
+
+// ─── ANSWER (user speaks) ─────────────────────────────────
+function phAnswer() {
+  const turn = curTurn();
+  S.phase = 'answer';
+  setStatus('YOUR TURN: ANSWER');
+  setBody(`
+    <div class="sp-lbl mono">YOUR TURN</div>
+    <div class="hint-box">
+      <div class="hint-lbl mono">HINT</div>
+      ${esc(turn.hint||'')}
+    </div>
+    ${micHtml()}
+  `);
+  setTimeout(() => launchMic(turn.text), 400);
+}
+
+// ─── MIC HELPERS ─────────────────────────────────────────
+function micHtml() {
+  return `<div class="mic-area" id="mic-area">
+    <div class="mic-row"><div class="mic-dot"></div>マイクを起動中...</div>
+  </div>`;
+}
+
+function launchMic(expected) {
+  const area = $id('mic-area');
+  if (!area) return;
+  if (S.useFallback) { showFallback(area, expected); return; }
+  area.innerHTML = `
+    <div class="mic-row"><div class="mic-dot"></div>録音中... 英語で話してください</div>
+    <button class="fb-toggle" onclick="toggleFB()">うまく聞き取れない時はテキスト入力</button>
+    <div class="fb-area" id="fb-area">
+      <input type="text" id="fb-in" placeholder="Type English here...">
+      <button class="btn btn-sub" onclick="submitFB(${JSON.stringify(expected)})">送信</button>
+    </div>`;
+  startRecog(
+    t => onTranscript(t, expected),
+    () => { showFallback($id('mic-area'), expected); }
+  );
+}
+
+function showFallback(area, expected) {
+  if (!area) return;
+  area.innerHTML = `
+    <p style="font-size:.76rem;color:rgba(18,33,61,.45);margin-bottom:8px">音声認識が利用できません</p>
+    <div class="fb-area open" id="fb-area">
+      <input type="text" id="fb-in" placeholder="Type English here...">
+      <button class="btn btn-sub" onclick="submitFB(${JSON.stringify(expected)})">送信</button>
+    </div>`;
+  $id('fb-in')?.focus();
+}
+
+function toggleFB() {
+  const a = $id('fb-area');
+  if (!a) return;
+  a.classList.toggle('open');
+  if (a.classList.contains('open')) { stopRecog(); $id('fb-in')?.focus(); }
+}
+
+function submitFB(expected) {
+  const v = ($id('fb-in')?.value||'').trim();
+  if (!v) return;
+  stopRecog();
+  onTranscript(v, expected);
+}
+
+// ─── RESULT ───────────────────────────────────────────────
+function onTranscript(transcript, expected) {
+  stopRecog();
+  S.phase = 'result';
+  S.transcript = transcript;
+  setStatus('RESULT');
+
+  const pct  = matchPct(transcript, expected);
+  const pass = pct >= 60;
+  const { missing, extra } = diff(transcript, expected);
+  const isLast = S.turnIdx === 3;
+
+  const missLine = missing.length
+    ? `<div class="diff-miss">・言えなかった単語: <strong>${missing.join(', ')}</strong></div>`
+    : `<div>・言えなかった単語: なし 👍</div>`;
+  const xtraLine = extra.length
+    ? `<div class="diff-xtra">・余分な単語: <strong>${extra.join(', ')}</strong></div>`
+    : `<div>・余分な単語: なし</div>`;
+
+  setBody(`
+    <div class="rsec">
+      <div class="rlbl mono">あなたの発話</div>
+      <div class="rtxt">${transcript ? esc(transcript)
+        : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
+    </div>
+    <div class="rsec">
+      <div class="rlbl mono">模範解答</div>
+      <div class="rtxt">${esc(expected)}</div>
+    </div>
+    <div class="badge ${pass?'pass':'fail'}">
+      ${pass?'✓ 合格':'✗ 要練習'}&nbsp;&nbsp;${pct}% 一致
+    </div>
+    <div class="diff-box">
+      <div class="diff-hd mono">違いのチェック</div>
+      ${missLine}${xtraLine}
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-sub" onclick="retryTurn()">もう一度</button>
+      <button class="btn btn-primary" onclick="nextTurn()">${isLast?'完了 →':'次へ →'}</button>
+    </div>
+  `);
+}
+
+function retryTurn() { stopRecog(); startTurn(S.turnIdx); }
+
+function nextTurn() {
+  stopRecog();
+  const next = S.turnIdx + 1;
+  if (next < 4) { setProgress(next); startTurn(next); }
+  else phClear();
+}
+
+// ─── SCENARIO CLEAR ──────────────────────────────────────
+async function phClear() {
+  S.phase = 'clear';
+  setStatus('SCENARIO CLEAR');
+  setProgress(4);
+  try { await api.post(`/api/scenarios/${S.scenario.id}/clear`); } catch(_) {}
+  setBody(`
+    <div class="clear-sc">
+      <div class="clear-title mono">SCENARIO CLEAR</div>
+      <div class="clear-sub">${esc(S.scenario.title_jp)} をクリアしました！</div>
+      <button class="btn btn-primary" onclick="backToList()">← 一覧に戻る</button>
+    </div>`);
+}
+
+function curTurn() { return S.scenario.turns[S.turnIdx]; }
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+async function goHome() {
+  stop(); S.screen = 'home';
+  S.categories = await api.get('/api/categories');
+  renderHome();
+}
+
+async function goScenarios(cat) {
+  S.selectedCat = cat; S.screen = 'scenarios';
+  S.scenarios = await api.get(`/api/scenarios?category=${cat}`);
+  renderScenarios();
+}
+
+async function goPractice(id) {
+  S.screen = 'practice';
+  S.scenario = await api.get(`/api/scenarios/${id}`);
+  S.turnIdx = 0;
+  renderPractice();
+}
+
+function exitPractice() { stop(); goScenarios(S.selectedCat); }
+
+async function backToList() {
+  S.scenarios = await api.get(`/api/scenarios?category=${S.selectedCat}`);
+  S.screen = 'scenarios';
+  renderScenarios();
+}
+
+async function doReset() {
+  if (!confirm('全ての進捗をリセットしますか？')) return;
+  await api.post('/api/progress/reset');
+  goHome();
+}
+
+function stop() {
+  stopRecog();
+  speechSynthesis.cancel();
+  clearTimeout(listenTimer);
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+(async () => {
+  S.categories = await api.get('/api/categories');
+  renderHome();
+})();
+</script>
+</body>
+</html>
