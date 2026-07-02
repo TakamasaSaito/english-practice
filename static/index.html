@@ -544,11 +544,11 @@ function phReady(turn) {
   setBody(`
     <div class="sp-lbl mono">YOUR TURN</div>
     <div class="hint-box">
-      <div class="hint-lbl mono">HINT</div>
-      ${esc(turn.hint||'')}
+      <div class="hint-lbl mono">この内容を英語で</div>
+      ${esc(turn.text_jp||'')}
     </div>
     <p style="font-size:.78rem;color:rgba(18,33,61,.5);margin-bottom:14px">
-      ヒントを参考に英語で答えてください
+      上の日本語を英語で言ってみてください
     </p>
     <button class="btn btn-primary" onclick="phAnswer()">準備ができたら → 話す</button>
   `);
@@ -562,8 +562,8 @@ function phAnswer() {
   setBody(`
     <div class="sp-lbl mono">YOUR TURN</div>
     <div class="hint-box">
-      <div class="hint-lbl mono">HINT</div>
-      ${esc(turn.hint||'')}
+      <div class="hint-lbl mono">この内容を英語で</div>
+      ${esc(turn.text_jp||'')}
     </div>
     ${micHtml()}
   `);
