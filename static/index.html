@@ -179,6 +179,16 @@ html,body{height:100%;background:var(--bg);color:#fff;
 .diff-miss{color:var(--error)}
 .diff-xtra{color:#1d61c4}
 
+/* speak model button */
+.btn-speak-model{background:none;border:1px solid rgba(18,33,61,.2);
+  color:rgba(18,33,61,.6);font-size:.67rem;padding:3px 8px;border-radius:4px;
+  cursor:pointer;vertical-align:middle;margin-left:6px}
+.btn-speak-model:active{opacity:.65}
+
+/* full conversation review */
+.fc-review-item{border-bottom:1px solid rgba(18,33,61,.1);padding-bottom:16px;margin-bottom:16px}
+.fc-review-item:last-child{border-bottom:none;margin-bottom:0}
+
 /* clear screen */
 .clear-sc{padding:32px 18px;text-align:center}
 .clear-title{font-family:'Courier New',monospace;font-size:1.35rem;
@@ -203,6 +213,8 @@ const S = {
   transcript: '',
   recognizing: false,
   useFallback: false,
+  fullConv: false,        // 通し会話練習モード中
+  fullConvLogs: [],       // [{turnNum, transcript, expected}]
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -241,6 +253,16 @@ function speak(text, onDone) {
   u.onerror = done;
   // fallback: auto-advance if onend never fires
   listenTimer = setTimeout(done, Math.max(text.split(' ').length * 700, 5000));
+  speechSynthesis.speak(u);
+}
+
+// TTS のみ（コールバック不要・結果画面などで使う）
+function speakOnly(text) {
+  speechSynthesis.cancel();
+  clearTimeout(listenTimer);
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.95;
+  pickVoice(); if (bestVoice) u.voice = bestVoice;
   speechSynthesis.speak(u);
 }
 
@@ -446,6 +468,8 @@ function renderScenarios() {
 // PRACTICE SHELL
 // ═══════════════════════════════════════════════════════════
 function renderPractice() {
+  S.fullConv = false;
+  S.fullConvLogs = [];
   const sc = S.scenario;
   $app.innerHTML = `
   <div class="pw">
@@ -621,7 +645,10 @@ function onTranscript(transcript, expected) {
         : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
     </div>
     <div class="rsec">
-      <div class="rlbl mono">模範解答</div>
+      <div style="display:flex;align-items:center;margin-bottom:5px">
+        <div class="rlbl mono" style="margin-bottom:0">模範解答</div>
+        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)})">🔊 正しい発音を聞く</button>
+      </div>
       <div class="rtxt">${esc(expected)}</div>
     </div>
     <div class="badge ${pass?'pass':'fail'}">
@@ -638,13 +665,149 @@ function onTranscript(transcript, expected) {
   `);
 }
 
-function retryTurn() { stopRecog(); startTurn(S.turnIdx); }
+function retryTurn() { speechSynthesis.cancel(); stopRecog(); startTurn(S.turnIdx); }
 
 function nextTurn() {
+  speechSynthesis.cancel();
   stopRecog();
   const next = S.turnIdx + 1;
   if (next < 4) { setProgress(next); startTurn(next); }
-  else phClear();
+  else phStartFullConv();   // ステップ練習完了 → 通し会話へ
+}
+
+// ─── FULL CONVERSATION ────────────────────────────────────
+function phStartFullConv() {
+  S.phase = 'fc-intro';
+  setStatus('FULL CONVERSATION');
+  setProgress(4);
+  setBody(`
+    <div style="text-align:center;padding:8px 0 16px">
+      <div style="font-size:1.6rem;margin-bottom:10px">🎤</div>
+      <div style="font-family:'Courier New',monospace;font-size:.75rem;letter-spacing:.18em;
+        color:var(--accent);font-weight:700;margin-bottom:12px">FULL CONVERSATION</div>
+      <p style="font-size:.86rem;color:rgba(18,33,61,.7);line-height:1.65;margin-bottom:20px">
+        4ターンを通して会話してみましょう。<br>ヒントも模範解答も表示しません。<br>終わったら振り返りを確認できます。
+      </p>
+      <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="startFullConv()">通し練習を始める →</button>
+      <button class="reset-btn" onclick="phClear()">スキップしてクリア</button>
+    </div>
+  `);
+}
+
+function startFullConv() {
+  S.fullConv = true;
+  S.fullConvLogs = [];
+  fcTurn(0);
+}
+
+function setFCProgress(idx) {
+  const f = $id('prog-fill'); if (f) f.style.width = Math.round((idx+1)/4*100)+'%';
+  const l = $id('turn-lbl'); if (l) l.textContent = `FULL CONV ${idx+1} / 4`;
+}
+
+function fcTurn(idx) {
+  S.turnIdx = idx;
+  setFCProgress(idx);
+  const turn = S.scenario.turns[idx];
+  if (turn.speaker === 'agent') {
+    setStatus('FULL CONV');
+    setBody(`
+      <div class="sp-lbl mono">STAFF / PARTNER</div>
+      <div class="agent-box">${esc(turn.text)}</div>
+      <div style="font-size:.73rem;color:rgba(18,33,61,.4);margin-top:6px">次のターンへ進んでいます...</div>
+    `);
+    speak(turn.text, () => {
+      if (!S.fullConv) return;
+      if (idx + 1 < 4) fcTurn(idx + 1); else fcReview();
+    });
+  } else {
+    setStatus('YOUR TURN');
+    setBody(`
+      <div class="sp-lbl mono">YOUR TURN</div>
+      <p style="font-size:.84rem;color:rgba(18,33,61,.55);margin-bottom:14px">英語で答えてください</p>
+      ${micHtml()}
+    `);
+    setTimeout(() => launchMicFC(turn.text, idx), 400);
+  }
+}
+
+function launchMicFC(expected, idx) {
+  const area = $id('mic-area');
+  if (!area) return;
+  if (S.useFallback) {
+    area.innerHTML = `
+      <p style="font-size:.76rem;color:rgba(18,33,61,.45);margin-bottom:8px">音声認識が利用できません</p>
+      <div class="fb-area open">
+        <input type="text" id="fb-in" placeholder="Type English here...">
+        <button class="btn btn-sub" onclick="fcSubmitFB(${JSON.stringify(expected)},${idx})">送信</button>
+      </div>`;
+    $id('fb-in')?.focus();
+    return;
+  }
+  area.innerHTML = `
+    <div class="mic-row"><div class="mic-dot"></div>録音中... （2.5秒の無音で自動確定）</div>
+    <div class="live-transcript" id="live-transcript"></div>
+    <button class="btn btn-primary btn-confirm" onclick="forceConfirm()">✓ これで確定</button>
+  `;
+  startRecog(
+    t => onFC(t, expected, idx),
+    () => onFC('', expected, idx)
+  );
+}
+
+function fcSubmitFB(expected, idx) {
+  const v = ($id('fb-in')?.value||'').trim();
+  recogDone = true; pendingOnResult = null;
+  stopRecog();
+  onFC(v, expected, idx);
+}
+
+function onFC(transcript, expected, idx) {
+  stopRecog();
+  S.fullConvLogs.push({ turnNum: idx + 1, transcript, expected });
+  const next = idx + 1;
+  if (next < 4) fcTurn(next); else fcReview();
+}
+
+function fcReview() {
+  S.fullConv = false;
+  setStatus('FC REVIEW');
+  const l = $id('turn-lbl'); if (l) l.textContent = 'FULL CONV · DONE';
+  const f = $id('prog-fill'); if (f) f.style.width = '100%';
+
+  const items = S.fullConvLogs.map(log => {
+    const pct = matchPct(log.transcript, log.expected);
+    const pass = pct >= 60;
+    const { missing, extra } = diff(log.transcript, log.expected);
+    const missLine = missing.length
+      ? `<div class="diff-miss">・言えなかった単語: <strong>${missing.join(', ')}</strong></div>`
+      : `<div>・言えなかった単語: なし 👍</div>`;
+    const xtraLine = extra.length
+      ? `<div class="diff-xtra">・余分な単語: <strong>${extra.join(', ')}</strong></div>`
+      : `<div>・余分な単語: なし</div>`;
+    return `
+      <div class="fc-review-item">
+        <div class="rlbl mono">TURN ${log.turnNum} — あなたの発話</div>
+        <div class="rtxt">${log.transcript ? esc(log.transcript) : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
+        <div style="display:flex;align-items:center;margin:8px 0 5px">
+          <div class="rlbl mono" style="margin-bottom:0">模範解答</div>
+          <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(log.expected)})">🔊 発音を聞く</button>
+        </div>
+        <div class="rtxt" style="margin-bottom:6px">${esc(log.expected)}</div>
+        <div class="badge ${pass?'pass':'fail'}">${pass?'✓ 合格':'✗ 要練習'}&nbsp;&nbsp;${pct}% 一致</div>
+        <div class="diff-box">
+          <div class="diff-hd mono">違いのチェック</div>
+          ${missLine}${xtraLine}
+        </div>
+      </div>`;
+  }).join('');
+
+  setBody(`
+    <div style="font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.16em;
+      color:var(--accent);margin-bottom:16px;font-weight:700">FULL CONVERSATION · REVIEW</div>
+    ${items}
+    <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="phClear()">クリア！ →</button>
+  `);
 }
 
 // ─── SCENARIO CLEAR ──────────────────────────────────────
@@ -700,6 +863,7 @@ async function doReset() {
 }
 
 function stop() {
+  S.fullConv = false;
   stopRecog();
   speechSynthesis.cancel();
   clearTimeout(listenTimer);
