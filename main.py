@@ -42,7 +42,8 @@ def init_db():
                 seq         INTEGER NOT NULL,
                 speaker     TEXT NOT NULL,
                 text        TEXT NOT NULL,
-                hint        TEXT
+                hint        TEXT,
+                text_jp     TEXT
             );
             CREATE TABLE IF NOT EXISTS progress (
                 scenario_id INTEGER PRIMARY KEY REFERENCES scenario(id),
@@ -50,6 +51,11 @@ def init_db():
                 cleared_at  TEXT
             );
         """)
+        # Migrate existing DBs that pre-date the text_jp column
+        try:
+            conn.execute("ALTER TABLE turn ADD COLUMN text_jp TEXT")
+        except Exception:
+            pass
 
 
 def seed_db():
@@ -69,8 +75,8 @@ def seed_db():
             sid = cur.lastrowid
             for i, t in enumerate(s["turns"], 1):
                 conn.execute(
-                    "INSERT INTO turn (scenario_id, seq, speaker, text, hint) VALUES (?,?,?,?,?)",
-                    (sid, i, t["speaker"], t["text"], t.get("hint")),
+                    "INSERT INTO turn (scenario_id, seq, speaker, text, hint, text_jp) VALUES (?,?,?,?,?,?)",
+                    (sid, i, t["speaker"], t["text"], t.get("hint"), t.get("text_jp")),
                 )
     print(f"Seeded {len(scenarios)} scenarios.")
 

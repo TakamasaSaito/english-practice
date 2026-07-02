@@ -179,6 +179,9 @@ html,body{height:100%;background:var(--bg);color:#fff;
 .diff-miss{color:var(--error)}
 .diff-xtra{color:#1d61c4}
 
+/* japanese translation hint */
+.text-jp{font-size:.76rem;color:rgba(18,33,61,.45);margin-top:5px;line-height:1.5;padding:0 2px}
+
 /* speak model button */
 .btn-speak-model{background:none;border:1px solid rgba(18,33,61,.2);
   color:rgba(18,33,61,.6);font-size:.67rem;padding:3px 8px;border-radius:4px;
@@ -510,6 +513,7 @@ function phListen(turn) {
   setBody(`
     <div class="sp-lbl mono">STAFF / PARTNER</div>
     <div class="agent-box" id="agent-box">${esc(turn.text)}</div>
+    ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
     <button class="btn btn-outline" onclick="replayTTS()">🔊&nbsp; もう一度聞く</button>
     <button class="btn btn-sub" style="margin-left:8px;font-size:.75rem" onclick="phRepeat(curTurn())">スキップ →</button>
   `);
@@ -626,6 +630,7 @@ function onTranscript(transcript, expected) {
   S.transcript = transcript;
   setStatus('RESULT');
 
+  const textJp = curTurn().text_jp || '';
   const pct  = matchPct(transcript, expected);
   const pass = pct >= 60;
   const { missing, extra } = diff(transcript, expected);
@@ -650,6 +655,7 @@ function onTranscript(transcript, expected) {
         <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)})">🔊 正しい発音を聞く</button>
       </div>
       <div class="rtxt">${esc(expected)}</div>
+      ${textJp ? `<div class="text-jp">${esc(textJp)}</div>` : ''}
     </div>
     <div class="badge ${pass?'pass':'fail'}">
       ${pass?'✓ 合格':'✗ 要練習'}&nbsp;&nbsp;${pct}% 一致
@@ -714,6 +720,7 @@ function fcTurn(idx) {
     setBody(`
       <div class="sp-lbl mono">STAFF / PARTNER</div>
       <div class="agent-box">${esc(turn.text)}</div>
+      ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
       <div style="font-size:.73rem;color:rgba(18,33,61,.4);margin-top:6px">次のターンへ進んでいます...</div>
     `);
     speak(turn.text, () => {
@@ -767,7 +774,8 @@ function fcSubmitFB(expected, idx) {
 
 function onFC(transcript, expected, idx) {
   stopRecog();
-  S.fullConvLogs.push({ turnNum: idx + 1, transcript, expected });
+  const text_jp = S.scenario.turns[idx].text_jp || '';
+  S.fullConvLogs.push({ turnNum: idx + 1, transcript, expected, text_jp });
   const next = idx + 1;
   if (next < 4) fcTurn(next); else fcReview();
 }
@@ -797,6 +805,7 @@ function fcReview() {
           <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(log.expected)})">🔊 発音を聞く</button>
         </div>
         <div class="rtxt" style="margin-bottom:6px">${esc(log.expected)}</div>
+        ${log.text_jp ? `<div class="text-jp" style="margin-bottom:6px">${esc(log.text_jp)}</div>` : ''}
         <div class="badge ${pass?'pass':'fail'}">${pass?'✓ 合格':'✗ 要練習'}&nbsp;&nbsp;${pct}% 一致</div>
         <div class="diff-box">
           <div class="diff-hd mono">違いのチェック</div>

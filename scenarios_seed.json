@@ -8,21 +8,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Please remove your shoes and jacket, and place them in the tray."
+        "text": "Please remove your shoes and jacket, and place them in the tray.",
+        "text_jp": "靴とジャケットを脱いで、トレイに置いてください。"
       },
       {
         "speaker": "user",
         "text": "Do I need to take off my belt too?",
-        "hint": "ベルトも外すか聞く"
+        "hint": "ベルトも外すか聞く",
+        "text_jp": "ベルトも外す必要がありますか？"
       },
       {
         "speaker": "agent",
-        "text": "Yes, please. Do you have any liquids or electronics in your bag?"
+        "text": "Yes, please. Do you have any liquids or electronics in your bag?",
+        "text_jp": "はい、お願いします。バッグの中に液体類や電子機器はありますか？"
       },
       {
         "speaker": "user",
         "text": "I have a laptop, but no liquids.",
-        "hint": "ノートPCはあるが液体はないと伝える"
+        "hint": "ノートPCはあるが液体はないと伝える",
+        "text_jp": "ノートパソコンはありますが、液体類はありません。"
       }
     ]
   },
@@ -35,21 +39,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "What is the purpose of your visit?"
+        "text": "What is the purpose of your visit?",
+        "text_jp": "ご訪問の目的は何ですか？"
       },
       {
         "speaker": "user",
         "text": "I'm here on a business trip.",
-        "hint": "出張だと伝える"
+        "hint": "出張だと伝える",
+        "text_jp": "出張で来ました。"
       },
       {
         "speaker": "agent",
-        "text": "How long will you be staying?"
+        "text": "How long will you be staying?",
+        "text_jp": "どのくらいご滞在されますか？"
       },
       {
         "speaker": "user",
         "text": "I'll be staying for four nights.",
-        "hint": "滞在日数を伝える"
+        "hint": "滞在日数を伝える",
+        "text_jp": "4泊の予定です。"
       }
     ]
   },
@@ -62,21 +70,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Where would you like to go?"
+        "text": "Where would you like to go?",
+        "text_jp": "どちらへ行かれますか？"
       },
       {
         "speaker": "user",
         "text": "To the Hilton Hotel Munich, please.",
-        "hint": "行き先のホテル名を伝える"
+        "hint": "行き先のホテル名を伝える",
+        "text_jp": "ヒルトン・ホテル・ミュンヘンまでお願いします。"
       },
       {
         "speaker": "agent",
-        "text": "Sure. Do you have the address?"
+        "text": "Sure. Do you have the address?",
+        "text_jp": "承知しました。住所はお持ちですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, here it is. Could you take the fastest route?",
-        "hint": "住所を渡し最短ルートを頼む"
+        "hint": "住所を渡し最短ルートを頼む",
+        "text_jp": "はい、こちらです。一番早いルートで行っていただけますか？"
       }
     ]
   },
@@ -89,21 +101,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Welcome, do you have a reservation with us?"
+        "text": "Welcome, do you have a reservation with us?",
+        "text_jp": "いらっしゃいませ。ご予約はございますか？"
       },
       {
         "speaker": "user",
         "text": "Yes, under the name Saito.",
-        "hint": "予約名を伝える"
+        "hint": "予約名を伝える",
+        "text_jp": "はい、齋藤という名前で予約しています。"
       },
       {
         "speaker": "agent",
-        "text": "Great, could I see your passport, please?"
+        "text": "Great, could I see your passport, please?",
+        "text_jp": "ありがとうございます。パスポートを拝見できますか？"
       },
       {
         "speaker": "user",
         "text": "Sure, here you go.",
-        "hint": "パスポートを渡す"
+        "hint": "パスポートを渡す",
+        "text_jp": "どうぞ。"
       }
     ]
   },
@@ -116,21 +132,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "May I see your passport and ticket, please?"
+        "text": "May I see your passport and ticket, please?",
+        "text_jp": "パスポートとチケットを見せていただけますか？"
       },
       {
         "speaker": "user",
         "text": "Here you are.",
-        "hint": "パスポートを渡す"
+        "hint": "パスポートを渡す",
+        "text_jp": "はい、こちらです。"
       },
       {
         "speaker": "agent",
-        "text": "Would you like a window or aisle seat?"
+        "text": "Would you like a window or aisle seat?",
+        "text_jp": "窓側と通路側、どちらのお席がよろしいですか？"
       },
       {
         "speaker": "user",
         "text": "A window seat, please, if it's available.",
-        "hint": "窓側を希望する"
+        "hint": "窓側を希望する",
+        "text_jp": "空いていれば窓側をお願いします。"
       }
     ]
   },
@@ -143,21 +163,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Please place your bag on the scale."
+        "text": "Please place your bag on the scale.",
+        "text_jp": "バッグを秤に置いてください。"
       },
       {
         "speaker": "user",
         "text": "Is it under the weight limit?",
-        "hint": "重量制限を確認する"
+        "hint": "重量制限を確認する",
+        "text_jp": "重量制限以内ですか？"
       },
       {
         "speaker": "agent",
-        "text": "Yes, it's fine. Do you have any fragile items inside?"
+        "text": "Yes, it's fine. Do you have any fragile items inside?",
+        "text_jp": "はい、大丈夫です。中に壊れやすいものはありますか？"
       },
       {
         "speaker": "user",
         "text": "No, nothing fragile.",
-        "hint": "壊れやすい物はないと伝える"
+        "hint": "壊れやすい物はないと伝える",
+        "text_jp": "いいえ、壊れやすいものはありません。"
       }
     ]
   },
@@ -170,21 +194,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "May I see your boarding pass, please?"
+        "text": "May I see your boarding pass, please?",
+        "text_jp": "搭乗券を見せていただけますか？"
       },
       {
         "speaker": "user",
         "text": "Sure, here it is.",
-        "hint": "見せる"
+        "hint": "見せる",
+        "text_jp": "はい、こちらです。"
       },
       {
         "speaker": "agent",
-        "text": "This is a connecting flight, do you have your next boarding pass too?"
+        "text": "This is a connecting flight, do you have your next boarding pass too?",
+        "text_jp": "これは乗り継ぎ便ですが、次の搭乗券もお持ちですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, here's the one for my connecting flight.",
-        "hint": "乗継便のパスも見せる"
+        "hint": "乗継便のパスも見せる",
+        "text_jp": "はい、乗り継ぎ便の搭乗券はこちらです。"
       }
     ]
   },
@@ -197,21 +225,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Would you like something to drink?"
+        "text": "Would you like something to drink?",
+        "text_jp": "お飲み物はいかがですか？"
       },
       {
         "speaker": "user",
         "text": "Could I have some orange juice, please?",
-        "hint": "オレンジジュースを頼む"
+        "hint": "オレンジジュースを頼む",
+        "text_jp": "オレンジジュースをいただけますか？"
       },
       {
         "speaker": "agent",
-        "text": "Sure, would you like ice with that?"
+        "text": "Sure, would you like ice with that?",
+        "text_jp": "かしこまりました。氷はよろしいですか？"
       },
       {
         "speaker": "user",
         "text": "No ice, thank you.",
-        "hint": "氷はいらないと伝える"
+        "hint": "氷はいらないと伝える",
+        "text_jp": "氷は結構です、ありがとうございます。"
       }
     ]
   },
@@ -224,21 +256,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Would you like chicken or pasta?"
+        "text": "Would you like chicken or pasta?",
+        "text_jp": "チキンとパスタ、どちらになさいますか？"
       },
       {
         "speaker": "user",
         "text": "I'll have the chicken, please.",
-        "hint": "チキンを選ぶ"
+        "hint": "チキンを選ぶ",
+        "text_jp": "チキンをいただきます。"
       },
       {
         "speaker": "agent",
-        "text": "Would you like coffee or tea after the meal?"
+        "text": "Would you like coffee or tea after the meal?",
+        "text_jp": "お食事の後にコーヒーか紅茶はいかがですか？"
       },
       {
         "speaker": "user",
         "text": "Coffee would be great, thanks.",
-        "hint": "コーヒーを頼む"
+        "hint": "コーヒーを頼む",
+        "text_jp": "コーヒーをいただきます、ありがとう。"
       }
     ]
   },
@@ -251,21 +287,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Is there anything else I can get you?"
+        "text": "Is there anything else I can get you?",
+        "text_jp": "他に何かお持ちできるものはありますか？"
       },
       {
         "speaker": "user",
         "text": "Could I get a blanket, please?",
-        "hint": "毛布を頼む"
+        "hint": "毛布を頼む",
+        "text_jp": "毛布をいただけますか？"
       },
       {
         "speaker": "agent",
-        "text": "Of course. Would you like headphones as well?"
+        "text": "Of course. Would you like headphones as well?",
+        "text_jp": "もちろんです。ヘッドフォンもよろしいですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, that would be great, thank you.",
-        "hint": "ヘッドホンも頼む"
+        "hint": "ヘッドホンも頼む",
+        "text_jp": "はい、ありがとうございます。"
       }
     ]
   },
@@ -278,21 +318,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Can I help you find something?"
+        "text": "Can I help you find something?",
+        "text_jp": "何かお探しですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, could you tell me where Gate B12 is?",
-        "hint": "乗継ゲートの場所を聞く"
+        "hint": "乗継ゲートの場所を聞く",
+        "text_jp": "はい、B12ゲートはどこか教えていただけますか？"
       },
       {
         "speaker": "agent",
-        "text": "It's about a ten-minute walk that way, past the shops."
+        "text": "It's about a ten-minute walk that way, past the shops.",
+        "text_jp": "ショップを過ぎてその方向に徒歩約10分です。"
       },
       {
         "speaker": "user",
         "text": "Thank you. Do I have enough time before boarding?",
-        "hint": "時間があるか確認する"
+        "hint": "時間があるか確認する",
+        "text_jp": "ありがとうございます。搭乗まで間に合いますか？"
       }
     ]
   },
@@ -305,21 +349,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "How can I help you today?"
+        "text": "How can I help you today?",
+        "text_jp": "本日はどうされましたか？"
       },
       {
         "speaker": "user",
         "text": "My baggage didn't come out on the belt.",
-        "hint": "荷物が出てこないと伝える"
+        "hint": "荷物が出てこないと伝える",
+        "text_jp": "ベルトコンベアから荷物が出てきませんでした。"
       },
       {
         "speaker": "agent",
-        "text": "I'm sorry to hear that. Could I see your baggage claim tag?"
+        "text": "I'm sorry to hear that. Could I see your baggage claim tag?",
+        "text_jp": "それは大変でしたね。手荷物引換証を見せていただけますか？"
       },
       {
         "speaker": "user",
         "text": "Yes, here it is.",
-        "hint": "タグを渡す"
+        "hint": "タグを渡す",
+        "text_jp": "はい、こちらです。"
       }
     ]
   },
@@ -332,21 +380,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "How much would you like to exchange?"
+        "text": "How much would you like to exchange?",
+        "text_jp": "いくらご両替されますか？"
       },
       {
         "speaker": "user",
         "text": "I'd like to exchange 200 dollars, please.",
-        "hint": "金額を伝える"
+        "hint": "金額を伝える",
+        "text_jp": "200ドルをユーロに両替したいのですが。"
       },
       {
         "speaker": "agent",
-        "text": "Sure. Would you like that in fifties or smaller bills?"
+        "text": "Sure. Would you like that in fifties or smaller bills?",
+        "text_jp": "かしこまりました。50ユーロ紙幣と小額紙幣、どちらがよろしいですか？"
       },
       {
         "speaker": "user",
         "text": "Smaller bills would be easier, thanks.",
-        "hint": "小額紙幣を希望"
+        "hint": "小額紙幣を希望",
+        "text_jp": "小額紙幣のほうが使いやすいので助かります。"
       }
     ]
   },
@@ -359,21 +411,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Are you looking for a SIM card or a WiFi rental?"
+        "text": "Are you looking for a SIM card or a WiFi rental?",
+        "text_jp": "SIMカードとWiFiレンタル、どちらをお探しですか？"
       },
       {
         "speaker": "user",
         "text": "I'm looking for a SIM card for two weeks.",
-        "hint": "SIMカードが欲しいと伝える"
+        "hint": "SIMカードが欲しいと伝える",
+        "text_jp": "2週間用のSIMカードを探しています。"
       },
       {
         "speaker": "agent",
-        "text": "This plan covers all of Europe, would that work for you?"
+        "text": "This plan covers all of Europe, would that work for you?",
+        "text_jp": "このプランはヨーロッパ全域に対応していますが、いかがでしょうか？"
       },
       {
         "speaker": "user",
         "text": "Yes, that sounds perfect.",
-        "hint": "それでいいと伝える"
+        "hint": "それでいいと伝える",
+        "text_jp": "はい、ぴったりです。"
       }
     ]
   },
@@ -386,21 +442,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Excuse me, is there something I can help you with?"
+        "text": "Excuse me, is there something I can help you with?",
+        "text_jp": "すみません、何かお手伝いできますか？"
       },
       {
         "speaker": "user",
         "text": "Could you tell me where the business lounge is?",
-        "hint": "ラウンジの場所を聞く"
+        "hint": "ラウンジの場所を聞く",
+        "text_jp": "ビジネスラウンジはどこか教えていただけますか？"
       },
       {
         "speaker": "agent",
-        "text": "It's on the third floor, near Gate 22."
+        "text": "It's on the third floor, near Gate 22.",
+        "text_jp": "3階にございます。22番ゲートの近くです。"
       },
       {
         "speaker": "user",
         "text": "Thank you very much for your help.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "ご親切にありがとうございます。"
       }
     ]
   },
@@ -413,21 +473,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Do you have a lounge pass or membership card?"
+        "text": "Do you have a lounge pass or membership card?",
+        "text_jp": "ラウンジパスかメンバーシップカードをお持ちですか？"
       },
       {
         "speaker": "user",
         "text": "I have this credit card, does it give me access?",
-        "hint": "クレジットカードの特典で入れるか聞く"
+        "hint": "クレジットカードの特典で入れるか聞く",
+        "text_jp": "このクレジットカードで入れますか？"
       },
       {
         "speaker": "agent",
-        "text": "Let me check... yes, that card qualifies."
+        "text": "Let me check... yes, that card qualifies.",
+        "text_jp": "確認いたします…はい、そのカードはご利用いただけます。"
       },
       {
         "speaker": "user",
         "text": "Great, thank you.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "よかったです、ありがとうございます。"
       }
     ]
   },
@@ -440,21 +504,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Where are you headed today?"
+        "text": "Where are you headed today?",
+        "text_jp": "本日はどちらへ？"
       },
       {
         "speaker": "user",
         "text": "I'd like a ticket to the Central Station, please.",
-        "hint": "中央駅までの切符が欲しいと伝える"
+        "hint": "中央駅までの切符が欲しいと伝える",
+        "text_jp": "中央駅までの切符を1枚ください。"
       },
       {
         "speaker": "agent",
-        "text": "Single or return ticket?"
+        "text": "Single or return ticket?",
+        "text_jp": "片道と往復、どちらになさいますか？"
       },
       {
         "speaker": "user",
         "text": "Just a single ticket is fine, thanks.",
-        "hint": "片道でいいと伝える"
+        "hint": "片道でいいと伝える",
+        "text_jp": "片道で結構です、ありがとうございます。"
       }
     ]
   },
@@ -467,21 +535,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "The train is running about fifteen minutes late."
+        "text": "The train is running about fifteen minutes late.",
+        "text_jp": "電車が約15分遅延しております。"
       },
       {
         "speaker": "user",
         "text": "I see. Which platform will it arrive at?",
-        "hint": "どのホームか確認する"
+        "hint": "どのホームか確認する",
+        "text_jp": "そうですか。何番ホームに到着しますか？"
       },
       {
         "speaker": "agent",
-        "text": "It should still be platform 3."
+        "text": "It should still be platform 3.",
+        "text_jp": "引き続き3番ホームの予定です。"
       },
       {
         "speaker": "user",
         "text": "Thanks for letting me know.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "教えていただきありがとうございます。"
       }
     ]
   },
@@ -494,21 +566,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Front desk, how may I help you?"
+        "text": "Front desk, how may I help you?",
+        "text_jp": "フロントデスクです。何かご用件はございますか？"
       },
       {
         "speaker": "user",
         "text": "Could I get a late checkout, please?",
-        "hint": "レイトチェックアウトを頼む"
+        "hint": "レイトチェックアウトを頼む",
+        "text_jp": "レイトチェックアウトをお願いできますか？"
       },
       {
         "speaker": "agent",
-        "text": "Sure, we can extend it to 1 PM. Is that alright?"
+        "text": "Sure, we can extend it to 1 PM. Is that alright?",
+        "text_jp": "かしこまりました。午後1時まで延長できますが、よろしいですか？"
       },
       {
         "speaker": "user",
         "text": "That works perfectly, thank you.",
-        "hint": "それで大丈夫と伝える"
+        "hint": "それで大丈夫と伝える",
+        "text_jp": "それで十分です、ありがとうございます。"
       }
     ]
   },
@@ -521,21 +597,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Room service, what can I get for you?"
+        "text": "Room service, what can I get for you?",
+        "text_jp": "ルームサービスです。ご注文はいかがですか？"
       },
       {
         "speaker": "user",
         "text": "Could I order a club sandwich, please?",
-        "hint": "サンドイッチを頼む"
+        "hint": "サンドイッチを頼む",
+        "text_jp": "クラブサンドイッチを注文できますか？"
       },
       {
         "speaker": "agent",
-        "text": "Of course, would you like anything to drink with that?"
+        "text": "Of course, would you like anything to drink with that?",
+        "text_jp": "もちろんです。お飲み物は何かご一緒にいかがですか？"
       },
       {
         "speaker": "user",
         "text": "Just a bottle of water, thanks.",
-        "hint": "水を頼む"
+        "hint": "水を頼む",
+        "text_jp": "水を1本お願いします、ありがとうございます。"
       }
     ]
   },
@@ -548,21 +628,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Front desk, how can I help?"
+        "text": "Front desk, how can I help?",
+        "text_jp": "フロントデスクです。何かご用件はございますか？"
       },
       {
         "speaker": "user",
         "text": "The WiFi in my room isn't working.",
-        "hint": "WiFiが繋がらないと伝える"
+        "hint": "WiFiが繋がらないと伝える",
+        "text_jp": "部屋のWiFiが繋がらないのですが。"
       },
       {
         "speaker": "agent",
-        "text": "I'm sorry about that, I'll send someone up to check it."
+        "text": "I'm sorry about that, I'll send someone up to check it.",
+        "text_jp": "申し訳ございません。すぐにスタッフを向かわせます。"
       },
       {
         "speaker": "user",
         "text": "Thank you, I appreciate it.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "ありがとうございます、助かります。"
       }
     ]
   },
@@ -575,21 +659,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Is there anything else you need?"
+        "text": "Is there anything else you need?",
+        "text_jp": "他に何かご要望はございますか？"
       },
       {
         "speaker": "user",
         "text": "Could I get a wake-up call at 6 AM, please?",
-        "hint": "モーニングコールを頼む"
+        "hint": "モーニングコールを頼む",
+        "text_jp": "午前6時にモーニングコールをお願いできますか？"
       },
       {
         "speaker": "agent",
-        "text": "Sure, I'll set that up for you."
+        "text": "Sure, I'll set that up for you.",
+        "text_jp": "かしこまりました。設定いたします。"
       },
       {
         "speaker": "user",
         "text": "Thank you very much.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "ありがとうございます。"
       }
     ]
   },
@@ -602,21 +690,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "How can I help you today?"
+        "text": "How can I help you today?",
+        "text_jp": "本日はどうされましたか？"
       },
       {
         "speaker": "user",
         "text": "Could you recommend a good restaurant nearby?",
-        "hint": "近くのレストランを聞く"
+        "hint": "近くのレストランを聞く",
+        "text_jp": "近くのおすすめレストランを教えていただけますか？"
       },
       {
         "speaker": "agent",
-        "text": "There's a great Bavarian place two blocks from here."
+        "text": "There's a great Bavarian place two blocks from here.",
+        "text_jp": "2ブロック先に素晴らしいバイエルン料理店がございます。"
       },
       {
         "speaker": "user",
         "text": "Could you help me make a reservation there?",
-        "hint": "予約できるか聞く"
+        "hint": "予約できるか聞く",
+        "text_jp": "そこに予約を入れていただけますか？"
       }
     ]
   },
@@ -629,21 +721,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Do you have your reservation confirmation?"
+        "text": "Do you have your reservation confirmation?",
+        "text_jp": "予約確認書はお持ちですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, here it is on my phone.",
-        "hint": "確認書を見せる"
+        "hint": "確認書を見せる",
+        "text_jp": "はい、スマートフォンに入っています。"
       },
       {
         "speaker": "agent",
-        "text": "Great, would you like to add insurance coverage?"
+        "text": "Great, would you like to add insurance coverage?",
+        "text_jp": "ありがとうございます。保険カバーを追加されますか？"
       },
       {
         "speaker": "user",
         "text": "The basic coverage should be fine, thanks.",
-        "hint": "基本保険で十分と伝える"
+        "hint": "基本保険で十分と伝える",
+        "text_jp": "基本的なカバーで十分です、ありがとうございます。"
       }
     ]
   },
@@ -656,21 +752,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Can I help you find something?"
+        "text": "Can I help you find something?",
+        "text_jp": "何かお探しですか？"
       },
       {
         "speaker": "user",
         "text": "Is there a gas station nearby?",
-        "hint": "近くのガソリンスタンドを聞く"
+        "hint": "近くのガソリンスタンドを聞く",
+        "text_jp": "近くにガソリンスタンドはありますか？"
       },
       {
         "speaker": "agent",
-        "text": "Yes, there's one just past the next intersection."
+        "text": "Yes, there's one just past the next intersection.",
+        "text_jp": "はい、次の交差点を過ぎたところにあります。"
       },
       {
         "speaker": "user",
         "text": "Thanks, that's really helpful.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "ありがとうございます、助かります。"
       }
     ]
   },
@@ -683,21 +783,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Traffic looks pretty heavy today."
+        "text": "Traffic looks pretty heavy today.",
+        "text_jp": "今日は交通渋滞がひどいですね。"
       },
       {
         "speaker": "user",
         "text": "I'm actually in a bit of a hurry, is there another way?",
-        "hint": "急いでいることを伝える"
+        "hint": "急いでいることを伝える",
+        "text_jp": "実は少し急いでいるのですが、別のルートはありますか？"
       },
       {
         "speaker": "agent",
-        "text": "I can try a side street, it might save some time."
+        "text": "I can try a side street, it might save some time.",
+        "text_jp": "裏道を通ってみます。少し時間を節約できるかもしれません。"
       },
       {
         "speaker": "user",
         "text": "That would be great, thank you.",
-        "hint": "それで頼むと伝える"
+        "hint": "それで頼むと伝える",
+        "text_jp": "それはありがたいです、ありがとうございます。"
       }
     ]
   },
@@ -710,21 +814,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "We need to do a quick additional check, is that okay?"
+        "text": "We need to do a quick additional check, is that okay?",
+        "text_jp": "簡単な追加チェックが必要なのですが、よろしいですか？"
       },
       {
         "speaker": "user",
         "text": "Sure, no problem.",
-        "hint": "了解したと伝える"
+        "hint": "了解したと伝える",
+        "text_jp": "はい、もちろんです。"
       },
       {
         "speaker": "agent",
-        "text": "I'll just need to pat down your jacket pocket."
+        "text": "I'll just need to pat down your jacket pocket.",
+        "text_jp": "ジャケットのポケットを軽くチェックさせていただきます。"
       },
       {
         "speaker": "user",
         "text": "Okay, go ahead.",
-        "hint": "了解と伝える"
+        "hint": "了解と伝える",
+        "text_jp": "どうぞ、お願いします。"
       }
     ]
   },
@@ -737,21 +845,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I'm sorry, but your flight has been delayed by three hours."
+        "text": "I'm sorry, but your flight has been delayed by three hours.",
+        "text_jp": "申し訳ございませんが、フライトが3時間遅延しております。"
       },
       {
         "speaker": "user",
         "text": "Will this affect my connecting flight?",
-        "hint": "乗継便に影響するか聞く"
+        "hint": "乗継便に影響するか聞く",
+        "text_jp": "乗り継ぎ便に影響しますか？"
       },
       {
         "speaker": "agent",
-        "text": "It might. Let me check if we can rebook you."
+        "text": "It might. Let me check if we can rebook you.",
+        "text_jp": "可能性があります。予約の変更が可能か確認いたします。"
       },
       {
         "speaker": "user",
         "text": "Yes, please, that would help a lot.",
-        "hint": "お願いすると伝える"
+        "hint": "お願いすると伝える",
+        "text_jp": "はい、お願いします。とても助かります。"
       }
     ]
   },
@@ -764,21 +876,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "How can I help you?"
+        "text": "How can I help you?",
+        "text_jp": "どうされましたか？"
       },
       {
         "speaker": "user",
         "text": "I missed my connecting flight.",
-        "hint": "乗継便に乗り遅れたと伝える"
+        "hint": "乗継便に乗り遅れたと伝える",
+        "text_jp": "乗り継ぎ便に乗り遅れてしまいました。"
       },
       {
         "speaker": "agent",
-        "text": "I'm sorry to hear that. Let me find you the next available flight."
+        "text": "I'm sorry to hear that. Let me find you the next available flight.",
+        "text_jp": "それは大変でしたね。次の利用可能なフライトを探します。"
       },
       {
         "speaker": "user",
         "text": "Thank you, I really appreciate your help.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "ありがとうございます、助かります。"
       }
     ]
   },
@@ -791,21 +907,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Welcome! Can I get your name for registration?"
+        "text": "Welcome! Can I get your name for registration?",
+        "text_jp": "ようこそ！登録のためにお名前をいただけますか？"
       },
       {
         "speaker": "user",
         "text": "Yes, it's Takamasa Saito from my company.",
-        "hint": "名前と会社名を伝える"
+        "hint": "名前と会社名を伝える",
+        "text_jp": "はい、弊社の齋藤隆正です。"
       },
       {
         "speaker": "agent",
-        "text": "Great, here's your badge and welcome packet."
+        "text": "Great, here's your badge and welcome packet.",
+        "text_jp": "ありがとうございます。こちらがバッジとウェルカムパッケージです。"
       },
       {
         "speaker": "user",
         "text": "Thank you. Could you tell me where the main hall is?",
-        "hint": "お礼を言い会場の場所を聞く"
+        "hint": "お礼を言い会場の場所を聞く",
+        "text_jp": "ありがとうございます。メインホールはどこですか？"
       }
     ]
   },
@@ -818,21 +938,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Hi there, I don't think we've met yet."
+        "text": "Hi there, I don't think we've met yet.",
+        "text_jp": "こんにちは、まだお会いしていませんでしたね。"
       },
       {
         "speaker": "user",
         "text": "Hi, I'm Takamasa, I work in IT architecture back in Japan.",
-        "hint": "自己紹介する"
+        "hint": "自己紹介する",
+        "text_jp": "こんにちは、私は日本でITアーキテクチャを担当している隆正です。"
       },
       {
         "speaker": "agent",
-        "text": "Nice to meet you! What brings you to this event?"
+        "text": "Nice to meet you! What brings you to this event?",
+        "text_jp": "はじめまして！このイベントには何で来られたんですか？"
       },
       {
         "speaker": "user",
         "text": "I'm here for the conference, it's my first time in Munich.",
-        "hint": "出張・カンファレンスと伝える"
+        "hint": "出張・カンファレンスと伝える",
+        "text_jp": "カンファレンスのために来ました。ミュンヘンは初めてです。"
       }
     ]
   },
@@ -845,21 +969,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "How was your flight over?"
+        "text": "How was your flight over?",
+        "text_jp": "フライトはいかがでしたか？"
       },
       {
         "speaker": "user",
         "text": "It was long, about twelve hours, but not too bad.",
-        "hint": "長時間フライトだったと伝える"
+        "hint": "長時間フライトだったと伝える",
+        "text_jp": "約12時間と長かったですが、悪くはありませんでした。"
       },
       {
         "speaker": "agent",
-        "text": "That's quite a trip! Have you had a chance to see the city yet?"
+        "text": "That's quite a trip! Have you had a chance to see the city yet?",
+        "text_jp": "それはかなりの旅ですね！市内を見る時間はありましたか？"
       },
       {
         "speaker": "user",
         "text": "Not yet, I just arrived this morning.",
-        "hint": "まだ見れていないと伝える"
+        "hint": "まだ見れていないと伝える",
+        "text_jp": "まだです。今朝着いたばかりです。"
       }
     ]
   },
@@ -872,21 +1000,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "So what do you do exactly?"
+        "text": "So what do you do exactly?",
+        "text_jp": "具体的にどんなお仕事をされているんですか？"
       },
       {
         "speaker": "user",
         "text": "I work in enterprise architecture, mainly on IT strategy.",
-        "hint": "仕事内容を説明する"
+        "hint": "仕事内容を説明する",
+        "text_jp": "エンタープライズアーキテクチャの仕事をしています。主にIT戦略です。"
       },
       {
         "speaker": "agent",
-        "text": "Interesting, what does that involve day to day?"
+        "text": "Interesting, what does that involve day to day?",
+        "text_jp": "面白そうですね。日常的にはどんなことをされているんですか？"
       },
       {
         "speaker": "user",
         "text": "A lot of it is reviewing systems and simplifying how they connect.",
-        "hint": "簡単に説明する"
+        "hint": "簡単に説明する",
+        "text_jp": "システムを見直して、連携を簡素化することが多いです。"
       }
     ]
   },
@@ -899,21 +1031,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Have you tried the food here yet?"
+        "text": "Have you tried the food here yet?",
+        "text_jp": "こちらのお料理はもう試しましたか？"
       },
       {
         "speaker": "user",
         "text": "Not yet, actually. What would you recommend?",
-        "hint": "おすすめを聞く"
+        "hint": "おすすめを聞く",
+        "text_jp": "まだなんです。何がおすすめですか？"
       },
       {
         "speaker": "agent",
-        "text": "The pretzels and the roast pork are both excellent."
+        "text": "The pretzels and the roast pork are both excellent.",
+        "text_jp": "プレッツェルとロースト・ポークがどちらも絶品ですよ。"
       },
       {
         "speaker": "user",
         "text": "I'll definitely try those, thanks for the tip.",
-        "hint": "試してみると伝える"
+        "hint": "試してみると伝える",
+        "text_jp": "ぜひ試してみます、教えてくれてありがとう。"
       }
     ]
   },
@@ -926,21 +1062,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "It was great talking with you tonight."
+        "text": "It was great talking with you tonight.",
+        "text_jp": "今夜はお話しできて良かったです。"
       },
       {
         "speaker": "user",
         "text": "Likewise! Should we exchange contact information?",
-        "hint": "同意し連絡先交換を提案"
+        "hint": "同意し連絡先交換を提案",
+        "text_jp": "私もです！連絡先を交換しませんか？"
       },
       {
         "speaker": "agent",
-        "text": "Sure, do you have LinkedIn?"
+        "text": "Sure, do you have LinkedIn?",
+        "text_jp": "もちろん、LinkedInはお使いですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, you can find me under Takamasa Saito.",
-        "hint": "名前を伝える"
+        "hint": "名前を伝える",
+        "text_jp": "はい、Takamasa Saitoで見つけられますよ。"
       }
     ]
   },
@@ -953,21 +1093,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "What do you think of the venue?"
+        "text": "What do you think of the venue?",
+        "text_jp": "この会場、どう思いますか？"
       },
       {
         "speaker": "user",
         "text": "It's beautiful, I love the old architecture.",
-        "hint": "感想を伝える"
+        "hint": "感想を伝える",
+        "text_jp": "素敵ですね、古い建築様式が大好きです。"
       },
       {
         "speaker": "agent",
-        "text": "Munich has a lot of history like this."
+        "text": "Munich has a lot of history like this.",
+        "text_jp": "ミュンヘンにはこのような歴史が沢山あります。"
       },
       {
         "speaker": "user",
         "text": "I'd love to explore more of it while I'm here.",
-        "hint": "観光したいと伝える"
+        "hint": "観光したいと伝える",
+        "text_jp": "滞在中にもっと探索してみたいです。"
       }
     ]
   },
@@ -980,21 +1124,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "How are you holding up with the time difference?"
+        "text": "How are you holding up with the time difference?",
+        "text_jp": "時差はどうですか？"
       },
       {
         "speaker": "user",
         "text": "Honestly, I'm still a bit jet-lagged.",
-        "hint": "時差ぼけだと伝える"
+        "hint": "時差ぼけだと伝える",
+        "text_jp": "正直、まだ少し時差ぼけしています。"
       },
       {
         "speaker": "agent",
-        "text": "That's normal after a flight like that. Any tips that help you?"
+        "text": "That's normal after a flight like that. Any tips that help you?",
+        "text_jp": "あのような長距離フライトの後では普通ですよ。役立つ方法はありますか？"
       },
       {
         "speaker": "user",
         "text": "I try to go to bed early and get some sunlight.",
-        "hint": "早く寝るようにしていると伝える"
+        "hint": "早く寝るようにしていると伝える",
+        "text_jp": "早めに寝て、日光を浴びるようにしています。"
       }
     ]
   },
@@ -1007,21 +1155,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "And what about you, what's your role here?"
+        "text": "And what about you, what's your role here?",
+        "text_jp": "あなたはこちらではどんな役割をされているんですか？"
       },
       {
         "speaker": "user",
         "text": "Oh nice, what does that involve?",
-        "hint": "興味を示して聞く"
+        "hint": "興味を示して聞く",
+        "text_jp": "それはすごいですね、具体的にはどんなことを？"
       },
       {
         "speaker": "agent",
-        "text": "I lead the product team on the platform side."
+        "text": "I lead the product team on the platform side.",
+        "text_jp": "プラットフォーム側のプロダクトチームをリードしています。"
       },
       {
         "speaker": "user",
         "text": "That sounds like a big responsibility.",
-        "hint": "興味を示す"
+        "hint": "興味を示す",
+        "text_jp": "大きな責任がありそうですね。"
       }
     ]
   },
@@ -1034,21 +1186,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "What do you think of the wine?"
+        "text": "What do you think of the wine?",
+        "text_jp": "ワインはいかがですか？"
       },
       {
         "speaker": "user",
         "text": "It's really good, very smooth.",
-        "hint": "美味しいと伝える"
+        "hint": "美味しいと伝える",
+        "text_jp": "とてもいいですね、とてもまろやかです。"
       },
       {
         "speaker": "agent",
-        "text": "It's a local vineyard, I'm glad you like it."
+        "text": "It's a local vineyard, I'm glad you like it.",
+        "text_jp": "地元のワイナリーのものです、気に入っていただいて嬉しいです。"
       },
       {
         "speaker": "user",
         "text": "Oh nice, is it from around here?",
-        "hint": "詳しく聞く"
+        "hint": "詳しく聞く",
+        "text_jp": "そうなんですね、この辺りのものですか？"
       }
     ]
   },
@@ -1061,21 +1217,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Is there anything you don't eat?"
+        "text": "Is there anything you don't eat?",
+        "text_jp": "食べられないものはありますか？"
       },
       {
         "speaker": "user",
         "text": "Not really, I eat pretty much everything.",
-        "hint": "特にないと伝える"
+        "hint": "特にないと伝える",
+        "text_jp": "特にありません、ほぼ何でも食べます。"
       },
       {
         "speaker": "agent",
-        "text": "Great, you should try the sausage platter then."
+        "text": "Great, you should try the sausage platter then.",
+        "text_jp": "それなら、ソーセージの盛り合わせをぜひ試してみてください。"
       },
       {
         "speaker": "user",
         "text": "Sounds great, I'm looking forward to it.",
-        "hint": "楽しみだと伝える"
+        "hint": "楽しみだと伝える",
+        "text_jp": "楽しみです。"
       }
     ]
   },
@@ -1088,21 +1248,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Do you have any plans for the weekend?"
+        "text": "Do you have any plans for the weekend?",
+        "text_jp": "週末は何か予定していますか？"
       },
       {
         "speaker": "user",
         "text": "Nothing set yet, maybe just relaxing.",
-        "hint": "特に予定はないと伝える"
+        "hint": "特に予定はないと伝える",
+        "text_jp": "特にまだ何も。のんびりするかもしれません。"
       },
       {
         "speaker": "agent",
-        "text": "What do you usually do for fun back home?"
+        "text": "What do you usually do for fun back home?",
+        "text_jp": "普段は趣味で何をされているんですか？"
       },
       {
         "speaker": "user",
         "text": "I actually play tennis quite a bit.",
-        "hint": "趣味を伝える"
+        "hint": "趣味を伝える",
+        "text_jp": "実はテニスをかなりやっています。"
       }
     ]
   },
@@ -1115,21 +1279,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Are you a football fan at all?"
+        "text": "Are you a football fan at all?",
+        "text_jp": "サッカーは好きですか？"
       },
       {
         "speaker": "user",
         "text": "Not a huge expert, but I enjoy watching sometimes.",
-        "hint": "あまり詳しくないと伝える"
+        "hint": "あまり詳しくないと伝える",
+        "text_jp": "大きなファンというわけではないですが、たまに観るのは楽しいです。"
       },
       {
         "speaker": "agent",
-        "text": "Bayern Munich is the big local team here."
+        "text": "Bayern Munich is the big local team here.",
+        "text_jp": "バイエルン・ミュンヘンがここの大きなチームです。"
       },
       {
         "speaker": "user",
         "text": "I'd love to catch a game if I get the chance.",
-        "hint": "興味を示す"
+        "hint": "興味を示す",
+        "text_jp": "機会があれば試合を見に行きたいですね。"
       }
     ]
   },
@@ -1142,21 +1310,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I think it's about time for a toast."
+        "text": "I think it's about time for a toast.",
+        "text_jp": "そろそろ乾杯をする時間だと思います。"
       },
       {
         "speaker": "user",
         "text": "Good idea, go ahead.",
-        "hint": "賛成する"
+        "hint": "賛成する",
+        "text_jp": "いいですね、どうぞ。"
       },
       {
         "speaker": "agent",
-        "text": "Here's to a successful partnership and a great trip!"
+        "text": "Here's to a successful partnership and a great trip!",
+        "text_jp": "素晴らしいパートナーシップと素晴らしい旅に乾杯！"
       },
       {
         "speaker": "user",
         "text": "Cheers to that!",
-        "hint": "乾杯に応じる"
+        "hint": "乾杯に応じる",
+        "text_jp": "乾杯！"
       }
     ]
   },
@@ -1169,21 +1341,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Can I get you a glass of wine?"
+        "text": "Can I get you a glass of wine?",
+        "text_jp": "ワインを一杯いかがですか？"
       },
       {
         "speaker": "user",
         "text": "Thank you, but I'll pass on the alcohol tonight.",
-        "hint": "丁寧に断る"
+        "hint": "丁寧に断る",
+        "text_jp": "ありがとうございます。でも今日はアルコールは遠慮しておきます。"
       },
       {
         "speaker": "agent",
-        "text": "No problem, would you like something else instead?"
+        "text": "No problem, would you like something else instead?",
+        "text_jp": "了解です。他に何かお持ちしましょうか？"
       },
       {
         "speaker": "user",
         "text": "Just a sparkling water would be great, thanks.",
-        "hint": "ソフトドリンクを頼む"
+        "hint": "ソフトドリンクを頼む",
+        "text_jp": "スパークリングウォーターがあれば嬉しいです、ありがとう。"
       }
     ]
   },
@@ -1196,21 +1372,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "So the launch date is set for the third quarter, contingent on the vendor's delivery schedule."
+        "text": "So the launch date is set for the third quarter, contingent on the vendor's delivery schedule.",
+        "text_jp": "さて、先ほど申し上げましたように、ローンチはベンダーの納期次第で第3四半期を予定しています。"
       },
       {
         "speaker": "user",
         "text": "Sorry, could you say that again a bit more slowly?",
-        "hint": "聞き返す"
+        "hint": "聞き返す",
+        "text_jp": "すみません、もう少しゆっくり言っていただけますか？"
       },
       {
         "speaker": "agent",
-        "text": "Sure, I said the launch is planned for Q3."
+        "text": "Sure, I said the launch is planned for Q3.",
+        "text_jp": "もちろん、ローンチはQ3を予定していると言いました。"
       },
       {
         "speaker": "user",
         "text": "Got it, thanks for clarifying.",
-        "hint": "理解したと伝える"
+        "hint": "理解したと伝える",
+        "text_jp": "了解しました、説明してくれてありがとうございます。"
       }
     ]
   },
@@ -1223,21 +1403,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I don't think you've met my colleague yet."
+        "text": "I don't think you've met my colleague yet.",
+        "text_jp": "まだ私の同僚にお会いでないと思います。"
       },
       {
         "speaker": "user",
         "text": "Nice to meet you, I'm Takamasa.",
-        "hint": "紹介を受けて挨拶"
+        "hint": "紹介を受けて挨拶",
+        "text_jp": "はじめまして、私は隆正です。"
       },
       {
         "speaker": "agent",
-        "text": "She works on our data team."
+        "text": "She works on our data team.",
+        "text_jp": "彼女はデータチームに所属しています。"
       },
       {
         "speaker": "user",
         "text": "That's great, I'd love to hear more about that.",
-        "hint": "興味を示す"
+        "hint": "興味を示す",
+        "text_jp": "それは素晴らしいですね、ぜひ詳しく聞かせてもらいたいです。"
       }
     ]
   },
@@ -1250,21 +1434,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Do you have any family back home?"
+        "text": "Do you have any family back home?",
+        "text_jp": "日本にご家族はいらっしゃいますか？"
       },
       {
         "speaker": "user",
         "text": "Yes, I have a wife and we keep pretty busy.",
-        "hint": "簡単に答える"
+        "hint": "簡単に答える",
+        "text_jp": "はい、妻がいて、二人でかなり忙しくしています。"
       },
       {
         "speaker": "agent",
-        "text": "That's nice. Do you get to travel together often?"
+        "text": "That's nice. Do you get to travel together often?",
+        "text_jp": "それはいいですね。一緒に旅行する機会はありますか？"
       },
       {
         "speaker": "user",
         "text": "Not as often as we'd like, but we try.",
-        "hint": "たまにと伝える"
+        "hint": "たまにと伝える",
+        "text_jp": "思ったほど多くはないですが、できるだけ行くようにしています。"
       }
     ]
   },
@@ -1277,21 +1465,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Any travel plans coming up after this trip?"
+        "text": "Any travel plans coming up after this trip?",
+        "text_jp": "この旅の後に旅行の予定はありますか？"
       },
       {
         "speaker": "user",
         "text": "Nothing planned yet, this trip has kept me pretty busy.",
-        "hint": "特にないと伝える"
+        "hint": "特にないと伝える",
+        "text_jp": "今のところ予定はありません。この旅でかなり忙しかったので。"
       },
       {
         "speaker": "agent",
-        "text": "Understandable. Where would you like to go if you had the chance?"
+        "text": "Understandable. Where would you like to go if you had the chance?",
+        "text_jp": "そうですね。もし機会があればどこに行きたいですか？"
       },
       {
         "speaker": "user",
         "text": "I'd love to visit Italy sometime.",
-        "hint": "行きたい場所を伝える"
+        "hint": "行きたい場所を伝える",
+        "text_jp": "いつかイタリアに行ってみたいですね。"
       }
     ]
   },
@@ -1304,21 +1496,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Is everything alright?"
+        "text": "Is everything alright?",
+        "text_jp": "大丈夫ですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, I'm just looking for the restroom.",
-        "hint": "場所を聞く"
+        "hint": "場所を聞く",
+        "text_jp": "はい、トイレを探しているだけです。"
       },
       {
         "speaker": "agent",
-        "text": "It's just around that corner, past the bar."
+        "text": "It's just around that corner, past the bar.",
+        "text_jp": "バーを過ぎてあのコーナーを曲がったところです。"
       },
       {
         "speaker": "user",
         "text": "Thanks so much.",
-        "hint": "お礼を言う"
+        "hint": "お礼を言う",
+        "text_jp": "どうもありがとうございます。"
       }
     ]
   },
@@ -1331,21 +1527,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "What did you think of today's session?"
+        "text": "What did you think of today's session?",
+        "text_jp": "今日のセッションはいかがでしたか？"
       },
       {
         "speaker": "user",
         "text": "It was really informative, especially the roadmap part.",
-        "hint": "感想を伝える"
+        "hint": "感想を伝える",
+        "text_jp": "とても参考になりました、特にロードマップの部分が。"
       },
       {
         "speaker": "agent",
-        "text": "I agree, that part stood out to me too."
+        "text": "I agree, that part stood out to me too.",
+        "text_jp": "私もそう思います、その部分は特に印象的でした。"
       },
       {
         "speaker": "user",
         "text": "I actually had a question about the timeline.",
-        "hint": "質問があったと伝える"
+        "hint": "質問があったと伝える",
+        "text_jp": "タイムラインについて質問があったんです。"
       }
     ]
   },
@@ -1358,21 +1558,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Here's my card, feel free to reach out anytime."
+        "text": "Here's my card, feel free to reach out anytime.",
+        "text_jp": "これが私の名刺です、いつでもご連絡ください。"
       },
       {
         "speaker": "user",
         "text": "Thank you, here's mine as well.",
-        "hint": "自分のカードを渡す"
+        "hint": "自分のカードを渡す",
+        "text_jp": "ありがとうございます、こちらが私の名刺です。"
       },
       {
         "speaker": "agent",
-        "text": "Great, I'll follow up with you next week."
+        "text": "Great, I'll follow up with you next week.",
+        "text_jp": "ありがとうございます、来週ご連絡します。"
       },
       {
         "speaker": "user",
         "text": "Looking forward to it.",
-        "hint": "楽しみと伝える"
+        "hint": "楽しみと伝える",
+        "text_jp": "楽しみにしています。"
       }
     ]
   },
@@ -1385,21 +1589,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "It was great meeting you today."
+        "text": "It was great meeting you today.",
+        "text_jp": "今日はお会いできてとても良かったです。"
       },
       {
         "speaker": "user",
         "text": "You too! Let's connect on LinkedIn.",
-        "hint": "つながりましょうと提案"
+        "hint": "つながりましょうと提案",
+        "text_jp": "私もです！LinkedInで繋がりましょう。"
       },
       {
         "speaker": "agent",
-        "text": "Sounds good, I'll send a request."
+        "text": "Sounds good, I'll send a request.",
+        "text_jp": "いいですね、リクエストを送ります。"
       },
       {
         "speaker": "user",
         "text": "Perfect, I'll accept it right away.",
-        "hint": "承知したと伝える"
+        "hint": "承知したと伝える",
+        "text_jp": "完璧です、すぐに承認します。"
       }
     ]
   },
@@ -1412,21 +1620,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Are you free for breakfast tomorrow?"
+        "text": "Are you free for breakfast tomorrow?",
+        "text_jp": "明日の朝食は空いていますか？"
       },
       {
         "speaker": "user",
         "text": "Yes, that works for me.",
-        "hint": "大丈夫と伝える"
+        "hint": "大丈夫と伝える",
+        "text_jp": "はい、都合がいいです。"
       },
       {
         "speaker": "agent",
-        "text": "Great, how about 8 AM at the hotel restaurant?"
+        "text": "Great, how about 8 AM at the hotel restaurant?",
+        "text_jp": "では、朝8時にホテルのレストランはいかがですか？"
       },
       {
         "speaker": "user",
         "text": "Sounds perfect, see you then.",
-        "hint": "了解と伝える"
+        "hint": "了解と伝える",
+        "text_jp": "ぴったりですね、それでは。"
       }
     ]
   },
@@ -1439,21 +1651,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "What time is it back home for you right now?"
+        "text": "What time is it back home for you right now?",
+        "text_jp": "今、日本は何時ですか？"
       },
       {
         "speaker": "user",
         "text": "It's about eight hours ahead, so quite late there.",
-        "hint": "時差を伝える"
+        "hint": "時差を伝える",
+        "text_jp": "8時間進んでいるので、向こうではかなり遅い時間です。"
       },
       {
         "speaker": "agent",
-        "text": "That must be tough to adjust to."
+        "text": "That must be tough to adjust to.",
+        "text_jp": "それは慣れるのが大変そうですね。"
       },
       {
         "speaker": "user",
         "text": "I'm starting to get used to it, actually.",
-        "hint": "慣れてきたと伝える"
+        "hint": "慣れてきたと伝える",
+        "text_jp": "だんだん慣れてきました、実は。"
       }
     ]
   },
@@ -1466,21 +1682,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Is this your first time in Munich?"
+        "text": "Is this your first time in Munich?",
+        "text_jp": "ミュンヘンは初めてですか？"
       },
       {
         "speaker": "user",
         "text": "Yes, it's my first time here.",
-        "hint": "初めてだと伝える"
+        "hint": "初めてだと伝える",
+        "text_jp": "はい、初めてです。"
       },
       {
         "speaker": "agent",
-        "text": "You should definitely check out the old town if you have time."
+        "text": "You should definitely check out the old town if you have time.",
+        "text_jp": "時間があれば旧市街地は絶対見てみるべきです。"
       },
       {
         "speaker": "user",
         "text": "I'll try to make time for that, thanks.",
-        "hint": "行ってみたいと伝える"
+        "hint": "行ってみたいと伝える",
+        "text_jp": "時間を作ってみます、ありがとうございます。"
       }
     ]
   },
@@ -1493,21 +1713,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "What do you think of the decorations tonight?"
+        "text": "What do you think of the decorations tonight?",
+        "text_jp": "今夜の飾り付けはどう思いますか？"
       },
       {
         "speaker": "user",
         "text": "They're beautiful, very elegant.",
-        "hint": "感想を伝える"
+        "hint": "感想を伝える",
+        "text_jp": "とても素敵ですね、エレガントです。"
       },
       {
         "speaker": "agent",
-        "text": "The team put a lot of effort into it."
+        "text": "The team put a lot of effort into it.",
+        "text_jp": "チームがとても頑張って準備しました。"
       },
       {
         "speaker": "user",
         "text": "It really shows, everything looks great.",
-        "hint": "賞賛を伝える"
+        "hint": "賞賛を伝える",
+        "text_jp": "それが伝わります、すべてが素晴らしいです。"
       }
     ]
   },
@@ -1520,21 +1744,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "The weather here is pretty mild today."
+        "text": "The weather here is pretty mild today.",
+        "text_jp": "今日はここも気候がいいですね。"
       },
       {
         "speaker": "user",
         "text": "Yes, it's quite different from back home right now.",
-        "hint": "自国との比較"
+        "hint": "自国との比較",
+        "text_jp": "はい、今の日本とはかなり違います。"
       },
       {
         "speaker": "agent",
-        "text": "Oh, what's the weather like there this time of year?"
+        "text": "Oh, what's the weather like there this time of year?",
+        "text_jp": "そうなんですね、この時期の日本はどんな天気ですか？"
       },
       {
         "speaker": "user",
         "text": "It's usually much hotter and more humid.",
-        "hint": "説明する"
+        "hint": "説明する",
+        "text_jp": "たいていもっと暑くて湿気が多いです。"
       }
     ]
   },
@@ -1547,21 +1775,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Thank you so much for coming tonight."
+        "text": "Thank you so much for coming tonight.",
+        "text_jp": "今夜はご参加いただき、ありがとうございました。"
       },
       {
         "speaker": "user",
         "text": "Thank you for having me, I had a wonderful time.",
-        "hint": "感謝を伝える"
+        "hint": "感謝を伝える",
+        "text_jp": "招待いただきありがとうございました、とても楽しかったです。"
       },
       {
         "speaker": "agent",
-        "text": "I'm so glad to hear that."
+        "text": "I'm so glad to hear that.",
+        "text_jp": "それは嬉しいです。"
       },
       {
         "speaker": "user",
         "text": "I hope we can do this again sometime.",
-        "hint": "また会いたいと伝える"
+        "hint": "また会いたいと伝える",
+        "text_jp": "またこういう機会があればいいですね。"
       }
     ]
   },
@@ -1574,21 +1806,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "This line is pretty long tonight."
+        "text": "This line is pretty long tonight.",
+        "text_jp": "今夜は行列がかなり長いですね。"
       },
       {
         "speaker": "user",
         "text": "Yeah, but I've heard the food is worth the wait.",
-        "hint": "同意する"
+        "hint": "同意する",
+        "text_jp": "そうですね、でも料理は待つ価値があると聞いています。"
       },
       {
         "speaker": "agent",
-        "text": "I hope so, I'm starving."
+        "text": "I hope so, I'm starving.",
+        "text_jp": "そうだといいですね、お腹がぺこぺこです。"
       },
       {
         "speaker": "user",
         "text": "Same here, let's hope it moves quickly.",
-        "hint": "共感する"
+        "hint": "共感する",
+        "text_jp": "私もです、早く進むといいですね。"
       }
     ]
   },
@@ -1601,21 +1837,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "So, how was your flight?"
+        "text": "So, how was your flight?",
+        "text_jp": "フライトはどうでしたか？"
       },
       {
         "speaker": "user",
         "text": "It was smooth, thankfully, just a bit long.",
-        "hint": "感想を伝える"
+        "hint": "感想を伝える",
+        "text_jp": "スムーズでした、ありがたいことに。ただ少し長かったです。"
       },
       {
         "speaker": "agent",
-        "text": "That's good to hear. Did you manage to get any sleep?"
+        "text": "That's good to hear. Did you manage to get any sleep?",
+        "text_jp": "それは良かったです。眠れましたか？"
       },
       {
         "speaker": "user",
         "text": "A little, not as much as I'd hoped though.",
-        "hint": "少し寝られたと伝える"
+        "hint": "少し寝られたと伝える",
+        "text_jp": "少しは、でも期待していたほどは眠れませんでした。"
       }
     ]
   },
@@ -1628,21 +1868,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "It's about time, should we get started?"
+        "text": "It's about time, should we get started?",
+        "text_jp": "そろそろ始めましょうか？"
       },
       {
         "speaker": "user",
         "text": "Yes, let's get started. Thank you all for joining today.",
-        "hint": "会議を始める"
+        "hint": "会議を始める",
+        "text_jp": "はい、始めましょう。今日はご参加いただきありがとうございます。"
       },
       {
         "speaker": "agent",
-        "text": "Sounds good, go ahead."
+        "text": "Sounds good, go ahead.",
+        "text_jp": "どうぞ、始めてください。"
       },
       {
         "speaker": "user",
         "text": "I appreciate everyone making time for this.",
-        "hint": "参加者に感謝"
+        "hint": "参加者に感謝",
+        "text_jp": "皆さん時間を作っていただき、ありがとうございます。"
       }
     ]
   },
@@ -1655,21 +1899,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "What's on the agenda for today?"
+        "text": "What's on the agenda for today?",
+        "text_jp": "今日のアジェンダは何ですか？"
       },
       {
         "speaker": "user",
         "text": "Today we'll cover the project status, budget, and next steps.",
-        "hint": "アジェンダを共有する"
+        "hint": "アジェンダを共有する",
+        "text_jp": "今日はプロジェクトの状況、予算、そして次のステップについて確認します。"
       },
       {
         "speaker": "agent",
-        "text": "Sounds comprehensive. How much time do we have?"
+        "text": "Sounds comprehensive. How much time do we have?",
+        "text_jp": "網羅的ですね。時間はどのくらいありますか？"
       },
       {
         "speaker": "user",
         "text": "We have about 45 minutes, so let's keep things focused.",
-        "hint": "時間を伝える"
+        "hint": "時間を伝える",
+        "text_jp": "約45分あります。集中して進めましょう。"
       }
     ]
   },
@@ -1682,21 +1930,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Any questions before we move on?"
+        "text": "Any questions before we move on?",
+        "text_jp": "次に進む前に何かご質問はありますか？"
       },
       {
         "speaker": "user",
         "text": "Yes, actually, I have a question about the timeline.",
-        "hint": "質問を切り出す"
+        "hint": "質問を切り出す",
+        "text_jp": "はい、実はタイムラインについて質問があります。"
       },
       {
         "speaker": "agent",
-        "text": "Sure, go ahead."
+        "text": "Sure, go ahead.",
+        "text_jp": "どうぞ。"
       },
       {
         "speaker": "user",
         "text": "Is the deadline still set for the end of this month?",
-        "hint": "質問内容を伝える"
+        "hint": "質問内容を伝える",
+        "text_jp": "締め切りはまだ今月末ですか？"
       }
     ]
   },
@@ -1709,21 +1961,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I think we should focus on the SPM module first."
+        "text": "I think we should focus on the SPM module first.",
+        "text_jp": "まずSPMモジュールに集中すべきだと思います。"
       },
       {
         "speaker": "user",
         "text": "Yes, and we could also use it as a proof of concept for other modules.",
-        "hint": "同意して広げる"
+        "hint": "同意して広げる",
+        "text_jp": "そうですね、他のモジュールの概念実証としても使えると思います。"
       },
       {
         "speaker": "agent",
-        "text": "That's a good point, let's explore that further."
+        "text": "That's a good point, let's explore that further.",
+        "text_jp": "良いポイントです、さらに検討しましょう。"
       },
       {
         "speaker": "user",
         "text": "We could start with a small pilot team next month.",
-        "hint": "具体案を出す"
+        "hint": "具体案を出す",
+        "text_jp": "来月、小さなパイロットチームから始められると思います。"
       }
     ]
   },
@@ -1736,21 +1992,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "So the vendor says the migration will take six months."
+        "text": "So the vendor says the migration will take six months.",
+        "text_jp": "ベンダーによれば、移行には6ヶ月かかるとのことです。"
       },
       {
         "speaker": "user",
         "text": "I see. That seems long, though I understand it depends on scope.",
-        "hint": "受け止めて意見を返す"
+        "hint": "受け止めて意見を返す",
+        "text_jp": "なるほど。スコープにもよりますが、長いように思えます。"
       },
       {
         "speaker": "agent",
-        "text": "What would you suggest instead?"
+        "text": "What would you suggest instead?",
+        "text_jp": "どうすれば良いと思いますか？"
       },
       {
         "speaker": "user",
         "text": "Maybe we could break it into phases to move faster.",
-        "hint": "提案する"
+        "hint": "提案する",
+        "text_jp": "フェーズに分けることで、より速く進めるかもしれません。"
       }
     ]
   },
@@ -1763,21 +2023,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Let's go around and introduce ourselves."
+        "text": "Let's go around and introduce ourselves.",
+        "text_jp": "では、自己紹介を順番に行いましょう。"
       },
       {
         "speaker": "user",
         "text": "I'm Takamasa, I lead enterprise architecture on the client side.",
-        "hint": "自己紹介"
+        "hint": "自己紹介",
+        "text_jp": "私は隆正です、クライアント側でエンタープライズアーキテクチャを担当しています。"
       },
       {
         "speaker": "agent",
-        "text": "Great, thanks for that."
+        "text": "Great, thanks for that.",
+        "text_jp": "ありがとうございます。"
       },
       {
         "speaker": "user",
         "text": "Looking forward to working with everyone.",
-        "hint": "期待を伝える"
+        "hint": "期待を伝える",
+        "text_jp": "皆さんとのお仕事を楽しみにしています。"
       }
     ]
   },
@@ -1790,21 +2054,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "We'll need to align the CMDB with the new schema."
+        "text": "We'll need to align the CMDB with the new schema.",
+        "text_jp": "CMDBを新しいスキーマに合わせる必要があります。"
       },
       {
         "speaker": "user",
         "text": "Sorry, could you clarify what you mean by 'new schema'?",
-        "hint": "確認する"
+        "hint": "確認する",
+        "text_jp": "すみません、「新しいスキーマ」とはどういう意味ですか？"
       },
       {
         "speaker": "agent",
-        "text": "I mean the updated CSDM structure we discussed last time."
+        "text": "I mean the updated CSDM structure we discussed last time.",
+        "text_jp": "前回議論した更新されたCSDM構造のことです。"
       },
       {
         "speaker": "user",
         "text": "Got it, that makes sense now.",
-        "hint": "理解したと伝える"
+        "hint": "理解したと伝える",
+        "text_jp": "理解しました、納得しました。"
       }
     ]
   },
@@ -1817,21 +2085,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I think we should delay the launch by a month."
+        "text": "I think we should delay the launch by a month.",
+        "text_jp": "ローンチを1ヶ月延期すべきだと思います。"
       },
       {
         "speaker": "user",
         "text": "I see your point, but I'm not sure I agree with delaying it.",
-        "hint": "丁寧に反対する"
+        "hint": "丁寧に反対する",
+        "text_jp": "おっしゃる意味はわかりますが、延期には同意できません。"
       },
       {
         "speaker": "agent",
-        "text": "What's your concern?"
+        "text": "What's your concern?",
+        "text_jp": "どのようなご懸念ですか？"
       },
       {
         "speaker": "user",
         "text": "We'd risk missing the budget cycle if we push it back.",
-        "hint": "理由を伝える"
+        "hint": "理由を伝える",
+        "text_jp": "先延ばしにすると予算サイクルを逃す恐れがあります。"
       }
     ]
   },
@@ -1844,21 +2116,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "The current plan seems too risky."
+        "text": "The current plan seems too risky.",
+        "text_jp": "現在の計画はリスクが高すぎると思います。"
       },
       {
         "speaker": "user",
         "text": "What if we tried a smaller pilot before the full rollout instead?",
-        "hint": "代替案を出す"
+        "hint": "代替案を出す",
+        "text_jp": "本格展開の前に、まず小さなパイロットを試してみるのはどうでしょうか？"
       },
       {
         "speaker": "agent",
-        "text": "That could work. How would that look?"
+        "text": "That could work. How would that look?",
+        "text_jp": "それで行けるかもしれません。具体的にどういうイメージですか？"
       },
       {
         "speaker": "user",
         "text": "We'd test it with one team for a month first.",
-        "hint": "詳細を伝える"
+        "hint": "詳細を伝える",
+        "text_jp": "まず1チームで1ヶ月テストします。"
       }
     ]
   },
@@ -1871,21 +2147,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I think we've covered a lot today."
+        "text": "I think we've covered a lot today.",
+        "text_jp": "今日は多くのことをカバーしましたね。"
       },
       {
         "speaker": "user",
         "text": "Let me quickly summarize what we agreed on.",
-        "hint": "まとめる"
+        "hint": "まとめる",
+        "text_jp": "合意した内容を簡単にまとめます。"
       },
       {
         "speaker": "agent",
-        "text": "Please go ahead."
+        "text": "Please go ahead.",
+        "text_jp": "どうぞ。"
       },
       {
         "speaker": "user",
         "text": "We'll move forward with the pilot and review results in a month.",
-        "hint": "要点をまとめる"
+        "hint": "要点をまとめる",
+        "text_jp": "パイロットを進めて、1ヶ月後に結果を確認します。"
       }
     ]
   },
@@ -1898,21 +2178,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "So what are the next steps from here?"
+        "text": "So what are the next steps from here?",
+        "text_jp": "次のステップは何ですか？"
       },
       {
         "speaker": "user",
         "text": "I'll draft the proposal, and you'll review it by Friday, correct?",
-        "hint": "次のステップを確認する"
+        "hint": "次のステップを確認する",
+        "text_jp": "私が提案書の草案を作成して、金曜日にご確認いただく、ということですね？"
       },
       {
         "speaker": "agent",
-        "text": "That sounds right."
+        "text": "That sounds right.",
+        "text_jp": "その通りです。"
       },
       {
         "speaker": "user",
         "text": "Great, so we're aligned on the Friday deadline.",
-        "hint": "締切を再確認"
+        "hint": "締切を再確認",
+        "text_jp": "では、金曜日の締め切りで合意ですね。"
       }
     ]
   },
@@ -1925,21 +2209,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "As previously mentioned in the pre-read, the integration layer needs to support both synchronous and asynchronous calls."
+        "text": "As previously mentioned in the pre-read, the integration layer needs to support both synchronous and asynchronous calls.",
+        "text_jp": "事前資料で述べたように、インテグレーション層は同期・非同期の両方の呼び出しをサポートする必要があります。"
       },
       {
         "speaker": "user",
         "text": "Sorry, could you slow down a bit? I want to make sure I follow.",
-        "hint": "聞き返す"
+        "hint": "聞き返す",
+        "text_jp": "すみません、少しゆっくり話していただけますか？ちゃんと理解したいので。"
       },
       {
         "speaker": "agent",
-        "text": "Sure, no problem. Let me repeat that."
+        "text": "Sure, no problem. Let me repeat that.",
+        "text_jp": "もちろんです。繰り返します。"
       },
       {
         "speaker": "user",
         "text": "Thank you, that helps a lot.",
-        "hint": "感謝を伝える"
+        "hint": "感謝を伝える",
+        "text_jp": "ありがとうございます、とても助かります。"
       }
     ]
   },
@@ -1952,21 +2240,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "So as I was saying, the budget allocation..."
+        "text": "So as I was saying, the budget allocation...",
+        "text_jp": "先ほど申し上げましたように、予算配分ですが…"
       },
       {
         "speaker": "user",
         "text": "Sorry to interrupt, could I add a quick point here?",
-        "hint": "丁寧に割り込む"
+        "hint": "丁寧に割り込む",
+        "text_jp": "すみません、少し割り込んでもよいですか？"
       },
       {
         "speaker": "agent",
-        "text": "Of course, go ahead."
+        "text": "Of course, go ahead.",
+        "text_jp": "もちろん、どうぞ。"
       },
       {
         "speaker": "user",
         "text": "I just wanted to flag a risk with the current budget assumption.",
-        "hint": "意見を伝える"
+        "hint": "意見を伝える",
+        "text_jp": "現在の予算前提に関するリスクを指摘したかったのです。"
       }
     ]
   },
@@ -1979,21 +2271,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "We're still deciding between two vendors."
+        "text": "We're still deciding between two vendors.",
+        "text_jp": "まだ2つのベンダーの間で決めかねています。"
       },
       {
         "speaker": "user",
         "text": "What's your take on which one would be a better fit?",
-        "hint": "相手の意見を聞く"
+        "hint": "相手の意見を聞く",
+        "text_jp": "どちらがより適していると思いますか？"
       },
       {
         "speaker": "agent",
-        "text": "I lean toward the first one, honestly."
+        "text": "I lean toward the first one, honestly.",
+        "text_jp": "正直なところ、最初のほうが良いと思っています。"
       },
       {
         "speaker": "user",
         "text": "Interesting, what makes you prefer that one?",
-        "hint": "理由を尋ねる"
+        "hint": "理由を尋ねる",
+        "text_jp": "興味深いですね。そちらを選ぶ理由は何ですか？"
       }
     ]
   },
@@ -2006,21 +2302,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I think we should prioritize the ServiceNow review this quarter."
+        "text": "I think we should prioritize the ServiceNow review this quarter.",
+        "text_jp": "今四半期はServiceNowのレビューを優先すべきだと思います。"
       },
       {
         "speaker": "user",
         "text": "I completely agree, that should be our top priority.",
-        "hint": "強く同意する"
+        "hint": "強く同意する",
+        "text_jp": "完全に同意です。それを最優先にすべきです。"
       },
       {
         "speaker": "agent",
-        "text": "Glad we're aligned on that."
+        "text": "Glad we're aligned on that.",
+        "text_jp": "そこで意見が一致して良かったです。"
       },
       {
         "speaker": "user",
         "text": "Should we set up a follow-up session to plan it out?",
-        "hint": "次のアクションを提案"
+        "hint": "次のアクションを提案",
+        "text_jp": "計画を立てるためのフォローアップセッションを設定しましょうか？"
       }
     ]
   },
@@ -2033,21 +2333,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I think we should roll this out to all regions at once."
+        "text": "I think we should roll this out to all regions at once.",
+        "text_jp": "全地域に一斉に展開すべきだと思います。"
       },
       {
         "speaker": "user",
         "text": "I agree with the direction, but I'd suggest starting with one region first.",
-        "hint": "一部同意しつつ条件をつける"
+        "hint": "一部同意しつつ条件をつける",
+        "text_jp": "方向性には同意しますが、最初は一地域から始めることを提案します。"
       },
       {
         "speaker": "agent",
-        "text": "That's fair, why do you think that's safer?"
+        "text": "That's fair, why do you think that's safer?",
+        "text_jp": "それはもっともです。なぜより安全だと思いますか？"
       },
       {
         "speaker": "user",
         "text": "It lets us catch issues before a full rollout.",
-        "hint": "理由を伝える"
+        "hint": "理由を伝える",
+        "text_jp": "全体展開前に問題を把握できるからです。"
       }
     ]
   },
@@ -2060,21 +2364,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "We're running short on time today."
+        "text": "We're running short on time today.",
+        "text_jp": "今日は時間が足りなくなってきました。"
       },
       {
         "speaker": "user",
         "text": "Should we set up a follow-up meeting to finish this discussion?",
-        "hint": "次回の設定を提案"
+        "hint": "次回の設定を提案",
+        "text_jp": "この議論を続けるためにフォローアップミーティングを設定しませんか？"
       },
       {
         "speaker": "agent",
-        "text": "That sounds good, when works for you?"
+        "text": "That sounds good, when works for you?",
+        "text_jp": "いいですね、ご都合はいつですか？"
       },
       {
         "speaker": "user",
         "text": "How about sometime next Tuesday afternoon?",
-        "hint": "候補日を伝える"
+        "hint": "候補日を伝える",
+        "text_jp": "来週火曜日の午後はいかがですか？"
       }
     ]
   },
@@ -2087,21 +2395,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I think that covers everything for today."
+        "text": "I think that covers everything for today.",
+        "text_jp": "今日の内容はこれで網羅できたと思います。"
       },
       {
         "speaker": "user",
         "text": "Great, let's wrap up here then.",
-        "hint": "締める"
+        "hint": "締める",
+        "text_jp": "では、ここで終わりにしましょう。"
       },
       {
         "speaker": "agent",
-        "text": "Sounds good, thanks everyone."
+        "text": "Sounds good, thanks everyone.",
+        "text_jp": "了解しました、皆さんありがとうございます。"
       },
       {
         "speaker": "user",
         "text": "Thank you all for your time today.",
-        "hint": "感謝を伝える"
+        "hint": "感謝を伝える",
+        "text_jp": "本日はお時間をいただきありがとうございました。"
       }
     ]
   },
@@ -2114,21 +2426,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "That was a productive session."
+        "text": "That was a productive session.",
+        "text_jp": "有意義なセッションでしたね。"
       },
       {
         "speaker": "user",
         "text": "I agree, thank you all for the great discussion.",
-        "hint": "感謝を伝える"
+        "hint": "感謝を伝える",
+        "text_jp": "同感です。皆さん、素晴らしい議論をありがとうございました。"
       },
       {
         "speaker": "agent",
-        "text": "Looking forward to the next one."
+        "text": "Looking forward to the next one.",
+        "text_jp": "次回を楽しみにしています。"
       },
       {
         "speaker": "user",
         "text": "Same here, see you all next time.",
-        "hint": "同意する"
+        "hint": "同意する",
+        "text_jp": "私もです、それではまた。"
       }
     ]
   },
@@ -2141,21 +2457,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "We still need to finalize the schedule."
+        "text": "We still need to finalize the schedule.",
+        "text_jp": "スケジュールをまだ確定させる必要があります。"
       },
       {
         "speaker": "user",
         "text": "What's the deadline we're working toward?",
-        "hint": "締め切りを確認する"
+        "hint": "締め切りを確認する",
+        "text_jp": "どのような締め切りに向けて取り組んでいますか？"
       },
       {
         "speaker": "agent",
-        "text": "We're targeting the end of next month."
+        "text": "We're targeting the end of next month.",
+        "text_jp": "来月末を目標にしています。"
       },
       {
         "speaker": "user",
         "text": "Do you think that's realistic given the current scope?",
-        "hint": "現実的か確認する"
+        "hint": "現実的か確認する",
+        "text_jp": "現在のスコープを考えると現実的だと思いますか？"
       }
     ]
   },
@@ -2168,21 +2488,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Could you share the latest numbers?"
+        "text": "Could you share the latest numbers?",
+        "text_jp": "最新の数字を共有していただけますか？"
       },
       {
         "speaker": "user",
         "text": "Sure, we've reduced SaaS costs by about fifteen percent so far.",
-        "hint": "データを共有する"
+        "hint": "データを共有する",
+        "text_jp": "もちろんです。これまでのところSaaSコストを約15%削減しました。"
       },
       {
         "speaker": "agent",
-        "text": "That's great progress."
+        "text": "That's great progress.",
+        "text_jp": "それは大きな進歩ですね。"
       },
       {
         "speaker": "user",
         "text": "Yes, and we expect further savings next quarter.",
-        "hint": "補足する"
+        "hint": "補足する",
+        "text_jp": "はい、そして来四半期にはさらなる削減を見込んでいます。"
       }
     ]
   },
@@ -2195,21 +2519,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Why has this taken so much longer than planned?"
+        "text": "Why has this taken so much longer than planned?",
+        "text_jp": "なぜこれほど計画より時間がかかっているのですか？"
       },
       {
         "speaker": "user",
         "text": "That's a fair question. A lot of it came down to unexpected vendor delays.",
-        "hint": "丁寧に説明する"
+        "hint": "丁寧に説明する",
+        "text_jp": "もっともな質問です。大部分はベンダーの予期せぬ遅延によるものでした。"
       },
       {
         "speaker": "agent",
-        "text": "I see, what's being done about it now?"
+        "text": "I see, what's being done about it now?",
+        "text_jp": "なるほど、今は何か対処していますか？"
       },
       {
         "speaker": "user",
         "text": "We've added a buffer and are tracking progress weekly.",
-        "hint": "対応を伝える"
+        "hint": "対応を伝える",
+        "text_jp": "バッファを追加して、毎週進捗を追跡しています。"
       }
     ]
   },
@@ -2222,21 +2550,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "So, are you ready to make a decision on this?"
+        "text": "So, are you ready to make a decision on this?",
+        "text_jp": "それで、この件について決断する準備はできていますか？"
       },
       {
         "speaker": "user",
         "text": "Could I have a bit more time to think it over?",
-        "hint": "少し時間が欲しいと伝える"
+        "hint": "少し時間が欲しいと伝える",
+        "text_jp": "もう少し時間をいただけますか？"
       },
       {
         "speaker": "agent",
-        "text": "Of course, when can you get back to us?"
+        "text": "Of course, when can you get back to us?",
+        "text_jp": "もちろんです、いつまでにご回答いただけますか？"
       },
       {
         "speaker": "user",
         "text": "I can give you an answer by tomorrow afternoon.",
-        "hint": "期限を伝える"
+        "hint": "期限を伝える",
+        "text_jp": "明日の午後までにお答えできます。"
       }
     ]
   },
@@ -2249,21 +2581,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "We still haven't resolved the vendor question."
+        "text": "We still haven't resolved the vendor question.",
+        "text_jp": "ベンダー問題がまだ解決していません。"
       },
       {
         "speaker": "user",
         "text": "Should we table this for now and come back to it next week?",
-        "hint": "後回しを提案"
+        "hint": "後回しを提案",
+        "text_jp": "今はこれを保留にして、来週また取り上げませんか？"
       },
       {
         "speaker": "agent",
-        "text": "That works, let's move on."
+        "text": "That works, let's move on.",
+        "text_jp": "それで行きましょう、次に進みます。"
       },
       {
         "speaker": "user",
         "text": "Sounds good, thanks for understanding.",
-        "hint": "同意する"
+        "hint": "同意する",
+        "text_jp": "了解しました、ご理解ありがとうございます。"
       }
     ]
   },
@@ -2276,21 +2612,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "I want to make sure we're all on the same page."
+        "text": "I want to make sure we're all on the same page.",
+        "text_jp": "全員が同じ認識であることを確認したいと思います。"
       },
       {
         "speaker": "user",
         "text": "Agreed, is everyone aligned with the direction we discussed?",
-        "hint": "確認する"
+        "hint": "確認する",
+        "text_jp": "同意します。議論した方向性に皆さん合意していますか？"
       },
       {
         "speaker": "agent",
-        "text": "I think so, but let's double check with the team."
+        "text": "I think so, but let's double check with the team.",
+        "text_jp": "そう思いますが、チームに再確認しましょう。"
       },
       {
         "speaker": "user",
         "text": "Good idea, let's confirm before we finalize anything.",
-        "hint": "同意する"
+        "hint": "同意する",
+        "text_jp": "確定させる前に確認するのはいい考えです。"
       }
     ]
   },
@@ -2303,21 +2643,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Could you give us a quick status update?"
+        "text": "Could you give us a quick status update?",
+        "text_jp": "簡単な状況報告をいただけますか？"
       },
       {
         "speaker": "user",
         "text": "Sure, we're about seventy percent through the migration.",
-        "hint": "状況を伝える"
+        "hint": "状況を伝える",
+        "text_jp": "もちろんです。移行の約70%が完了しています。"
       },
       {
         "speaker": "agent",
-        "text": "That's good progress. Any blockers?"
+        "text": "That's good progress. Any blockers?",
+        "text_jp": "良い進捗ですね。何かブロッカーはありますか？"
       },
       {
         "speaker": "user",
         "text": "Just one, we're waiting on approval from the security team.",
-        "hint": "課題を伝える"
+        "hint": "課題を伝える",
+        "text_jp": "1つあります。セキュリティチームの承認を待っています。"
       }
     ]
   },
@@ -2330,21 +2674,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "How's the project going overall?"
+        "text": "How's the project going overall?",
+        "text_jp": "全体的にプロジェクトはどうですか？"
       },
       {
         "speaker": "user",
         "text": "Mostly on track, but I do want to flag a resourcing concern.",
-        "hint": "懸念点を伝える"
+        "hint": "懸念点を伝える",
+        "text_jp": "概ねスケジュール通りですが、リソース面での懸念を指摘したいです。"
       },
       {
         "speaker": "agent",
-        "text": "Tell me more about that."
+        "text": "Tell me more about that.",
+        "text_jp": "詳しく教えてください。"
       },
       {
         "speaker": "user",
         "text": "We're short one engineer, which could delay the next phase.",
-        "hint": "詳細を伝える"
+        "hint": "詳細を伝える",
+        "text_jp": "エンジニアが1人不足しており、次フェーズが遅れる可能性があります。"
       }
     ]
   },
@@ -2357,21 +2705,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Who can take ownership of the follow-up document?"
+        "text": "Who can take ownership of the follow-up document?",
+        "text_jp": "フォローアップ文書の担当者は誰ですか？"
       },
       {
         "speaker": "user",
         "text": "I can take that on and share a draft by Friday.",
-        "hint": "引き受ける"
+        "hint": "引き受ける",
+        "text_jp": "私が担当します。金曜日までに草案を共有します。"
       },
       {
         "speaker": "agent",
-        "text": "Thanks, that would be a big help."
+        "text": "Thanks, that would be a big help.",
+        "text_jp": "ありがとうございます、とても助かります。"
       },
       {
         "speaker": "user",
         "text": "No problem, happy to help.",
-        "hint": "了解と伝える"
+        "hint": "了解と伝える",
+        "text_jp": "お任せください、喜んで。"
       }
     ]
   },
@@ -2384,21 +2736,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Sorry, we had some audio issues at the start."
+        "text": "Sorry, we had some audio issues at the start.",
+        "text_jp": "申し訳ありません、開始時に音声のトラブルがありました。"
       },
       {
         "speaker": "user",
         "text": "No worries at all, thanks for sorting it out.",
-        "hint": "気にしないと伝える"
+        "hint": "気にしないと伝える",
+        "text_jp": "全然大丈夫です、解決してくれてありがとうございます。"
       },
       {
         "speaker": "agent",
-        "text": "Appreciate your patience."
+        "text": "Appreciate your patience.",
+        "text_jp": "ご辛抱いただきありがとうございます。"
       },
       {
         "speaker": "user",
         "text": "Of course, let's go ahead and get started.",
-        "hint": "続けようと促す"
+        "hint": "続けようと促す",
+        "text_jp": "もちろんです。では早速始めましょう。"
       }
     ]
   },
@@ -2411,21 +2767,25 @@
     "turns": [
       {
         "speaker": "agent",
-        "text": "Good morning, how's your day going so far?"
+        "text": "Good morning, how's your day going so far?",
+        "text_jp": "おはようございます。今日はどうですか？"
       },
       {
         "speaker": "user",
         "text": "Pretty good, thanks, just settling in with some coffee.",
-        "hint": "軽く答える"
+        "hint": "軽く答える",
+        "text_jp": "まあまあです、コーヒーを飲みながら落ち着いてきました。"
       },
       {
         "speaker": "agent",
-        "text": "Same here. Ready to dive in?"
+        "text": "Same here. Ready to dive in?",
+        "text_jp": "同じく。始める準備はできていますか？"
       },
       {
         "speaker": "user",
         "text": "Yes, let's get started whenever you're ready.",
-        "hint": "準備できたと伝える"
+        "hint": "準備できたと伝える",
+        "text_jp": "はい、準備ができたらいつでも始めましょう。"
       }
     ]
   }
