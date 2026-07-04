@@ -698,33 +698,53 @@ function speakOnly(text, btn) {
 
 // ═══════════════════════════════════════════════════════════
 // SPEECH RECOGNITION  (continuous + silence-timer 2.5s)
+//
+// Confirmation rules (ONLY these two paths call deliverTranscript):
+//   1. silenceTimer fires after 2.5 s of silence following speech
+//   2. User presses 「これで確定」button (forceConfirm)
+//
+// onend is NEVER a confirmation trigger.  If onend fires while we
+// still want recognition (iOS interruption / internal timeout),
+// we restart seamlessly via _doRestartRecog.
 // ═══════════════════════════════════════════════════════════
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recog = null;
-let silenceTimer = null;
-let finalBuffer = '';
+let recog          = null;
+let silenceTimer   = null;
+let finalBuffer    = '';
 let pendingOnResult = null;
-let recogDone = false;
-let _recogEndedAt = 0;  // timestamp when mic session fully ended
-let _recogErrors  = 0;  // consecutive error count within current mic session
+let recogDone      = false;
+let _recogEndedAt  = 0;   // timestamp when mic session last ended
+let _recogErrors   = 0;   // consecutive hard errors (non-speech)
+let _recogRestarts = 0;   // consecutive seamless restarts without new speech
+let _recogWantActive = false; // true while we want the mic to stay open
 
+// ── Public entry point ────────────────────────────────────
 function startRecog(onResult, onErr) {
-  // ① permanent fallback if browser has no SR support
   if (!SR) { S.useFallback = true; if (onErr) onErr('unsupported'); return; }
-  // ① already decided to fall back (2 consecutive failures this session)
   if (S.useFallback) { if (onErr) onErr('fallback'); return; }
 
-  // ③ iOS AudioSession guard: wait 500ms after TTS ends before opening mic
+  // iOS AudioSession guard: wait 500ms after TTS ends before opening mic
   const sinceTTS = Date.now() - _ttsEndedAt;
   if (sinceTTS < 500) {
     setTimeout(() => startRecog(onResult, onErr), 500 - sinceTTS);
     return;
   }
 
-  stopRecog();
-  finalBuffer = '';
-  pendingOnResult = onResult;
-  recogDone = false;
+  // Reset session state
+  pendingOnResult  = onResult;
+  finalBuffer      = '';
+  recogDone        = false;
+  _recogRestarts   = 0;
+  stopRecog();                 // abort any running session; sets _recogWantActive=false
+  _recogWantActive = true;     // re-enable AFTER stopRecog
+  _doStartRecog(onResult, onErr);
+}
+
+// ── Inner: create + start a SR instance ──────────────────
+// Called on fresh start and on seamless restarts.
+// Does NOT reset finalBuffer so speech accumulates across restarts.
+function _doStartRecog(onResult, onErr) {
+  if (!_recogWantActive || recogDone) return;
 
   recog = new SR();
   recog.lang = 'en-US';
@@ -732,54 +752,87 @@ function startRecog(onResult, onErr) {
   recog.interimResults = true;
 
   recog.onresult = e => {
+    _recogRestarts = 0;  // user is speaking — reset seamless-restart counter
     let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
       if (e.results[i].isFinal) finalBuffer += e.results[i][0].transcript + ' ';
       else interim += e.results[i][0].transcript;
     }
     updateLiveTranscript(finalBuffer.trim(), interim);
+    // ── ONLY path 1: silence timer ────────────────────────
     clearTimeout(silenceTimer);
     silenceTimer = setTimeout(deliverTranscript, 2500);
   };
 
   recog.onerror = e => {
-    if (e.error === 'no-speech') { deliverTranscript(); return; }
     clearTimeout(silenceTimer);
+    if (e.error === 'no-speech') {
+      // No speech detected — onend fires next; let it handle the seamless restart.
+      return;
+    }
+    // Hard error (network, not-allowed, aborted, etc.)
     _recogErrors++;
     stopRecog();
     if (_recogErrors >= 2) {
-      // ② 2 consecutive failures → fall back to text input
       S.useFallback = true;
       if (onErr) onErr(e.error);
     } else {
-      // ② 1st failure → auto-retry once after short delay
       const area = $id('mic-area');
       if (area) area.innerHTML =
         `<div class="mic-row"><div class="mic-dot" style="opacity:.45"></div>再試行中...</div>`;
-      setTimeout(() => startRecog(onResult, onErr), 800);
+      setTimeout(() => {
+        if (_recogWantActive && !recogDone) {
+          _recogWantActive = true;  // stopRecog cleared it; restore
+          _doStartRecog(onResult, onErr);
+        }
+      }, 800);
     }
   };
 
-  // ブラウザが勝手に終了した場合もここで確定
+  // onend: do NOT confirm here.
+  // Restart seamlessly if we still want the mic open (iOS interruption recovery).
   recog.onend = () => {
     S.recognizing = false;
     _recogEndedAt = Date.now();
-    if (!recogDone) deliverTranscript();
+    if (_recogWantActive && !recogDone) {
+      _doRestartRecog(onResult, onErr);
+    }
   };
 
   try { recog.start(); S.recognizing = true; }
   catch(e) {
     _recogErrors++;
     if (_recogErrors >= 2) { S.useFallback = true; if (onErr) onErr('start'); }
-    else setTimeout(() => startRecog(onResult, onErr), 800);
+    else setTimeout(() => {
+      if (_recogWantActive && !recogDone) _doStartRecog(onResult, onErr);
+    }, 800);
   }
 }
 
-// バッファを確定して判定へ渡す（二重呼び出し防止）
+// ── Seamless restart (onend / no-speech recovery) ─────────
+function _doRestartRecog(onResult, onErr) {
+  _recogRestarts++;
+  if (_recogRestarts >= 5) {
+    // 5 consecutive restarts with no speech captured → give up
+    _recogWantActive = false;
+    S.useFallback = true;
+    if (onErr) onErr('reconnect-limit');
+    return;
+  }
+  // Brief pause so iOS can release the previous session fully
+  setTimeout(() => {
+    if (!_recogWantActive || recogDone) return;
+    recog = null;  // previous instance is already ended
+    _doStartRecog(onResult, onErr);
+  }, 300);
+}
+
+// ── Confirm (silence timer OR button) — only two legal paths ──
 function deliverTranscript() {
   if (recogDone) return;
   recogDone = true;
-  _recogErrors = 0;  // ② successful recognition — reset consecutive error count
+  _recogErrors  = 0;
+  _recogRestarts = 0;
   clearTimeout(silenceTimer);
   stopRecog();
   const t = finalBuffer.trim();
@@ -789,15 +842,16 @@ function deliverTranscript() {
   if (cb) cb(t);
 }
 
-// 「これで確定」ボタンから呼ぶ
+// ── 「これで確定」ボタン ─────────────────────────────────
 function forceConfirm() { deliverTranscript(); }
 
 function stopRecog() {
+  _recogWantActive = false;   // signal onend: do not restart
   clearTimeout(silenceTimer);
   if (recog) {
     const r = recog;
     recog = null;
-    try { r.abort(); } catch(_) {}  // abort() forces immediate session end on iOS
+    try { r.abort(); } catch(_) {}
     try { r.stop();  } catch(_) {}
   }
   S.recognizing = false;
