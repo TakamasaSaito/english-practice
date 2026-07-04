@@ -59,6 +59,12 @@ html,body{height:100%;background:var(--bg);color:#fff;
   color:rgba(255,255,255,.28);background:none;border:none;
   text-decoration:underline;cursor:pointer;margin:8px auto 20px}
 
+/* ── drag & drop ── */
+.cat-card[data-key]{cursor:grab;-webkit-user-select:none;user-select:none}
+.cat-card.dnd-ghost{opacity:.2;pointer-events:none;box-shadow:none}
+.drag-handle{font-size:1rem;color:rgba(18,33,61,.22);flex-shrink:0;
+  padding:2px 0 2px 8px;line-height:1;letter-spacing:-.05em}
+
 /* ══════════════════ DEPARTURE BOARD ══════════════════ */
 .bw{padding:16px}
 .bw-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -283,6 +289,7 @@ const S = {
   fullConvLogs: [],
   // profile
   profile: null,
+  cardOrder: [],   // ['travel','social','meeting','intro'] persisted order
   // intro
   introSection: 'A',   // 'A','B','C'
   introPhrases: [],    // current section's [{text,text_jp}] or [{q,a,q_jp,a_jp}]
@@ -495,6 +502,34 @@ const CAT = {
 };
 
 function renderHome() {
+  const cards = S.cardOrder.map(key => {
+    if (key === 'intro') {
+      return `<div class="cat-card" data-key="intro">
+        <div class="cat-icon">🙋</div>
+        <div class="cat-body">
+          <div class="cat-lbl mono">MY INTRODUCTION</div>
+          <div class="cat-jp">自己紹介</div>
+        </div>
+        <div class="drag-handle">⠿</div>
+      </div>`;
+    }
+    const c = S.categories.find(c => c.category === key);
+    if (!c) return '';
+    const m = CAT[key] || {icon:'📋', lbl:key.toUpperCase()};
+    const done = c.cleared === c.total;
+    return `<div class="cat-card" data-key="${key}">
+      <div class="cat-icon">${m.icon}</div>
+      <div class="cat-body">
+        <div class="cat-lbl mono">${m.lbl}</div>
+        <div class="cat-jp">${esc(c.category_jp)}</div>
+      </div>
+      <div class="cat-score${done?' done':''}">
+        ${c.cleared}<span class="denom"> / ${c.total}</span>
+      </div>
+      <div class="drag-handle">⠿</div>
+    </div>`;
+  }).join('');
+
   $app.innerHTML = `
   <div class="home-hd">
     <div class="home-hd-text">
@@ -506,30 +541,151 @@ function renderHome() {
     </div>
     <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">⚙</button>
   </div>
-  <div class="cat-grid">
-    ${S.categories.map(c => {
-      const m = CAT[c.category]||{icon:'📋',lbl:c.category.toUpperCase()};
-      const done = c.cleared===c.total;
-      return `<div class="cat-card" onclick="goScenarios('${c.category}')">
-        <div class="cat-icon">${m.icon}</div>
-        <div class="cat-body">
-          <div class="cat-lbl mono">${m.lbl}</div>
-          <div class="cat-jp">${esc(c.category_jp)}</div>
-        </div>
-        <div class="cat-score${done?' done':''}">
-          ${c.cleared}<span class="denom"> / ${c.total}</span>
-        </div>
-      </div>`;
-    }).join('')}
-    <div class="cat-card" onclick="goIntro()">
-      <div class="cat-icon">🙋</div>
-      <div class="cat-body">
-        <div class="cat-lbl mono">MY INTRODUCTION</div>
-        <div class="cat-jp">自己紹介</div>
-      </div>
-    </div>
-  </div>
+  <div class="cat-grid" id="cat-grid">${cards}</div>
   <button class="reset-btn" onclick="doReset()">進捗をリセット</button>`;
+
+  initCardDrag();
+}
+
+// ═══════════════════════════════════════════════════════════
+// DRAG & DROP  (card reorder — mouse + touch via Pointer API)
+// ═══════════════════════════════════════════════════════════
+const DND = {
+  active:false, dragKey:null, fromIdx:-1,
+  insertSlot:-1, clone:null, line:null,
+  rectSnap:[], startX:0, startY:0,
+  offsetX:0, offsetY:0, pointerId:null,
+};
+
+function initCardDrag() {
+  const grid = $id('cat-grid');
+  if (!grid) return;
+  grid.addEventListener('pointerdown',   dndDown, {passive:true});
+  grid.addEventListener('pointermove',   dndMove, {passive:false});
+  grid.addEventListener('pointerup',     dndUp);
+  grid.addEventListener('pointercancel', dndCancel);
+}
+
+function dndDown(e) {
+  const card = e.target.closest('[data-key]');
+  if (!card) return;
+  DND.dragKey   = card.dataset.key;
+  DND.pointerId = e.pointerId;
+  DND.startX    = e.clientX;
+  DND.startY    = e.clientY;
+  DND.active    = false;
+  const r = card.getBoundingClientRect();
+  DND.offsetX = e.clientX - r.left;
+  DND.offsetY = e.clientY - r.top;
+}
+
+function dndMove(e) {
+  if (!DND.dragKey || e.pointerId !== DND.pointerId) return;
+  const dy = e.clientY - DND.startY, dx = e.clientX - DND.startX;
+  if (!DND.active) {
+    if (Math.abs(dy) < 6 && Math.abs(dx) < 6) return;
+    dndStart(e);
+  }
+  e.preventDefault();
+  if (DND.clone) {
+    DND.clone.style.transform =
+      `translate(${dx}px,${dy}px) rotate(1.2deg) scale(1.04)`;
+  }
+  const slot = calcInsertSlot(e.clientY);
+  if (slot !== DND.insertSlot) { DND.insertSlot = slot; updateInsertLine(slot); }
+}
+
+function dndUp(e) {
+  if (!DND.dragKey || e.pointerId !== DND.pointerId) return;
+  if (!DND.active) {
+    const key = DND.dragKey;
+    dndCleanup(false);
+    if (key === 'intro') goIntro(); else goScenarios(key);
+    return;
+  }
+  dndDrop();
+}
+
+function dndStart(e) {
+  DND.active  = true;
+  DND.fromIdx = S.cardOrder.indexOf(DND.dragKey);
+  const grid  = $id('cat-grid');
+  const cards = [...grid.querySelectorAll('[data-key]')];
+  DND.rectSnap = cards.map(c => ({key:c.dataset.key, rect:c.getBoundingClientRect()}));
+
+  const orig = grid.querySelector(`[data-key="${DND.dragKey}"]`);
+  if (orig) orig.classList.add('dnd-ghost');
+
+  const r  = DND.rectSnap[DND.fromIdx] ? DND.rectSnap[DND.fromIdx].rect
+           : orig ? orig.getBoundingClientRect() : {top:0, left:0, width:300};
+  const cl = orig ? orig.cloneNode(true) : document.createElement('div');
+  cl.removeAttribute('data-key');
+  cl.classList.remove('dnd-ghost');
+  cl.style.cssText =
+    `position:fixed;top:${r.top}px;left:${r.left}px;width:${r.width}px;` +
+    `z-index:9999;pointer-events:none;border-radius:8px;` +
+    `box-shadow:0 12px 40px rgba(0,0,0,.55);` +
+    `transform:translate(0,0) rotate(0deg) scale(1);transition:none;`;
+  document.body.appendChild(cl);
+  DND.clone = cl;
+
+  const gr = grid.getBoundingClientRect();
+  const ln = document.createElement('div');
+  ln.style.cssText =
+    `position:fixed;left:${gr.left+16}px;right:${window.innerWidth-gr.right+16}px;` +
+    `height:3px;border-radius:2px;background:var(--accent);` +
+    `box-shadow:0 0 10px rgba(246,162,28,.8);z-index:9998;pointer-events:none;` +
+    `top:0;transition:top .08s ease`;
+  document.body.appendChild(ln);
+  DND.line = ln;
+
+  DND.insertSlot = DND.fromIdx;
+  updateInsertLine(DND.fromIdx);
+  try { grid.setPointerCapture(DND.pointerId); } catch(_) {}
+}
+
+function calcInsertSlot(clientY) {
+  const rem = DND.rectSnap.filter(r => r.key !== DND.dragKey);
+  for (let i = 0; i < rem.length; i++) {
+    if (clientY < rem[i].rect.top + rem[i].rect.height / 2) return i;
+  }
+  return rem.length;
+}
+
+function updateInsertLine(slot) {
+  if (!DND.line) return;
+  const rem = DND.rectSnap.filter(r => r.key !== DND.dragKey);
+  let y;
+  if (!rem.length)          { y = 0; }
+  else if (slot <= 0)       { y = rem[0].rect.top - 8; }
+  else if (slot >= rem.length) { y = rem[rem.length-1].rect.bottom + 5; }
+  else { y = Math.round((rem[slot-1].rect.bottom + rem[slot].rect.top) / 2); }
+  DND.line.style.top = y + 'px';
+}
+
+function dndDrop() {
+  const slot     = DND.insertSlot;
+  const newOrder = S.cardOrder.filter(k => k !== DND.dragKey);
+  newOrder.splice(Math.max(0, Math.min(slot, newOrder.length)), 0, DND.dragKey);
+  S.cardOrder = newOrder;
+  dndCleanup(true);
+  renderHome();
+  api.put('/api/categories/order', {order: S.cardOrder}).catch(() => {});
+}
+
+function dndCancel() { dndCleanup(false); }
+
+function dndCleanup(rerendering) {
+  if (DND.clone) { DND.clone.remove(); DND.clone = null; }
+  if (DND.line)  { DND.line.remove();  DND.line  = null; }
+  if (!rerendering) {
+    const grid = $id('cat-grid');
+    if (grid) grid.querySelectorAll('.dnd-ghost').forEach(el => el.classList.remove('dnd-ghost'));
+  }
+  Object.assign(DND, {
+    active:false, dragKey:null, fromIdx:-1,
+    insertSlot:-1, rectSnap:[], pointerId:null,
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1481,7 +1637,10 @@ function qaNext() {
 // ═══════════════════════════════════════════════════════════
 async function goHome() {
   stop(); S.screen = 'home';
-  S.categories = await api.get('/api/categories');
+  [S.categories, S.cardOrder] = await Promise.all([
+    api.get('/api/categories'),
+    api.get('/api/categories/order'),
+  ]);
   renderHome();
 }
 
@@ -1536,9 +1695,10 @@ function stop() {
 // INIT
 // ═══════════════════════════════════════════════════════════
 (async () => {
-  [S.categories, S.profile] = await Promise.all([
+  [S.categories, S.profile, S.cardOrder] = await Promise.all([
     api.get('/api/categories'),
     api.get('/api/profile'),
+    api.get('/api/categories/order'),
   ]);
   renderHome();
 })();

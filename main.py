@@ -4,7 +4,7 @@ import sqlite3
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import List
 
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
@@ -42,6 +42,13 @@ PROFILE_DEFAULT = {
 
 # Patterns to replace with profile name at serve time
 _NAME_RE = re.compile(r'\bTakamasa Saito\b|\bTakamasa\b|\bSaito\b')
+
+
+DEFAULT_CAT_ORDER = ["travel", "social", "meeting", "intro"]
+
+
+class CatOrderIn(BaseModel):
+    order: List[str]
 
 
 class ProfileIn(BaseModel):
@@ -93,6 +100,10 @@ def init_db():
                 stay_nights  INTEGER NOT NULL,
                 hobbies_en   TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS category_order (
+                category   TEXT PRIMARY KEY,
+                sort_order INTEGER NOT NULL
+            );
         """)
         # Migrate existing DBs that pre-date the text_jp column
         try:
@@ -134,6 +145,17 @@ def seed_profile():
         """, PROFILE_DEFAULT)
 
 
+def seed_category_order():
+    with get_db() as conn:
+        count = conn.execute("SELECT COUNT(*) FROM category_order").fetchone()[0]
+        if count == 0:
+            for i, cat in enumerate(DEFAULT_CAT_ORDER):
+                conn.execute(
+                    "INSERT OR IGNORE INTO category_order (category, sort_order) VALUES (?,?)",
+                    (cat, i),
+                )
+
+
 def get_profile_name(conn) -> str:
     row = conn.execute("SELECT name_en FROM profile WHERE id=1").fetchone()
     return row["name_en"] if row else PROFILE_DEFAULT["name_en"]
@@ -147,6 +169,7 @@ def apply_name(text: str, name: str) -> str:
 def startup():
     init_db()
     seed_profile()
+    seed_category_order()
     with get_db() as conn:
         count = conn.execute("SELECT COUNT(*) FROM scenario").fetchone()[0]
     if count == 0:
@@ -168,6 +191,29 @@ def api_categories():
             ORDER BY s.category
         """).fetchall()
     return [dict(r) for r in rows]
+
+
+@app.get("/api/categories/order")
+def api_get_cat_order():
+    with get_db() as conn:
+        rows = conn.execute(
+            "SELECT category FROM category_order ORDER BY sort_order"
+        ).fetchall()
+    if not rows:
+        return DEFAULT_CAT_ORDER
+    return [r["category"] for r in rows]
+
+
+@app.put("/api/categories/order")
+def api_put_cat_order(data: CatOrderIn):
+    with get_db() as conn:
+        conn.execute("DELETE FROM category_order")
+        for i, cat in enumerate(data.order):
+            conn.execute(
+                "INSERT INTO category_order (category, sort_order) VALUES (?,?)",
+                (cat, i),
+            )
+    return {"status": "ok"}
 
 
 @app.get("/api/scenarios")
