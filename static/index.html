@@ -93,7 +93,7 @@ html,body{height:100%;color:#fff;
 /* accent bar */
 .cat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;
   width:5px;background:var(--accent)}
-/* barcode strip */
+/* barcode strip — pointer-events:none so it never blocks the drag-handle tap */
 .cat-card::after{content:'';position:absolute;right:0;top:0;bottom:0;width:18px;
   pointer-events:none;
   background:repeating-linear-gradient(90deg,
@@ -125,8 +125,9 @@ html,body{height:100%;color:#fff;
 .cat-card[data-key]{cursor:grab;-webkit-user-select:none;user-select:none}
 .cat-card.dnd-ghost{opacity:.18;pointer-events:none;
   box-shadow:0 1px 2px rgba(0,0,0,.1)!important}
-.drag-handle{flex-shrink:0;padding:2px 0 2px 6px;line-height:1;
-  color:rgba(18,33,61,.2);font-size:.95rem;letter-spacing:-.08em}
+.drag-handle{flex-shrink:0;padding:12px 22px 12px 10px;line-height:1;
+  min-height:44px;min-width:44px;display:flex;align-items:center;
+  color:rgba(18,33,61,.25);font-size:1rem;letter-spacing:-.08em}
 
 /* ══════════════════ DEPARTURE BOARD ══════════════════ */
 .bw{padding:16px}
@@ -711,6 +712,7 @@ const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recog          = null;
 let silenceTimer   = null;
 let finalBuffer    = '';
+let lastInterim    = '';   // most recent interim (unsettled) text — included on forceConfirm
 let pendingOnResult = null;
 let recogDone      = false;
 let _recogEndedAt  = 0;   // timestamp when mic session last ended
@@ -733,6 +735,7 @@ function startRecog(onResult, onErr) {
   // Reset session state
   pendingOnResult  = onResult;
   finalBuffer      = '';
+  lastInterim      = '';
   recogDone        = false;
   _recogRestarts   = 0;
   stopRecog();                 // abort any running session; sets _recogWantActive=false
@@ -758,6 +761,7 @@ function _doStartRecog(onResult, onErr) {
       if (e.results[i].isFinal) finalBuffer += e.results[i][0].transcript + ' ';
       else interim += e.results[i][0].transcript;
     }
+    lastInterim = interim;  // save for forceConfirm (interim not yet in finalBuffer)
     updateLiveTranscript(finalBuffer.trim(), interim);
     // ── ONLY path 1: silence timer ────────────────────────
     clearTimeout(silenceTimer);
@@ -835,8 +839,10 @@ function deliverTranscript() {
   _recogRestarts = 0;
   clearTimeout(silenceTimer);
   stopRecog();
-  const t = finalBuffer.trim();
+  // Include lastInterim so forceConfirm captures unsettled speech too
+  const t = (finalBuffer + ' ' + lastInterim).trim();
   finalBuffer = '';
+  lastInterim = '';
   const cb = pendingOnResult;
   pendingOnResult = null;
   if (cb) cb(t);
