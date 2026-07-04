@@ -197,6 +197,69 @@ html,body{height:100%;background:var(--bg);color:#fff;
 .clear-title{font-family:'Courier New',monospace;font-size:1.35rem;
   letter-spacing:.22em;color:var(--success);font-weight:700;text-transform:uppercase;margin-bottom:8px}
 .clear-sub{font-size:.83rem;color:rgba(18,33,61,.5);margin-bottom:24px}
+
+/* ══════════════════ HOME GEAR ══════════════════ */
+.home-hd{display:flex;align-items:flex-start;justify-content:space-between;
+  padding:24px 16px 16px;border-bottom:1px solid rgba(246,162,28,.22)}
+.home-hd-text{}
+.gear-btn{background:none;border:1px solid rgba(246,162,28,.32);
+  color:rgba(246,162,28,.7);font-size:.9rem;padding:6px 9px;border-radius:5px;
+  cursor:pointer;flex-shrink:0;margin-top:2px;line-height:1}
+.gear-btn:active{opacity:.65}
+
+/* ══════════════════ PROFILE SCREEN ══════════════════ */
+.prof-w{padding:16px 16px 32px}
+.prof-nav{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.prof-title{font-family:'Courier New',monospace;font-size:.75rem;
+  letter-spacing:.18em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.prof-form{background:var(--board);border:1px solid rgba(246,162,28,.22);
+  border-radius:8px;padding:18px 16px;display:flex;flex-direction:column;gap:14px}
+.prof-field{display:flex;flex-direction:column;gap:5px}
+.prof-lbl{font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.2em;color:rgba(246,162,28,.7);text-transform:uppercase}
+.prof-input{background:rgba(255,255,255,.05);border:1px solid rgba(246,162,28,.25);
+  border-radius:5px;color:#fff;font-size:.9rem;padding:9px 12px;
+  font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif}
+.prof-input:focus{outline:none;border-color:rgba(246,162,28,.65)}
+.prof-input[type=number]{-moz-appearance:textfield}
+.prof-save{margin-top:6px;font-family:'Courier New',monospace;
+  font-size:.75rem;letter-spacing:.12em;padding:12px}
+
+/* ══════════════════ INTRO SCREEN ══════════════════ */
+.intro-w{padding:12px 16px 32px}
+.intro-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tab-row{display:flex;gap:0;margin-bottom:16px;
+  border:1px solid rgba(246,162,28,.3);border-radius:6px;overflow:hidden}
+.tab-btn{flex:1;background:none;border:none;
+  font-family:'Courier New',monospace;font-size:.62rem;letter-spacing:.14em;
+  color:rgba(246,162,28,.55);padding:9px 4px;cursor:pointer;text-align:center;
+  border-right:1px solid rgba(246,162,28,.2);transition:background .12s}
+.tab-btn:last-child{border-right:none}
+.tab-btn.active{background:rgba(246,162,28,.15);color:var(--accent);font-weight:700}
+.tab-btn:active{opacity:.7}
+
+.phrase-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.phrase-row{background:var(--board);border:1px solid rgba(246,162,28,.18);
+  border-radius:6px;padding:12px 14px;cursor:pointer;transition:background .1s}
+.phrase-row:active{background:rgba(246,162,28,.08)}
+.phrase-num{font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.16em;color:rgba(246,162,28,.5);margin-bottom:4px}
+.phrase-en{font-size:.88rem;color:#fff;line-height:1.5}
+.phrase-jp{font-size:.72rem;color:rgba(255,255,255,.38);margin-top:3px;line-height:1.4}
+
+.qa-row{background:var(--board);border:1px solid rgba(246,162,28,.18);
+  border-radius:6px;padding:12px 14px;cursor:pointer;transition:background .1s;margin-bottom:8px}
+.qa-row:active{background:rgba(246,162,28,.08)}
+.qa-q-lbl{font-family:'Courier New',monospace;font-size:.56rem;
+  letter-spacing:.16em;color:rgba(246,162,28,.6);margin-bottom:3px}
+.qa-q{font-size:.85rem;color:rgba(255,255,255,.9);line-height:1.45}
+.qa-a{font-size:.78rem;color:rgba(255,255,255,.35);margin-top:4px;line-height:1.4}
+
+.full-intro-btn{width:100%;padding:12px;font-family:'Courier New',monospace;
+  font-size:.72rem;letter-spacing:.14em;margin-top:4px}
+
+/* intro practice shell (reuses .pass, .pbody etc.) */
+.intro-pass-wrap{padding:0}
 </style>
 </head>
 <body>
@@ -216,8 +279,17 @@ const S = {
   transcript: '',
   recognizing: false,
   useFallback: false,
-  fullConv: false,        // 通し会話練習モード中
-  fullConvLogs: [],       // [{turnNum, transcript, expected}]
+  fullConv: false,
+  fullConvLogs: [],
+  // profile
+  profile: null,
+  // intro
+  introSection: 'A',   // 'A','B','C'
+  introPhrases: [],    // current section's [{text,text_jp}] or [{q,a,q_jp,a_jp}]
+  introPhraseIdx: 0,
+  introPhase: '',      // 'listen','shadow','qa-listen','qa-answer','qa-result','full-intro'
+  introFullIdx: 0,
+  introFullLogs: [],
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -226,6 +298,11 @@ const S = {
 const api = {
   get:  url => fetch(url).then(r => r.json()),
   post: url => fetch(url, { method: 'POST' }).then(r => r.json()),
+  put:  (url, body) => fetch(url, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body),
+  }).then(r => r.json()),
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -419,9 +496,15 @@ const CAT = {
 
 function renderHome() {
   $app.innerHTML = `
-  <div class="app-hd">
-    <h1 class="mono">MUNICH TRIP · GATE ENGLISH</h1>
-    <div class="sub">カテゴリを選んで練習を開始してください</div>
+  <div class="home-hd">
+    <div class="home-hd-text">
+      <h1 class="mono" style="font-family:'Courier New',monospace;font-size:.82rem;
+        letter-spacing:.24em;color:var(--accent);font-weight:700;text-transform:uppercase">
+        MUNICH TRIP · GATE ENGLISH</h1>
+      <div style="font-size:.68rem;color:rgba(255,255,255,.38);margin-top:4px;letter-spacing:.07em">
+        カテゴリを選んで練習を開始してください</div>
+    </div>
+    <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">⚙</button>
   </div>
   <div class="cat-grid">
     ${S.categories.map(c => {
@@ -438,6 +521,13 @@ function renderHome() {
         </div>
       </div>`;
     }).join('')}
+    <div class="cat-card" onclick="goIntro()">
+      <div class="cat-icon">🙋</div>
+      <div class="cat-body">
+        <div class="cat-lbl mono">MY INTRODUCTION</div>
+        <div class="cat-jp">自己紹介</div>
+      </div>
+    </div>
   </div>
   <button class="reset-btn" onclick="doReset()">進捗をリセット</button>`;
 }
@@ -577,10 +667,13 @@ function micHtml() {
   </div>`;
 }
 
-function launchMic(expected) {
+// onDone(transcript, expected) — defaults to onTranscript for scenario practice
+function launchMic(expected, onDone) {
+  const cb = onDone || onTranscript;
+  _launchMicCb = cb;
   const area = $id('mic-area');
   if (!area) return;
-  if (S.useFallback) { showFallback(area, expected); return; }
+  if (S.useFallback) { showFallback(area, expected, cb); return; }
   area.innerHTML = `
     <div class="mic-row"><div class="mic-dot"></div>録音中... 英語で話してください（2.5秒の無音で自動確定）</div>
     <div class="live-transcript" id="live-transcript"></div>
@@ -591,12 +684,14 @@ function launchMic(expected) {
       <button class="btn btn-sub" onclick="submitFB(${JSON.stringify(expected)})">送信</button>
     </div>`;
   startRecog(
-    t => onTranscript(t, expected),
-    () => { showFallback($id('mic-area'), expected); }
+    t => cb(t, expected),
+    () => { showFallback($id('mic-area'), expected, cb); }
   );
 }
+let _launchMicCb = null;
 
-function showFallback(area, expected) {
+function showFallback(area, expected, cb) {
+  cb = cb || _launchMicCb || onTranscript;
   if (!area) return;
   area.innerHTML = `
     <p style="font-size:.76rem;color:rgba(18,33,61,.45);margin-bottom:8px">音声認識が利用できません</p>
@@ -605,6 +700,7 @@ function showFallback(area, expected) {
       <button class="btn btn-sub" onclick="submitFB(${JSON.stringify(expected)})">送信</button>
     </div>`;
   $id('fb-in')?.focus();
+  _launchMicCb = cb;
 }
 
 function toggleFB() {
@@ -617,10 +713,11 @@ function toggleFB() {
 function submitFB(expected) {
   const v = ($id('fb-in')?.value||'').trim();
   if (!v) return;
-  recogDone = true;          // onend からの二重確定を防ぐ
+  recogDone = true;
   pendingOnResult = null;
   stopRecog();
-  onTranscript(v, expected);
+  const cb = _launchMicCb || onTranscript;
+  cb(v, expected);
 }
 
 // ─── RESULT ───────────────────────────────────────────────
@@ -839,12 +936,566 @@ async function phClear() {
 function curTurn() { return S.scenario.turns[S.turnIdx]; }
 
 // ═══════════════════════════════════════════════════════════
+// PROFILE SCREEN
+// ═══════════════════════════════════════════════════════════
+function renderProfile() {
+  const p = S.profile;
+  $app.innerHTML = `
+  <div class="prof-w">
+    <div class="prof-nav">
+      <button class="btn-back mono" onclick="goHome()">← HOME</button>
+      <div class="prof-title mono">PROFILE SETTINGS</div>
+    </div>
+    <div class="prof-form">
+      ${profField('name_en',      'Name (English)',       p.name_en,      'text')}
+      ${profField('role_en',      'Role / Title',         p.role_en,      'text')}
+      ${profField('focus_en',     'Focus Area',           p.focus_en,     'text')}
+      ${profField('base_en',      'Base Office',          p.base_en,      'text')}
+      ${profField('origin_en',    'Hometown / Origin',    p.origin_en,    'text')}
+      ${profField('university_en','University',           p.university_en,'text')}
+      ${profField('purpose_en',   'Purpose of Visit',     p.purpose_en,   'text')}
+      ${profField('stay_nights',  'Stay (nights)',        p.stay_nights,  'number')}
+      ${profField('hobbies_en',   'Hobbies',              p.hobbies_en,   'text')}
+      <button class="btn btn-primary full-intro-btn prof-save mono" onclick="saveProfile()">
+        ✓ &nbsp;SAVE
+      </button>
+    </div>
+  </div>`;
+}
+
+function profField(id, label, val, type) {
+  return `<div class="prof-field">
+    <label class="prof-lbl" for="pf-${id}">${label}</label>
+    <input class="prof-input" type="${type}" id="pf-${id}" value="${esc(String(val))}">
+  </div>`;
+}
+
+async function saveProfile() {
+  const get = id => $id('pf-'+id)?.value.trim();
+  const body = {
+    name_en:       get('name_en'),
+    role_en:       get('role_en'),
+    focus_en:      get('focus_en'),
+    base_en:       get('base_en'),
+    origin_en:     get('origin_en'),
+    university_en: get('university_en'),
+    purpose_en:    get('purpose_en'),
+    stay_nights:   parseInt(get('stay_nights')||'0',10),
+    hobbies_en:    get('hobbies_en'),
+  };
+  if (!body.name_en) { alert('Name is required'); return; }
+  await api.put('/api/profile', body);
+  S.profile = body;
+  goHome();
+}
+
+// ═══════════════════════════════════════════════════════════
+// INTRO HELPER — build phrases from profile
+// ═══════════════════════════════════════════════════════════
+function buildIntroData(p) {
+  const formalPhrases = [
+    { text: `Good morning everyone. I'm ${p.name_en}, joining you from the ${p.base_en} office.`,
+      text_jp: `おはようございます。${p.base_en}オフィスから参りました、${p.name_en}です。` },
+    { text: `I work as ${p.role_en}, focusing on ${p.focus_en}.`,
+      text_jp: `私は${p.role_en}として、${p.focus_en}を担当しています。` },
+    { text: `This is my first time visiting the Munich office.`,
+      text_jp: `ミュンヘンオフィスへの訪問は今回が初めてです。` },
+    { text: `I'm here this week for ${p.purpose_en}.`,
+      text_jp: `今週は${p.purpose_en}のためにこちらに来ています。` },
+    { text: `I'm looking forward to learning how your team works here.`,
+      text_jp: `こちらのチームの働き方をぜひ学ばせてください。` },
+    { text: `Please feel free to reach out to me anytime during my stay.`,
+      text_jp: `滞在中はいつでも気軽に声をかけてください。` },
+    { text: `Thank you, and I'm excited to work with you all.`,
+      text_jp: `ありがとうございます。皆さんと一緒に仕事できることを楽しみにしています。` },
+  ];
+  const casualPhrases = [
+    { text: `Hi, I'm ${p.name_en}, from the ${p.base_en} office.`,
+      text_jp: `こんにちは、${p.base_en}オフィスの${p.name_en}です。` },
+    { text: `I live in Setagaya, a residential area in Tokyo.`,
+      text_jp: `東京の住宅街、世田谷に住んでいます。` },
+    { text: `I'm originally from ${p.origin_en}, and I went to ${p.university_en}.`,
+      text_jp: `出身は${p.origin_en}で、${p.university_en}に通っていました。` },
+    { text: `Outside of work, I enjoy ${p.hobbies_en}.`,
+      text_jp: `仕事以外では、${p.hobbies_en}を楽しんでいます。` },
+    { text: `Shogi is a Japanese board game, a bit like chess.`,
+      text_jp: `将棋は日本のボードゲームで、チェスに少し似ています。` },
+    { text: `This is my first time in Munich, so any recommendations are welcome.`,
+      text_jp: `ミュンヘンは初めてなので、おすすめがあればぜひ教えてください。` },
+    { text: `It's really nice to meet you all in person.`,
+      text_jp: `皆さんに直接お会いできて、本当に嬉しいです。` },
+  ];
+  const qaItems = [
+    { q: `What is shogi exactly?`,
+      a: `It's similar to chess, but captured pieces can return to the board, so the game stays complex until the very end.`,
+      q_jp: `将棋って具体的にどんなゲームですか？`,
+      a_jp: `チェスに似ていますが、取った駒を自分のものとして使えるので、最後まで複雑な展開が続きます。` },
+    { q: `How long have you been playing tennis?`,
+      a: `For many years now. I usually play on weekends, it's a good way to refresh.`,
+      q_jp: `テニスはどのくらいやっているんですか？`,
+      a_jp: `もう長年やっています。週末に主にプレーしていて、リフレッシュに最適です。` },
+    { q: `What's Setagaya like?`,
+      a: `It's a quiet residential area in western Tokyo, with lots of parks and small local shops.`,
+      q_jp: `世田谷ってどんなところですか？`,
+      a_jp: `東京の西側にある静かな住宅街で、公園や小さな地元のお店がたくさんあります。` },
+    { q: `What's Kyoto like? You studied there, right?`,
+      a: `Yes, I spent my university years there. It's full of temples and history, I really recommend visiting.`,
+      q_jp: `京都ってどんなところですか？そこで勉強されたんですよね？`,
+      a_jp: `はい、大学時代を過ごしました。お寺や歴史にあふれていて、ぜひ訪れてほしいです。` },
+    { q: `What will you be working on at the hackathon?`,
+      a: `We'll be testing how far we can go with AI-driven development, building a working prototype in a few days.`,
+      q_jp: `ハッカソンでは何に取り組むんですか？`,
+      a_jp: `AIを活用した開発でどこまでできるかを試し、数日間で動くプロトタイプを作ります。` },
+    { q: `Is this your first time in Germany?`,
+      a: `Yes, it is. I'm hoping to try some local food and see a bit of the city while I'm here.`,
+      q_jp: `ドイツは初めてですか？`,
+      a_jp: `はい、初めてです。滞在中にローカルフードを食べたり、少し街を見て回りたいです。` },
+    { q: `How was the flight from Japan?`,
+      a: `About twelve hours, so quite long, but it gave me time to rest and prepare.`,
+      q_jp: `日本からのフライトはどうでしたか？`,
+      a_jp: `約12時間でかなり長かったですが、休んで準備する時間になりました。` },
+  ];
+  return { formalPhrases, casualPhrases, qaItems };
+}
+
+// ═══════════════════════════════════════════════════════════
+// INTRO SCREEN
+// ═══════════════════════════════════════════════════════════
+function renderIntro() {
+  const p = S.profile;
+  const d = buildIntroData(p);
+  const sec = S.introSection;
+  const phrases = sec === 'A' ? d.formalPhrases : sec === 'B' ? d.casualPhrases : d.qaItems;
+  S.intraPhrases = phrases;
+
+  const sectionLabel = sec === 'A' ? 'FORMAL · MEETING' : sec === 'B' ? 'CASUAL · SOCIAL' : 'Q&A · FOLLOW-UP';
+
+  let listHtml = '';
+  if (sec === 'C') {
+    listHtml = phrases.map((item, i) => `
+      <div class="qa-row" onclick="startQA(${i})">
+        <div class="qa-q-lbl mono">Q${i+1}</div>
+        <div class="qa-q">${esc(item.q)}</div>
+        <div class="qa-a">${esc(item.a)}</div>
+      </div>`).join('');
+  } else {
+    listHtml = `<div class="phrase-list">` +
+      phrases.map((item, i) => `
+      <div class="phrase-row" onclick="startPhrase(${i})">
+        <div class="phrase-num mono">PHRASE ${i+1}</div>
+        <div class="phrase-en">${esc(item.text)}</div>
+        <div class="phrase-jp">${esc(item.text_jp)}</div>
+      </div>`).join('') +
+      `</div>
+      <button class="btn btn-outline full-intro-btn mono" onclick="startFullIntro()">
+        ▶ FULL INTRODUCTION — 通し練習
+      </button>`;
+  }
+
+  $app.innerHTML = `
+  <div class="intro-w">
+    <div class="intro-nav">
+      <button class="btn-back mono" onclick="goHome()">← HOME</button>
+      <div class="bw-title mono">MY INTRODUCTION</div>
+    </div>
+    <div class="tab-row">
+      <button class="tab-btn mono${sec==='A'?' active':''}" onclick="switchIntroSection('A')">A · FORMAL</button>
+      <button class="tab-btn mono${sec==='B'?' active':''}" onclick="switchIntroSection('B')">B · CASUAL</button>
+      <button class="tab-btn mono${sec==='C'?' active':''}" onclick="switchIntroSection('C')">C · Q&amp;A</button>
+    </div>
+    <div style="font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.18em;
+      color:rgba(246,162,28,.5);margin-bottom:12px">${sectionLabel}</div>
+    ${listHtml}
+  </div>`;
+}
+
+function switchIntroSection(sec) {
+  S.introSection = sec;
+  stop();
+  renderIntro();
+}
+
+// ─── PHRASE STEP PRACTICE ────────────────────────────────
+function startPhrase(idx) {
+  const d = buildIntroData(S.profile);
+  const phrases = S.introSection === 'A' ? d.formalPhrases : d.casualPhrases;
+  S.introPhrases = phrases;
+  S.introPhraseIdx = idx;
+  renderIntroPractice();
+  intPhListen(phrases[idx]);
+}
+
+function renderIntroPractice() {
+  const phrases = S.introPhrases;
+  const idx = S.introPhraseIdx;
+  const total = phrases.length;
+  $app.innerHTML = `
+  <div class="pw">
+    <div class="pw-nav">
+      <button class="btn-back mono" onclick="exitIntroPractice()">← INTRO</button>
+    </div>
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="pass-en">${S.introSection === 'A' ? 'FORMAL INTRODUCTION' : 'CASUAL INTRODUCTION'}</div>
+        <div class="pass-jp">${S.introSection === 'A' ? 'フォーマル版' : 'カジュアル版'}</div>
+        <div class="pass-meta">
+          <span class="turn-lbl mono" id="turn-lbl">PHRASE ${idx+1} / ${total}</span>
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill"
+            style="width:${Math.round((idx)/total*100)}%"></div></div>
+        </div>
+      </div>
+      <div class="sboard"><span class="stxt mono" id="stxt">· · · · · ·</span></div>
+      <div class="pbody" id="pbody"></div>
+    </div>
+  </div>`;
+}
+
+function intPhListen(phrase) {
+  S.introPhase = 'listen';
+  setStatus('LISTEN');
+  setBody(`
+    <div class="sp-lbl mono">LISTEN</div>
+    <div class="agent-box" id="agent-box">${esc(phrase.text)}</div>
+    <div class="text-jp">${esc(phrase.text_jp)}</div>
+    <div style="margin-top:14px;display:flex;gap:8px">
+      <button class="btn btn-outline" onclick="intReplayTTS()">🔊&nbsp; もう一度聞く</button>
+      <button class="btn btn-sub" style="font-size:.75rem" onclick="intPhShadow()">スキップ →</button>
+    </div>
+  `);
+  speak(phrase.text, () => { if (S.introPhase==='listen') intPhShadow(); });
+}
+
+function intReplayTTS() {
+  speak(S.introPhrases[S.introPhraseIdx].text, () => { if (S.introPhase==='listen') intPhShadow(); });
+}
+
+function intPhShadow() {
+  const phrase = S.introPhrases[S.introPhraseIdx];
+  S.introPhase = 'shadow';
+  setStatus('YOUR TURN: SHADOW');
+  setBody(`
+    <div class="sp-lbl mono">SHADOW THIS</div>
+    <div class="agent-box">${esc(phrase.text)}</div>
+    ${micHtml()}
+  `);
+  setTimeout(() => launchMic(phrase.text, onTranscriptIntro), 400);
+}
+
+function onTranscriptIntro(transcript, expected) {
+  stopRecog();
+  S.introPhase = 'result';
+  setStatus('RESULT');
+  const phrase = S.introPhrases[S.introPhraseIdx];
+  const pct = matchPct(transcript, expected);
+  const pass = pct >= 60;
+  const { missing, extra } = diff(transcript, expected);
+  const isLast = S.introPhraseIdx === S.introPhrases.length - 1;
+  const missLine = missing.length
+    ? `<div class="diff-miss">・言えなかった単語: <strong>${missing.join(', ')}</strong></div>`
+    : `<div>・言えなかった単語: なし 👍</div>`;
+  const xtraLine = extra.length
+    ? `<div class="diff-xtra">・余分な単語: <strong>${extra.join(', ')}</strong></div>`
+    : `<div>・余分な単語: なし</div>`;
+  setBody(`
+    <div class="rsec">
+      <div class="rlbl mono">あなたの発話</div>
+      <div class="rtxt">${transcript ? esc(transcript) : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
+    </div>
+    <div class="rsec">
+      <div style="display:flex;align-items:center;margin-bottom:5px">
+        <div class="rlbl mono" style="margin-bottom:0">模範</div>
+        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)})">🔊</button>
+      </div>
+      <div class="rtxt">${esc(expected)}</div>
+      <div class="text-jp">${esc(phrase.text_jp)}</div>
+    </div>
+    <div class="badge ${pass?'pass':'fail'}">${pass?'✓ 合格':'✗ 要練習'}&nbsp;&nbsp;${pct}%</div>
+    <div class="diff-box">
+      <div class="diff-hd mono">違いのチェック</div>
+      ${missLine}${xtraLine}
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-sub" onclick="intRetry()">もう一度</button>
+      <button class="btn btn-primary" onclick="intNext()">${isLast?'完了 →':'次へ →'}</button>
+    </div>
+  `);
+}
+
+function intRetry() {
+  speechSynthesis.cancel(); stopRecog();
+  intPhListen(S.introPhrases[S.introPhraseIdx]);
+}
+
+function intNext() {
+  speechSynthesis.cancel(); stopRecog();
+  const next = S.introPhraseIdx + 1;
+  if (next < S.introPhrases.length) {
+    S.introPhraseIdx = next;
+    const f = $id('prog-fill');
+    if (f) f.style.width = Math.round(next/S.introPhrases.length*100)+'%';
+    const l = $id('turn-lbl');
+    if (l) l.textContent = `PHRASE ${next+1} / ${S.introPhrases.length}`;
+    intPhListen(S.introPhrases[next]);
+  } else {
+    // all phrases done — back to intro list
+    exitIntroPractice();
+  }
+}
+
+function exitIntroPractice() { stop(); renderIntro(); }
+
+// ─── FULL INTRODUCTION ────────────────────────────────────
+function startFullIntro() {
+  const d = buildIntroData(S.profile);
+  S.introPhrases = S.introSection === 'A' ? d.formalPhrases : d.casualPhrases;
+  S.introFullIdx = 0;
+  S.introFullLogs = [];
+  $app.innerHTML = `
+  <div class="pw">
+    <div class="pw-nav">
+      <button class="btn-back mono" onclick="exitIntroPractice()">← INTRO</button>
+    </div>
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="pass-en">FULL INTRODUCTION</div>
+        <div class="pass-jp">${S.introSection === 'A' ? 'フォーマル通し練習' : 'カジュアル通し練習'}</div>
+        <div class="pass-meta">
+          <span class="turn-lbl mono" id="turn-lbl">PHRASE 1 / ${S.introPhrases.length}</span>
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="sboard"><span class="stxt mono" id="stxt">· · · · · ·</span></div>
+      <div class="pbody" id="pbody"></div>
+    </div>
+  </div>`;
+  fullIntroPhraseStep(0, 'shadow');
+}
+
+function fullIntroPhraseStep(idx, mode) {
+  S.introFullIdx = idx;
+  S.introPhase = 'full-' + mode;
+  const phrase = S.introPhrases[idx];
+  const total = S.introPhrases.length;
+  const f = $id('prog-fill'); if (f) f.style.width = Math.round(idx/total*100)+'%';
+  const l = $id('turn-lbl'); if (l) l.textContent = `PHRASE ${idx+1} / ${total}`;
+
+  if (mode === 'shadow') {
+    setStatus('FULL INTRO');
+    setBody(`
+      <div class="sp-lbl mono">LISTEN &amp; SHADOW</div>
+      <div class="agent-box">${esc(phrase.text)}</div>
+      <div class="text-jp">${esc(phrase.text_jp)}</div>
+      ${micHtml()}
+    `);
+    // play then immediately open mic
+    speak(phrase.text, () => {
+      if (!S.introPhase.startsWith('full')) return;
+      const area = $id('mic-area');
+      if (!area) return;
+      if (S.useFallback) { showFallback(area, phrase.text); return; }
+      area.innerHTML = `
+        <div class="mic-row"><div class="mic-dot"></div>録音中...</div>
+        <div class="live-transcript" id="live-transcript"></div>
+        <button class="btn btn-primary btn-confirm" onclick="forceConfirm()">✓ これで確定</button>`;
+      startRecog(
+        t => fullIntroOnResult(t, phrase.text, idx),
+        () => fullIntroOnResult('', phrase.text, idx)
+      );
+    });
+  }
+}
+
+function fullIntroOnResult(transcript, expected, idx) {
+  stopRecog();
+  S.introFullLogs.push({ idx, transcript, expected, text_jp: S.introPhrases[idx].text_jp });
+  const next = idx + 1;
+  if (next < S.introPhrases.length) {
+    fullIntroPhraseStep(next, 'shadow');
+  } else {
+    fullIntroReview();
+  }
+}
+
+function fullIntroReview() {
+  S.introPhase = 'full-review';
+  setStatus('REVIEW');
+  const f = $id('prog-fill'); if (f) f.style.width = '100%';
+  const l = $id('turn-lbl'); if (l) l.textContent = 'FULL INTRO · DONE';
+  const items = S.introFullLogs.map(log => {
+    const pct = matchPct(log.transcript, log.expected);
+    const pass = pct >= 60;
+    const { missing, extra } = diff(log.transcript, log.expected);
+    const missLine = missing.length
+      ? `<div class="diff-miss">・言えなかった: <strong>${missing.join(', ')}</strong></div>`
+      : `<div>・言えなかった単語: なし 👍</div>`;
+    const xtraLine = extra.length
+      ? `<div class="diff-xtra">・余分: <strong>${extra.join(', ')}</strong></div>`
+      : `<div>・余分な単語: なし</div>`;
+    return `
+      <div class="fc-review-item">
+        <div class="rlbl mono">PHRASE ${log.idx+1}</div>
+        <div class="rtxt">${log.transcript ? esc(log.transcript) : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
+        <div style="display:flex;align-items:center;margin:6px 0 4px">
+          <div class="rlbl mono" style="margin-bottom:0">模範</div>
+          <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(log.expected)})">🔊</button>
+        </div>
+        <div class="rtxt">${esc(log.expected)}</div>
+        ${log.text_jp ? `<div class="text-jp" style="margin-bottom:5px">${esc(log.text_jp)}</div>` : ''}
+        <div class="badge ${pass?'pass':'fail'}">${pass?'✓ 合格':'✗ 要練習'}&nbsp;&nbsp;${pct}%</div>
+        <div class="diff-box"><div class="diff-hd mono">チェック</div>${missLine}${xtraLine}</div>
+      </div>`;
+  }).join('');
+  setBody(`
+    <div style="font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.16em;
+      color:var(--accent);margin-bottom:14px;font-weight:700">FULL INTRODUCTION · REVIEW</div>
+    ${items}
+    <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="exitIntroPractice()">
+      ← INTRO 一覧に戻る
+    </button>
+  `);
+}
+
+// ─── Q&A PRACTICE ─────────────────────────────────────────
+function startQA(idx) {
+  const d = buildIntroData(S.profile);
+  S.introPhrases = d.qaItems;
+  S.introPhraseIdx = idx;
+  $app.innerHTML = `
+  <div class="pw">
+    <div class="pw-nav">
+      <button class="btn-back mono" onclick="exitIntroPractice()">← INTRO</button>
+    </div>
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="pass-en">Q&amp;A PRACTICE</div>
+        <div class="pass-jp">想定Q&amp;A練習</div>
+        <div class="pass-meta">
+          <span class="turn-lbl mono" id="turn-lbl">Q ${idx+1} / ${d.qaItems.length}</span>
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill"
+            style="width:${Math.round(idx/d.qaItems.length*100)}%"></div></div>
+        </div>
+      </div>
+      <div class="sboard"><span class="stxt mono" id="stxt">· · · · · ·</span></div>
+      <div class="pbody" id="pbody"></div>
+    </div>
+  </div>`;
+  qaPhListen(d.qaItems[idx]);
+}
+
+function qaPhListen(item) {
+  S.introPhase = 'qa-listen';
+  setStatus('QUESTION');
+  setBody(`
+    <div class="sp-lbl mono">LISTEN TO QUESTION</div>
+    <div class="agent-box">${esc(item.q)}</div>
+    <div class="text-jp">${esc(item.q_jp)}</div>
+    <div style="margin-top:14px;display:flex;gap:8px">
+      <button class="btn btn-outline" onclick="qaReplayQ()">🔊&nbsp; もう一度</button>
+      <button class="btn btn-sub" style="font-size:.75rem" onclick="qaPhAnswer()">答える →</button>
+    </div>
+  `);
+  speak(item.q, () => { if (S.introPhase==='qa-listen') qaPhAnswer(); });
+}
+
+function qaReplayQ() {
+  speak(S.introPhrases[S.introPhraseIdx].q, () => { if (S.introPhase==='qa-listen') qaPhAnswer(); });
+}
+
+function qaPhAnswer() {
+  const item = S.introPhrases[S.introPhraseIdx];
+  S.introPhase = 'qa-answer';
+  setStatus('YOUR ANSWER');
+  setBody(`
+    <div class="sp-lbl mono">YOUR TURN — ANSWER</div>
+    <div class="hint-box">
+      <div class="hint-lbl mono">質問</div>
+      ${esc(item.q_jp)}
+    </div>
+    ${micHtml()}
+  `);
+  setTimeout(() => launchMic(item.a, onTranscriptQA), 400);
+}
+
+function onTranscriptQA(transcript, expected) {
+  stopRecog();
+  S.introPhase = 'qa-result';
+  setStatus('RESULT');
+  const item = S.introPhrases[S.introPhraseIdx];
+  const pct = matchPct(transcript, expected);
+  const pass = pct >= 60;
+  const { missing, extra } = diff(transcript, expected);
+  const isLast = S.introPhraseIdx === S.introPhrases.length - 1;
+  const missLine = missing.length
+    ? `<div class="diff-miss">・言えなかった: <strong>${missing.join(', ')}</strong></div>`
+    : `<div>・言えなかった単語: なし 👍</div>`;
+  const xtraLine = extra.length
+    ? `<div class="diff-xtra">・余分: <strong>${extra.join(', ')}</strong></div>`
+    : `<div>・余分な単語: なし</div>`;
+  setBody(`
+    <div class="rsec">
+      <div class="rlbl mono">あなたの回答</div>
+      <div class="rtxt">${transcript ? esc(transcript) : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
+    </div>
+    <div class="rsec">
+      <div style="display:flex;align-items:center;margin-bottom:5px">
+        <div class="rlbl mono" style="margin-bottom:0">模範解答</div>
+        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)})">🔊</button>
+      </div>
+      <div class="rtxt">${esc(expected)}</div>
+      <div class="text-jp">${esc(item.a_jp)}</div>
+    </div>
+    <div class="badge ${pass?'pass':'fail'}">${pass?'✓ 合格':'✗ 要練習'}&nbsp;&nbsp;${pct}%</div>
+    <div class="diff-box">
+      <div class="diff-hd mono">違いのチェック</div>
+      ${missLine}${xtraLine}
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-sub" onclick="qaRetry()">もう一度</button>
+      <button class="btn btn-primary" onclick="qaNext()">${isLast?'完了 →':'次へ →'}</button>
+    </div>
+  `);
+}
+
+function qaRetry() {
+  speechSynthesis.cancel(); stopRecog();
+  qaPhListen(S.introPhrases[S.introPhraseIdx]);
+}
+
+function qaNext() {
+  speechSynthesis.cancel(); stopRecog();
+  const next = S.introPhraseIdx + 1;
+  if (next < S.introPhrases.length) {
+    S.introPhraseIdx = next;
+    const l = $id('turn-lbl');
+    if (l) l.textContent = `Q ${next+1} / ${S.introPhrases.length}`;
+    const f = $id('prog-fill');
+    if (f) f.style.width = Math.round(next/S.introPhrases.length*100)+'%';
+    qaPhListen(S.introPhrases[next]);
+  } else {
+    exitIntroPractice();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════
 async function goHome() {
   stop(); S.screen = 'home';
   S.categories = await api.get('/api/categories');
   renderHome();
+}
+
+async function goProfile() {
+  stop(); S.screen = 'profile';
+  S.profile = await api.get('/api/profile');
+  renderProfile();
+}
+
+async function goIntro() {
+  stop(); S.screen = 'intro';
+  if (!S.profile) S.profile = await api.get('/api/profile');
+  S.introSection = 'A';
+  renderIntro();
 }
 
 async function goScenarios(cat) {
@@ -885,7 +1536,10 @@ function stop() {
 // INIT
 // ═══════════════════════════════════════════════════════════
 (async () => {
-  S.categories = await api.get('/api/categories');
+  [S.categories, S.profile] = await Promise.all([
+    api.get('/api/categories'),
+    api.get('/api/profile'),
+  ]);
   renderHome();
 })();
 </script>

@@ -1,11 +1,14 @@
 import json
+import re
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 DB_PATH = "english_practice.db"
 SEED_PATH = "scenarios_seed.json"
@@ -23,6 +26,34 @@ def get_db():
         conn.commit()
     finally:
         conn.close()
+
+
+PROFILE_DEFAULT = {
+    "name_en": "Takamasa Saito",
+    "role_en": "Chief Architect",
+    "focus_en": "IT simplification and enterprise architecture",
+    "base_en": "Tokyo",
+    "origin_en": "Kanagawa",
+    "university_en": "Doshisha University in Kyoto",
+    "purpose_en": "a hackathon to validate AI-driven in-house development",
+    "stay_nights": 4,
+    "hobbies_en": "tennis, shogi, and golf",
+}
+
+# Patterns to replace with profile name at serve time
+_NAME_RE = re.compile(r'\bTakamasa Saito\b|\bTakamasa\b|\bSaito\b')
+
+
+class ProfileIn(BaseModel):
+    name_en: str
+    role_en: str
+    focus_en: str
+    base_en: str
+    origin_en: str
+    university_en: str
+    purpose_en: str
+    stay_nights: int
+    hobbies_en: str
 
 
 def init_db():
@@ -49,6 +80,18 @@ def init_db():
                 scenario_id INTEGER PRIMARY KEY REFERENCES scenario(id),
                 cleared     INTEGER NOT NULL DEFAULT 0,
                 cleared_at  TEXT
+            );
+            CREATE TABLE IF NOT EXISTS profile (
+                id           INTEGER PRIMARY KEY CHECK (id = 1),
+                name_en      TEXT NOT NULL,
+                role_en      TEXT NOT NULL,
+                focus_en     TEXT NOT NULL,
+                base_en      TEXT NOT NULL,
+                origin_en    TEXT NOT NULL,
+                university_en TEXT NOT NULL,
+                purpose_en   TEXT NOT NULL,
+                stay_nights  INTEGER NOT NULL,
+                hobbies_en   TEXT NOT NULL
             );
         """)
         # Migrate existing DBs that pre-date the text_jp column
@@ -81,9 +124,29 @@ def seed_db():
     print(f"Seeded {len(scenarios)} scenarios.")
 
 
+def seed_profile():
+    with get_db() as conn:
+        conn.execute("""
+            INSERT OR IGNORE INTO profile (id,name_en,role_en,focus_en,base_en,origin_en,
+                university_en,purpose_en,stay_nights,hobbies_en)
+            VALUES (1,:name_en,:role_en,:focus_en,:base_en,:origin_en,
+                :university_en,:purpose_en,:stay_nights,:hobbies_en)
+        """, PROFILE_DEFAULT)
+
+
+def get_profile_name(conn) -> str:
+    row = conn.execute("SELECT name_en FROM profile WHERE id=1").fetchone()
+    return row["name_en"] if row else PROFILE_DEFAULT["name_en"]
+
+
+def apply_name(text: str, name: str) -> str:
+    return _NAME_RE.sub(name, text)
+
+
 @app.on_event("startup")
 def startup():
     init_db()
+    seed_profile()
     with get_db() as conn:
         count = conn.execute("SELECT COUNT(*) FROM scenario").fetchone()[0]
     if count == 0:
@@ -140,11 +203,43 @@ def api_scenario(sid: int):
         prog = conn.execute(
             "SELECT * FROM progress WHERE scenario_id=?", (sid,)
         ).fetchone()
+        name = get_profile_name(conn)
     result = dict(s)
-    result["turns"] = [dict(t) for t in turns]
+    result["turns"] = [
+        {**dict(t), "text": apply_name(t["text"], name),
+         "hint": apply_name(t["hint"], name) if t["hint"] else t["hint"]}
+        for t in turns
+    ]
     result["cleared"] = bool(prog["cleared"]) if prog else False
     result["cleared_at"] = prog["cleared_at"] if prog else None
     return result
+
+
+@app.get("/api/profile")
+def api_get_profile():
+    with get_db() as conn:
+        row = conn.execute("SELECT * FROM profile WHERE id=1").fetchone()
+    if not row:
+        return PROFILE_DEFAULT
+    return dict(row)
+
+
+@app.put("/api/profile")
+def api_put_profile(data: ProfileIn):
+    with get_db() as conn:
+        conn.execute("""
+            INSERT INTO profile (id,name_en,role_en,focus_en,base_en,origin_en,
+                university_en,purpose_en,stay_nights,hobbies_en)
+            VALUES (1,:name_en,:role_en,:focus_en,:base_en,:origin_en,
+                :university_en,:purpose_en,:stay_nights,:hobbies_en)
+            ON CONFLICT(id) DO UPDATE SET
+                name_en=excluded.name_en, role_en=excluded.role_en,
+                focus_en=excluded.focus_en, base_en=excluded.base_en,
+                origin_en=excluded.origin_en, university_en=excluded.university_en,
+                purpose_en=excluded.purpose_en, stay_nights=excluded.stay_nights,
+                hobbies_en=excluded.hobbies_en
+        """, data.model_dump())
+    return {"status": "ok"}
 
 
 @app.post("/api/scenarios/{sid}/clear")
