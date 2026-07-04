@@ -124,30 +124,36 @@ html,body{height:100%;color:#fff;
 .bw{padding:16px}
 .bw-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .btn-back{background:none;border:1px solid rgba(246,162,28,.38);
-  color:var(--accent);font-family:'Courier New',monospace;
+  color:var(--accent);font-family:'Space Grotesk','Courier New',monospace;
   font-size:.7rem;letter-spacing:.1em;padding:6px 12px;border-radius:4px;cursor:pointer}
-.bw-title{font-family:'Courier New',monospace;font-size:.75rem;
-  letter-spacing:.18em;color:var(--accent);font-weight:700;text-transform:uppercase}
-
-.dboard{background:var(--board);border:1px solid rgba(246,162,28,.28);border-radius:6px;overflow:hidden}
-.dboard-hd{display:grid;grid-template-columns:1fr 82px;
-  padding:7px 14px;background:rgba(246,162,28,.1);
-  border-bottom:1px solid rgba(246,162,28,.22)}
-.dboard-hd span{font-family:'Courier New',monospace;font-size:.6rem;
-  letter-spacing:.22em;color:rgba(246,162,28,.65);text-transform:uppercase}
-.drow{display:grid;grid-template-columns:1fr 82px;
-  padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);
-  cursor:pointer;transition:background .1s;align-items:center}
-.drow:last-child{border-bottom:none}
-.drow:active{background:rgba(255,255,255,.07)}
-.drow-en{font-family:'Courier New',monospace;font-size:.68rem;
-  letter-spacing:.1em;color:#fff;text-transform:uppercase;
+.bw-title{font-family:'Space Grotesk','Courier New',monospace;font-size:.82rem;
+  letter-spacing:.24em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.sboard-hd{display:flex;justify-content:space-between;
+  padding:2px 4px 10px;margin-bottom:2px}
+.sboard-hd span{font-family:'Space Grotesk','Courier New',monospace;font-size:.58rem;
+  letter-spacing:.22em;color:rgba(246,162,28,.5);text-transform:uppercase}
+.scard{background:var(--card);border-radius:8px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  position:relative;overflow:hidden;padding:12px 14px 12px 18px;
+  box-shadow:0 1px 2px rgba(0,0,0,.12),0 4px 12px rgba(0,0,0,.2),
+    0 0 0 .5px rgba(255,255,255,.04);
+  transition:transform .1s,box-shadow .1s;margin-bottom:8px}
+.scard:last-child{margin-bottom:0}
+.scard:active{transform:scale(.98);box-shadow:0 1px 2px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.14)}
+.scard::before{content:'';position:absolute;left:0;top:0;bottom:0;
+  width:4px;background:var(--accent)}
+.scard-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  color:rgba(246,162,28,.6)}
+.scard-body{flex:1;min-width:0}
+.scard-en{font-family:'Space Grotesk','Courier New',monospace;font-size:.65rem;
+  letter-spacing:.14em;color:rgba(255,255,255,.9);font-weight:600;text-transform:uppercase;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.drow-jp{font-size:.67rem;color:rgba(255,255,255,.38);margin-top:2px}
-.dstatus{font-family:'Courier New',monospace;font-size:.65rem;
-  letter-spacing:.07em;font-weight:700;text-align:right}
-.dstatus.ready{color:var(--accent)}
-.dstatus.cleared{color:var(--success)}
+.scard-jp{font-size:.68rem;color:rgba(255,255,255,.38);margin-top:2px}
+.sbadge{font-family:'Space Grotesk','Courier New',monospace;font-size:.58rem;
+  letter-spacing:.08em;font-weight:700;padding:4px 9px;border-radius:20px;flex-shrink:0;
+  white-space:nowrap}
+.sbadge.ready{color:var(--accent);border:1px solid rgba(246,162,28,.45);background:none}
+.sbadge.cleared{color:#fff;background:rgba(62,142,99,.85);border:1px solid var(--success)}
 
 /* ══════════════════ PRACTICE ══════════════════ */
 .pw{padding:12px 16px 24px}
@@ -436,6 +442,84 @@ function progressRing(cleared, total) {
     `font-size="11" font-weight="700" fill="${clr}">${cleared}</text>` +
     `</svg>`;
 }
+
+// ═══════════════════════════════════════════════════════════
+// SCENARIO ICONS  (20px, stroke, currentColor)
+// ═══════════════════════════════════════════════════════════
+const _si2 = d =>
+  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" ` +
+  `stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+
+const SI = {
+  shield:    _si2(`<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`),
+  passport:  _si2(`<rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8 18h8M8 14h8"/>`),
+  car:       _si2(`<path d="M5 17H3a2 2 0 0 1-2-2V9l2-5h14l2 5v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/>`),
+  building:  _si2(`<rect x="3" y="2" width="18" height="20"/><path d="M9 22V12h6v10"/><path d="M9 6h.01M15 6h.01M9 10h.01M15 10h.01"/>`),
+  luggage:   _si2(`<rect x="5" y="6" width="14" height="16" rx="2"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/>`),
+  ticket:    _si2(`<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"/>`),
+  wine:      _si2(`<path d="M8 22h8M7 10h10"/><path d="M12 15C8.1 15 5 11.9 5 8V3h14v5c0 3.9-3.1 7-7 7z"/><line x1="12" y1="15" x2="12" y2="22"/>`),
+  utensils:  _si2(`<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>`),
+  headphones:_si2(`<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>`),
+  wifi:      _si2(`<path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/>`),
+  mappin:    _si2(`<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>`),
+  coffee:    _si2(`<path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>`),
+  phone:     _si2(`<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.95 12 19.79 19.79 0 0 1 1.88 3.4 2 2 0 0 1 3.84 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>`),
+  money:     _si2(`<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>`),
+  clock:     _si2(`<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`),
+  bell:      _si2(`<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>`),
+  alert:     _si2(`<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`),
+  map:       _si2(`<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>`),
+  clipboard: _si2(`<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>`),
+  user:      _si2(`<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>`),
+  users:     _si2(`<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`),
+  lightbulb: _si2(`<line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>`),
+  check:     _si2(`<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>`),
+  barchart:  _si2(`<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>`),
+  calendar:  _si2(`<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>`),
+  thumbsup:  _si2(`<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>`),
+  repeat:    _si2(`<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>`),
+  globe:     _si2(`<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>`),
+  msgcircle: _si2(`<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>`),
+  hand:      _si2(`<path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>`),
+  list:      _si2(`<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>`),
+  scale:     _si2(`<line x1="12" y1="3" x2="12" y2="21"/><polyline points="3 9 12 6 21 9"/><polyline points="6 16.5 12 15 18 16.5"/>`),
+  heart:     _si2(`<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>`),
+  card:      _si2(`<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`),
+  train:     _si2(`<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 11h16M12 4v7"/><path d="M8 19l-2 3m10-3 2 3"/><circle cx="9" cy="15" r="1"/><circle cx="15" cy="15" r="1"/>`),
+  plane:     _si2(`<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 20 2.5h0C18.5 1 16.5 1.5 15 3l-3.5 3.5L3.9 4.9a.5.5 0 0 0-.4.1l-1 1a.5.5 0 0 0 .1.8L9 11l-3 3-2-.5-.5.5 3 1.5 1.5 3 .5-.5L8 16l3-3 4.6 6.4c.2.2.5.3.8.1l1-1c.1-.1.2-.3.1-.4z"/>`),
+  briefcase: _si2(`<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="2" y1="14" x2="22" y2="14"/>`),
+  linkedin:  _si2(`<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>`),
+  home:      _si2(`<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`),
+  sunrise:   _si2(`<path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="8 6 12 2 16 6"/>`),
+};
+
+// Scenario icon map: category → array[30] of SI keys (index = no - 1)
+const SICON_MAP = {
+  travel: [
+    'shield','passport','car','building','ticket',      // 1-5
+    'luggage','ticket','wine','utensils','headphones',  // 6-10
+    'mappin','luggage','money','wifi','mappin',         // 11-15
+    'coffee','train','clock','clock','bell',            // 16-20
+    'alert','phone','map','car','mappin',               // 21-25
+    'car','shield','plane','plane','clipboard',         // 26-30
+  ],
+  social: [
+    'user','plane','briefcase','utensils','hand',       // 1-5
+    'mappin','plane','users','wine','utensils',         // 6-10
+    'calendar','globe','wine','alert','repeat',         // 11-15
+    'users','heart','map','mappin','barchart',          // 16-20
+    'card','linkedin','coffee','sunrise','mappin',      // 21-25
+    'thumbsup','globe','hand','msgcircle','plane',      // 26-30
+  ],
+  meeting: [
+    'coffee','clipboard','msgcircle','lightbulb','msgcircle', // 1-5
+    'user','list','alert','lightbulb','list',                 // 6-10
+    'check','repeat','hand','msgcircle','thumbsup',           // 11-15
+    'scale','calendar','check','heart','clock',               // 16-20
+    'barchart','shield','clock','list','check',               // 21-25
+    'repeat','alert','hand','clock','coffee',                 // 26-30
+  ],
+};
 
 // ═══════════════════════════════════════════════════════════
 // SPEECH SYNTHESIS
@@ -812,23 +896,27 @@ function dndCleanup(rerendering) {
 // ═══════════════════════════════════════════════════════════
 function renderScenarios() {
   const m = CAT[S.selectedCat]||{lbl:S.selectedCat.toUpperCase()};
+  const iconList = SICON_MAP[S.selectedCat] || [];
+  const cards = S.scenarios.map((s, i) => {
+    const iconKey = iconList[i] || 'list';
+    const icon = SI[iconKey] || SI.list;
+    return `<div class="scard" onclick="goPractice(${s.id})">
+      <div class="scard-icon">${icon}</div>
+      <div class="scard-body">
+        <div class="scard-en">${esc(s.title_en)}</div>
+        <div class="scard-jp">${esc(s.title_jp)}</div>
+      </div>
+      <div class="sbadge ${s.cleared?'cleared':'ready'}">${s.cleared?'CLEARED':'READY'}</div>
+    </div>`;
+  }).join('');
   $app.innerHTML = `
   <div class="bw">
     <div class="bw-nav">
-      <button class="btn-back mono" onclick="goHome()">← HOME</button>
-      <div class="bw-title mono">${m.lbl}</div>
+      <button class="btn-back" onclick="goHome()">← HOME</button>
+      <div class="bw-title">${m.lbl}</div>
     </div>
-    <div class="dboard">
-      <div class="dboard-hd"><span>SCENARIO</span><span style="text-align:right">STATUS</span></div>
-      ${S.scenarios.map(s => `
-      <div class="drow" onclick="goPractice(${s.id})">
-        <div>
-          <div class="drow-en">${esc(s.title_en.toUpperCase())}</div>
-          <div class="drow-jp">${esc(s.title_jp)}</div>
-        </div>
-        <div class="dstatus ${s.cleared?'cleared':'ready'}">${s.cleared?'CLEARED':'READY'}</div>
-      </div>`).join('')}
-    </div>
+    <div class="sboard-hd"><span>SCENARIO</span><span>STATUS</span></div>
+    ${cards}
   </div>`;
 }
 
@@ -1370,8 +1458,8 @@ function renderIntro() {
   $app.innerHTML = `
   <div class="intro-w">
     <div class="intro-nav">
-      <button class="btn-back mono" onclick="goHome()">← HOME</button>
-      <div class="bw-title mono">MY INTRODUCTION</div>
+      <button class="btn-back" onclick="goHome()">← HOME</button>
+      <div class="bw-title">MY INTRODUCTION</div>
     </div>
     <div class="tab-row">
       <button class="tab-btn mono${sec==='A'?' active':''}" onclick="switchIntroSection('A')">A · FORMAL</button>
