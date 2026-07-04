@@ -350,6 +350,7 @@ html,body{height:100%;color:#fff;
   letter-spacing:.2em;color:var(--accent);margin-bottom:4px}
 .qa-q{font-size:.88rem;color:#12213D;font-weight:600;line-height:1.45}
 .qa-a{font-size:.76rem;color:#5C6B7A;margin-top:5px;line-height:1.4}
+.qa-jp{font-size:.72rem;color:#5C6B7A;margin-top:3px;line-height:1.4;opacity:.8}
 
 /* full intro CTA — inherits .btn.btn-primary */
 .full-intro-btn{width:100%;padding:12px;font-family:'Space Grotesk','Courier New',monospace;
@@ -1800,7 +1801,9 @@ function renderIntro() {
       <div class="qa-row" onclick="startQA(${i})">
         <div class="qa-q-lbl mono">Q${i+1}</div>
         <div class="qa-q">${esc(item.q)}</div>
+        <div class="qa-jp">${esc(item.q_jp)}</div>
         <div class="qa-a">${esc(item.a)}</div>
+        <div class="qa-jp">${esc(item.a_jp)}</div>
       </div>`).join('');
   } else {
     listHtml = `<div class="phrase-list">` +
