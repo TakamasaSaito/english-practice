@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>GATE ENGLISH · MUNICH TRIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: dark;
@@ -16,9 +19,20 @@
   --board:   #060d18;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:#fff;
+html,body{height:100%;color:#fff;
   font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
-  -webkit-font-smoothing:antialiased}
+  -webkit-font-smoothing:antialiased;
+  background-color:#12213D;
+  background-image:
+    radial-gradient(ellipse at 45% 28%, #172844 0%, #12213D 68%),
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0px, transparent 11px,
+      rgba(255,255,255,.022) 11px, rgba(255,255,255,.022) 12px,
+      transparent 12px, transparent 24px,
+      rgba(255,255,255,.014) 24px, rgba(255,255,255,.014) 25px
+    );
+  background-attachment:fixed}
 #app{min-height:100dvh;max-width:448px;margin:0 auto;
   padding-bottom:env(safe-area-inset-bottom,16px)}
 
@@ -38,32 +52,73 @@ html,body{height:100%;background:var(--bg);color:#fff;
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ══════════════════ HOME ══════════════════ */
-.cat-grid{padding:20px 16px;display:flex;flex-direction:column;gap:14px}
-.cat-card{background:var(--card);border-radius:8px;padding:18px 18px 18px 22px;
-  display:flex;align-items:center;gap:14px;cursor:pointer;
+.home-title{font-family:'Space Grotesk','Courier New',monospace;font-size:.95rem;
+  letter-spacing:.28em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.home-sub{font-size:.68rem;color:rgba(255,255,255,.38);margin-top:4px;letter-spacing:.07em}
+
+.cat-grid{padding:18px 16px 4px;display:flex;flex-direction:column;gap:12px}
+
+/* boarding-pass card */
+.cat-card{background:var(--card);border-radius:10px;
+  padding:15px 14px 15px 20px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
   position:relative;overflow:hidden;
-  transition:transform .1s,box-shadow .1s}
-.cat-card:active{transform:scale(.975)}
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.14),
+    0 6px 20px rgba(0,0,0,.28),
+    0 0 0 .5px rgba(255,255,255,.04);
+  transition:transform .12s,box-shadow .12s;
+  /* notch punch-outs on left edge */
+  mask-image:
+    radial-gradient(circle at 0% 33%,transparent 11px,#fff 12px),
+    radial-gradient(circle at 0% 67%,transparent 11px,#fff 12px),
+    linear-gradient(#fff,#fff);
+  mask-composite:intersect,intersect;
+  -webkit-mask-image:
+    radial-gradient(circle at 0% 33%,transparent 11px,#fff 12px),
+    radial-gradient(circle at 0% 67%,transparent 11px,#fff 12px),
+    linear-gradient(#fff,#fff);
+  -webkit-mask-composite:destination-in,destination-in}
+.cat-card:active{transform:scale(.975);
+  box-shadow:0 1px 2px rgba(0,0,0,.1),0 3px 8px rgba(0,0,0,.18),
+    0 0 0 .5px rgba(255,255,255,.04)}
+/* accent bar */
 .cat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;
-  width:4px;background:var(--accent)}
-.cat-icon{font-size:1.9rem;line-height:1;flex-shrink:0}
+  width:5px;background:var(--accent)}
+/* barcode strip */
+.cat-card::after{content:'';position:absolute;right:0;top:0;bottom:0;width:18px;
+  pointer-events:none;
+  background:repeating-linear-gradient(90deg,
+    rgba(18,33,61,.07) 0,rgba(18,33,61,.07) 1.5px,
+    transparent 1.5px,transparent 3px,
+    rgba(18,33,61,.05) 3px,rgba(18,33,61,.05) 4px,
+    transparent 4px,transparent 5.5px,
+    rgba(18,33,61,.09) 5.5px,rgba(18,33,61,.09) 6.5px,
+    transparent 6.5px,transparent 9px,
+    rgba(18,33,61,.05) 9px,rgba(18,33,61,.05) 10.5px,
+    transparent 10.5px,transparent 12px,
+    rgba(18,33,61,.08) 12px,rgba(18,33,61,.08) 13px,
+    transparent 13px,transparent 15px,
+    rgba(18,33,61,.06) 15px,rgba(18,33,61,.06) 16px,
+    transparent 16px,transparent 18px)}
+
+.cat-icon{flex-shrink:0;width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center}
 .cat-body{flex:1;min-width:0}
-.cat-lbl{font-family:'Courier New',monospace;font-size:.7rem;
-  letter-spacing:.2em;color:var(--accent);font-weight:700;text-transform:uppercase}
-.cat-jp{font-size:.95rem;color:var(--dk);font-weight:600;margin-top:2px}
-.cat-score{font-family:'Courier New',monospace;font-size:1.05rem;
-  font-weight:700;color:var(--dk);flex-shrink:0;text-align:right}
-.cat-score .denom{font-size:.72rem;opacity:.5}
-.cat-score.done{color:var(--success)}
+.cat-lbl{font-family:'Space Grotesk','Courier New',monospace;font-size:.68rem;
+  letter-spacing:.26em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.cat-jp{font-size:.9rem;color:var(--dk);font-weight:600;margin-top:3px}
+
 .reset-btn{display:block;text-align:center;font-size:.68rem;
   color:rgba(255,255,255,.28);background:none;border:none;
   text-decoration:underline;cursor:pointer;margin:8px auto 20px}
 
 /* ── drag & drop ── */
 .cat-card[data-key]{cursor:grab;-webkit-user-select:none;user-select:none}
-.cat-card.dnd-ghost{opacity:.2;pointer-events:none;box-shadow:none}
-.drag-handle{font-size:1rem;color:rgba(18,33,61,.22);flex-shrink:0;
-  padding:2px 0 2px 8px;line-height:1;letter-spacing:-.05em}
+.cat-card.dnd-ghost{opacity:.18;pointer-events:none;
+  box-shadow:0 1px 2px rgba(0,0,0,.1)!important}
+.drag-handle{flex-shrink:0;padding:2px 0 2px 6px;line-height:1;
+  color:rgba(18,33,61,.2);font-size:.95rem;letter-spacing:-.08em}
 
 /* ══════════════════ DEPARTURE BOARD ══════════════════ */
 .bw{padding:16px}
@@ -206,12 +261,13 @@ html,body{height:100%;background:var(--bg);color:#fff;
 
 /* ══════════════════ HOME GEAR ══════════════════ */
 .home-hd{display:flex;align-items:flex-start;justify-content:space-between;
-  padding:24px 16px 16px;border-bottom:1px solid rgba(246,162,28,.22)}
+  padding:26px 16px 18px;border-bottom:1px solid rgba(246,162,28,.18)}
 .home-hd-text{}
 .gear-btn{background:none;border:1px solid rgba(246,162,28,.32);
-  color:rgba(246,162,28,.7);font-size:.9rem;padding:6px 9px;border-radius:5px;
-  cursor:pointer;flex-shrink:0;margin-top:2px;line-height:1}
-.gear-btn:active{opacity:.65}
+  padding:7px 8px;border-radius:6px;cursor:pointer;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;line-height:0}
+.gear-btn:active{opacity:.6}
+.gear-btn svg{display:block}
 
 /* ══════════════════ PROFILE SCREEN ══════════════════ */
 .prof-w{padding:16px 16px 32px}
@@ -311,6 +367,75 @@ const api = {
     body: JSON.stringify(body),
   }).then(r => r.json()),
 };
+
+// ═══════════════════════════════════════════════════════════
+// SVG ICONS  (stroke-based, amber, stroke-width 1.75)
+// ═══════════════════════════════════════════════════════════
+const _si = (d, extra='') =>
+  `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" ` +
+  `stroke="#F6A21C" stroke-width="1.75" stroke-linecap="round" ` +
+  `stroke-linejoin="round" ${extra}>${d}</svg>`;
+
+const ICON = {
+  // airplane (Lucide "Plane")
+  travel: _si(
+    `<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 20 2.5h0C18.5 1 16.5 1.5 15 3` +
+    `l-3.5 3.5L3.9 4.9a.5.5 0 0 0-.4.1l-1 1a.5.5 0 0 0 .1.8L9 11l-3 3-2-.5` +
+    `-.5.5 3 1.5 1.5 3 .5-.5L8 16l3-3 4.6 6.4c.2.2.5.3.8.1l1-1c.1-.1.2-.3.1-.4z"/>`
+  ),
+  // two people (Lucide "Users")
+  social: _si(
+    `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>` +
+    `<circle cx="9" cy="7" r="4"/>` +
+    `<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>` +
+    `<path d="M16 3.13a4 4 0 0 1 0 7.75"/>`
+  ),
+  // briefcase (Lucide "Briefcase")
+  meeting: _si(
+    `<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>` +
+    `<path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>` +
+    `<line x1="2" y1="14" x2="22" y2="14"/>`
+  ),
+  // person + speech bubble
+  intro: _si(
+    `<circle cx="9" cy="8" r="3.5"/>` +
+    `<path d="M3 21v-1a8 8 0 0 1 11-7.4"/>` +
+    `<path d="M15 13h5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3l-3 2.5V20a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z"/>`
+  ),
+  // gear (Lucide "Settings") — 20x20
+  gear: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" ` +
+    `stroke="#F6A21C" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">` +
+    `<circle cx="12" cy="12" r="3"/>` +
+    `<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 ` +
+    `0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 ` +
+    `1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 ` +
+    `2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 ` +
+    `1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 ` +
+    `2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51` +
+    `V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33` +
+    `l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 ` +
+    `0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>` +
+    `</svg>`,
+};
+
+// circular progress ring (SVG)
+function progressRing(cleared, total) {
+  const r = 15, cx = 22, cy = 22;
+  const circ = +(2 * Math.PI * r).toFixed(2);
+  const dash  = total > 0 ? +((cleared / total) * circ).toFixed(2) : 0;
+  const done  = cleared === total && total > 0;
+  const clr   = done ? '#3E8E63' : '#F6A21C';
+  return `<svg width="44" height="44" viewBox="0 0 44 44" style="flex-shrink:0" aria-hidden="true">` +
+    `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" ` +
+    `stroke="rgba(18,33,61,.12)" stroke-width="2.5"/>` +
+    `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" ` +
+    `stroke="${clr}" stroke-width="2.5" stroke-linecap="round" ` +
+    `stroke-dasharray="${dash} ${circ}" transform="rotate(-90 ${cx} ${cy})"/>` +
+    `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ` +
+    `font-family="'Space Grotesk','Courier New',monospace" ` +
+    `font-size="11" font-weight="700" fill="${clr}">${cleared}</text>` +
+    `</svg>`;
+}
 
 // ═══════════════════════════════════════════════════════════
 // SPEECH SYNTHESIS
@@ -496,18 +621,18 @@ function setBody(html) { const b=$id('pbody'); if (b) b.innerHTML = html; }
 // HOME
 // ═══════════════════════════════════════════════════════════
 const CAT = {
-  travel:  { icon:'✈️', lbl:'AIRPORT & TRANSIT' },
-  social:  { icon:'🍺', lbl:'PARTIES & SMALL TALK' },
-  meeting: { icon:'💼', lbl:'MEETING RESPONSES' },
+  travel:  { lbl:'AIRPORT & TRANSIT' },
+  social:  { lbl:'PARTIES & SMALL TALK' },
+  meeting: { lbl:'MEETING RESPONSES' },
 };
 
 function renderHome() {
   const cards = S.cardOrder.map(key => {
     if (key === 'intro') {
       return `<div class="cat-card" data-key="intro">
-        <div class="cat-icon">🙋</div>
+        <div class="cat-icon">${ICON.intro}</div>
         <div class="cat-body">
-          <div class="cat-lbl mono">MY INTRODUCTION</div>
+          <div class="cat-lbl">MY INTRODUCTION</div>
           <div class="cat-jp">自己紹介</div>
         </div>
         <div class="drag-handle">⠿</div>
@@ -515,17 +640,14 @@ function renderHome() {
     }
     const c = S.categories.find(c => c.category === key);
     if (!c) return '';
-    const m = CAT[key] || {icon:'📋', lbl:key.toUpperCase()};
-    const done = c.cleared === c.total;
+    const m = CAT[key] || { lbl: key.toUpperCase() };
     return `<div class="cat-card" data-key="${key}">
-      <div class="cat-icon">${m.icon}</div>
+      <div class="cat-icon">${ICON[key] || ICON.meeting}</div>
       <div class="cat-body">
-        <div class="cat-lbl mono">${m.lbl}</div>
+        <div class="cat-lbl">${m.lbl}</div>
         <div class="cat-jp">${esc(c.category_jp)}</div>
       </div>
-      <div class="cat-score${done?' done':''}">
-        ${c.cleared}<span class="denom"> / ${c.total}</span>
-      </div>
+      ${progressRing(c.cleared, c.total)}
       <div class="drag-handle">⠿</div>
     </div>`;
   }).join('');
@@ -533,13 +655,10 @@ function renderHome() {
   $app.innerHTML = `
   <div class="home-hd">
     <div class="home-hd-text">
-      <h1 class="mono" style="font-family:'Courier New',monospace;font-size:.82rem;
-        letter-spacing:.24em;color:var(--accent);font-weight:700;text-transform:uppercase">
-        MUNICH TRIP · GATE ENGLISH</h1>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.38);margin-top:4px;letter-spacing:.07em">
-        カテゴリを選んで練習を開始してください</div>
+      <h1 class="home-title">MUNICH TRIP · GATE ENGLISH</h1>
+      <div class="home-sub">カテゴリを選んで練習を開始してください</div>
     </div>
-    <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">⚙</button>
+    <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">${ICON.gear}</button>
   </div>
   <div class="cat-grid" id="cat-grid">${cards}</div>
   <button class="reset-btn" onclick="doReset()">進捗をリセット</button>`;
