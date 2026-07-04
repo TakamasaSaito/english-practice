@@ -650,21 +650,6 @@ try { speechSynthesis.addEventListener('voiceschanged', pickVoice); } catch(_) {
 speechSynthesis.onvoiceschanged = pickVoice;
 pickVoice();
 
-// ── iOS TTS unlock ────────────────────────────────────────
-// iOS requires speechSynthesis.speak() to be called from a user
-// gesture at least once per session.  Fire a silent utterance on
-// the first touchstart so all subsequent speak() calls work even
-// when invoked after async/await (outside direct gesture context).
-let _ttsUnlocked = false;
-document.addEventListener('touchstart', function() {
-  if (_ttsUnlocked) return;
-  _ttsUnlocked = true;
-  pickVoice();
-  const wake = new SpeechSynthesisUtterance('');
-  wake.volume = 0;
-  speechSynthesis.speak(wake);
-}, {once: true, passive: true});
-
 // ── utterance factory ──────────────────────────────────────
 function _makeUtt(text) {
   pickVoice();
@@ -675,25 +660,26 @@ function _makeUtt(text) {
   return u;
 }
 
-// ── speak() — game-flow TTS (may run outside gesture context) ──
-// iOS bug: cancel() → speak() in the same tick is silently dropped.
-// 80 ms defer resolves it and stays within iOS's ~3 s activation window.
+// ── speak() — game-flow TTS ────────────────────────────────
+// 80 ms defer avoids same-tick speak() after previous utterance ends.
 let listenTimer = null;
 let _speakTimer  = null;
+let _ttsEndedAt  = 0;   // timestamp when TTS ended (for mic-start guard ③)
 function speak(text, onDone) {
   clearTimeout(listenTimer);
   clearTimeout(_speakTimer);
   const u = _makeUtt(text);
-  const done = () => { clearTimeout(listenTimer); if (onDone) onDone(); };
+  const done = () => {
+    clearTimeout(listenTimer);
+    _ttsEndedAt = Date.now();
+    if (onDone) onDone();
+  };
   u.onend  = done;
   u.onerror = done;
-  speechSynthesis.cancel();
-  // iOS AudioSession guard: if mic was active within 250ms, wait for it to release
-  const delay = Math.max(80, 250 - (Date.now() - _recogEndedAt));
   _speakTimer = setTimeout(() => {
     listenTimer = setTimeout(done, Math.max(text.split(' ').length * 700, 5000));
     speechSynthesis.speak(u);
-  }, delay);
+  }, 80);
 }
 
 // ── speakOnly() — called directly from onclick buttons ────
@@ -707,10 +693,7 @@ function speakOnly(text, btn) {
   clearTimeout(listenTimer);
   clearTimeout(_speakTimer);
   const u = _makeUtt(text);
-  speechSynthesis.cancel();
-  // iOS AudioSession guard: if mic was active within 250ms, wait for it to release
-  const delay = Math.max(80, 250 - (Date.now() - _recogEndedAt));
-  _speakTimer = setTimeout(() => speechSynthesis.speak(u), delay);
+  _speakTimer = setTimeout(() => speechSynthesis.speak(u), 80);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -722,10 +705,22 @@ let silenceTimer = null;
 let finalBuffer = '';
 let pendingOnResult = null;
 let recogDone = false;
-let _recogEndedAt = 0;  // timestamp when mic session fully ended (for AudioSession guard)
+let _recogEndedAt = 0;  // timestamp when mic session fully ended
+let _recogErrors  = 0;  // consecutive error count within current mic session
 
 function startRecog(onResult, onErr) {
-  if (!SR || S.useFallback) { S.useFallback = true; if (onErr) onErr('unsupported'); return; }
+  // ① permanent fallback if browser has no SR support
+  if (!SR) { S.useFallback = true; if (onErr) onErr('unsupported'); return; }
+  // ① already decided to fall back (2 consecutive failures this session)
+  if (S.useFallback) { if (onErr) onErr('fallback'); return; }
+
+  // ③ iOS AudioSession guard: wait 500ms after TTS ends before opening mic
+  const sinceTTS = Date.now() - _ttsEndedAt;
+  if (sinceTTS < 500) {
+    setTimeout(() => startRecog(onResult, onErr), 500 - sinceTTS);
+    return;
+  }
+
   stopRecog();
   finalBuffer = '';
   pendingOnResult = onResult;
@@ -733,8 +728,8 @@ function startRecog(onResult, onErr) {
 
   recog = new SR();
   recog.lang = 'en-US';
-  recog.continuous = true;       // ← 途中確定しない
-  recog.interimResults = true;   // ← リアルタイム表示用
+  recog.continuous = true;
+  recog.interimResults = true;
 
   recog.onresult = e => {
     let interim = '';
@@ -743,7 +738,6 @@ function startRecog(onResult, onErr) {
       else interim += e.results[i][0].transcript;
     }
     updateLiveTranscript(finalBuffer.trim(), interim);
-    // 最後の音声から 2.5 秒無音で確定
     clearTimeout(silenceTimer);
     silenceTimer = setTimeout(deliverTranscript, 2500);
   };
@@ -751,26 +745,41 @@ function startRecog(onResult, onErr) {
   recog.onerror = e => {
     if (e.error === 'no-speech') { deliverTranscript(); return; }
     clearTimeout(silenceTimer);
-    S.useFallback = true;
+    _recogErrors++;
     stopRecog();
-    if (onErr) onErr(e.error);
+    if (_recogErrors >= 2) {
+      // ② 2 consecutive failures → fall back to text input
+      S.useFallback = true;
+      if (onErr) onErr(e.error);
+    } else {
+      // ② 1st failure → auto-retry once after short delay
+      const area = $id('mic-area');
+      if (area) area.innerHTML =
+        `<div class="mic-row"><div class="mic-dot" style="opacity:.45"></div>再試行中...</div>`;
+      setTimeout(() => startRecog(onResult, onErr), 800);
+    }
   };
 
   // ブラウザが勝手に終了した場合もここで確定
   recog.onend = () => {
     S.recognizing = false;
-    _recogEndedAt = Date.now();  // AudioSession release timestamp
+    _recogEndedAt = Date.now();
     if (!recogDone) deliverTranscript();
   };
 
   try { recog.start(); S.recognizing = true; }
-  catch(e) { S.useFallback = true; if (onErr) onErr('start'); }
+  catch(e) {
+    _recogErrors++;
+    if (_recogErrors >= 2) { S.useFallback = true; if (onErr) onErr('start'); }
+    else setTimeout(() => startRecog(onResult, onErr), 800);
+  }
 }
 
 // バッファを確定して判定へ渡す（二重呼び出し防止）
 function deliverTranscript() {
   if (recogDone) return;
   recogDone = true;
+  _recogErrors = 0;  // ② successful recognition — reset consecutive error count
   clearTimeout(silenceTimer);
   stopRecog();
   const t = finalBuffer.trim();
@@ -1123,6 +1132,8 @@ function renderPractice() {
 function startTurn(idx) {
   S.turnIdx = idx;
   S.transcript = '';
+  _recogErrors = 0;              // ② reset per turn
+  if (SR) S.useFallback = false; // ② allow SR retry on new turn
   const turn = S.scenario.turns[idx];
   if (turn.speaker === 'agent') phListen(turn);
   else phReady(turn);
@@ -1201,6 +1212,8 @@ function micHtml() {
 
 // onDone(transcript, expected) — defaults to onTranscript for scenario practice
 function launchMic(expected, onDone) {
+  _recogErrors = 0;              // ② reset per mic session
+  if (SR) S.useFallback = false; // ② allow retry each new session
   const cb = onDone || onTranscript;
   _launchMicCb = cb;
   const area = $id('mic-area');
@@ -1374,6 +1387,8 @@ function fcTurn(idx) {
 }
 
 function launchMicFC(expected, idx) {
+  _recogErrors = 0;              // ② reset per mic session
+  if (SR) S.useFallback = false; // ② allow retry each new session
   const area = $id('mic-area');
   if (!area) return;
   if (S.useFallback) {
