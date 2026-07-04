@@ -71,6 +71,7 @@ class ProfileIn(BaseModel):
 
 class SettingsIn(BaseModel):
     silent_mode: bool
+    silent_tts: bool
 
 
 def init_db():
@@ -125,6 +126,7 @@ def init_db():
             "ALTER TABLE profile ADD COLUMN focus_jp TEXT NOT NULL DEFAULT ''",
             "ALTER TABLE profile ADD COLUMN purpose_jp TEXT NOT NULL DEFAULT ''",
             "ALTER TABLE profile ADD COLUMN silent_mode INTEGER NOT NULL DEFAULT 0",
+            "ALTER TABLE profile ADD COLUMN silent_tts  INTEGER NOT NULL DEFAULT 1",
         ]:
             try:
                 conn.execute(migration)
@@ -340,17 +342,23 @@ def api_reset():
 @app.get("/api/settings")
 def api_get_settings():
     with get_db() as conn:
-        row = conn.execute("SELECT silent_mode FROM profile WHERE id=1").fetchone()
-    silent = bool(row["silent_mode"]) if row and row["silent_mode"] is not None else False
-    return {"silent_mode": silent}
+        row = conn.execute(
+            "SELECT silent_mode, silent_tts FROM profile WHERE id=1"
+        ).fetchone()
+    if not row:
+        return {"silent_mode": False, "silent_tts": True}
+    return {
+        "silent_mode": bool(row["silent_mode"]),
+        "silent_tts":  bool(row["silent_tts"] if row["silent_tts"] is not None else 1),
+    }
 
 
 @app.put("/api/settings")
 def api_put_settings(data: SettingsIn):
     with get_db() as conn:
         conn.execute(
-            "UPDATE profile SET silent_mode=? WHERE id=1",
-            (1 if data.silent_mode else 0,),
+            "UPDATE profile SET silent_mode=?, silent_tts=? WHERE id=1",
+            (1 if data.silent_mode else 0, 1 if data.silent_tts else 0),
         )
     return {"status": "ok"}
 

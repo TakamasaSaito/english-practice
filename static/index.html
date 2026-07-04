@@ -424,6 +424,16 @@ html,body{height:100%;color:#fff;
 .mode-toggle.silent{background:rgba(246,162,28,.1);color:var(--accent);
   border-color:rgba(246,162,28,.55)}
 .mode-toggle:active{opacity:.6}
+/* audio ON/OFF sub-toggle — shown only in SILENT mode */
+.audio-toggle{display:flex;align-items:center;gap:3px;background:none;
+  border:1px solid rgba(246,162,28,.22);padding:5px 8px;border-radius:6px;
+  cursor:pointer;font-family:'Courier New',monospace;font-size:.55rem;
+  letter-spacing:.1em;color:rgba(246,162,28,.6);
+  transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+.audio-toggle.tts-on{background:rgba(246,162,28,.08);color:var(--accent);
+  border-color:rgba(246,162,28,.45)}
+.audio-toggle.tts-off{color:rgba(255,255,255,.38);border-color:rgba(255,255,255,.18)}
+.audio-toggle:active{opacity:.6}
 .silent-badge{font-family:'Courier New',monospace;font-size:.5rem;
   letter-spacing:.14em;color:#12213D;background:var(--accent);
   border-radius:3px;padding:2px 6px;display:inline-block;vertical-align:middle;
@@ -474,7 +484,7 @@ const S = {
   fullConvLogs: [],
   // mode
   silentMode: false,   // SILENT = no mic, self-report based
-  ttsEnabled: true,    // per-session TTS mute toggle (not persisted)
+  silentTts:  true,    // in SILENT mode: true=audio ON, false=audio OFF (persisted)
   // profile
   profile: null,
   cardOrder: [],   // ['travel','social','meeting','intro'] persisted order
@@ -694,7 +704,7 @@ let _ttsEndedAt  = 0;   // timestamp when TTS ended (for mic-start guard ③)
 function speak(text, onDone, mutedDelay=80) {
   clearTimeout(listenTimer);
   clearTimeout(_speakTimer);
-  if (!S.ttsEnabled) {
+  if (S.silentMode && !S.silentTts) {
     if (onDone) _speakTimer = setTimeout(onDone, mutedDelay);
     return;
   }
@@ -715,7 +725,9 @@ function speak(text, onDone, mutedDelay=80) {
 // ── speakOnly() — called directly from onclick buttons ────
 // btn: the button element; used for immediate visual feedback so
 // the user knows the tap registered even before audio starts.
+// In SILENT+audio-OFF mode all sound is suppressed.
 function speakOnly(text, btn) {
+  if (S.silentMode && !S.silentTts) return;
   if (btn) {
     btn.classList.add('speaking');
     setTimeout(() => btn.classList.remove('speaking'), 900);
@@ -1008,6 +1020,13 @@ function renderHome() {
           : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> SPEAKING`
         }
       </button>
+      ${S.silentMode ? `
+      <button class="audio-toggle ${S.silentTts ? 'tts-on' : 'tts-off'}" onclick="toggleSilentTts()" title="音声ON/OFF">
+        ${S.silentTts
+          ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg> ON`
+          : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg> OFF`
+        }
+      </button>` : ''}
       <button class="gear-btn" onclick="goPassport()" title="パスポート・スタンプ帳">${ICON.passport}</button>
       <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">${ICON.gear}</button>
     </div>
@@ -1207,7 +1226,7 @@ function renderPractice() {
     </div>
     <div class="pass">
       <div class="pass-hd">
-        <div class="pass-en">${esc(sc.title_en.toUpperCase())}${S.silentMode ? ' <span class="silent-badge">SILENT</span>' : ''}</div>
+        <div class="pass-en">${esc(sc.title_en.toUpperCase())}${S.silentMode ? ` <span class="silent-badge">${S.silentTts ? '🎧' : '🔇'} SILENT</span>` : ''}</div>
         <div class="pass-jp">${esc(sc.title_jp)}</div>
         <div class="pass-meta">
           <span class="turn-lbl mono" id="turn-lbl">TURN 1 / 4</span>
@@ -1241,19 +1260,20 @@ function phListen(turn) {
   setStatus('LISTEN');
   if (S.silentMode) {
     // Silent mode: no auto-advance; user taps "考える →" manually
+    // replay button only shown when audio is ON
+    const replayBtn = S.silentTts
+      ? `<button class="btn btn-outline" style="font-size:.75rem" onclick="replayTTS()">🔊 もう一度</button>`
+      : '';
     setBody(`
       <div class="sp-lbl mono">STAFF / PARTNER</div>
       <div class="agent-box">${esc(turn.text)}</div>
       ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
       <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-        <button class="btn btn-outline" style="font-size:.75rem" onclick="replayTTS()">🔊 もう一度</button>
-        <button id="mute-btn" class="btn btn-sub" style="font-size:.72rem" onclick="toggleTTS()">
-          ${S.ttsEnabled ? '🔊 音声ON' : '🔇 ミュート'}
-        </button>
+        ${replayBtn}
         <button class="btn btn-primary" style="flex:1;font-size:.8rem" onclick="phSilentReady(curTurn())">考える →</button>
       </div>
     `);
-    if (S.ttsEnabled) speak(turn.text, null);
+    if (S.silentTts) speak(turn.text, null);
   } else {
     setBody(`
       <div class="sp-lbl mono">STAFF / PARTNER</div>
@@ -1269,7 +1289,7 @@ function phListen(turn) {
 function replayTTS() {
   const t = curTurn();
   if (S.silentMode) {
-    if (S.ttsEnabled) speak(t.text, null);
+    if (S.silentTts) speak(t.text, null);
   } else {
     speak(t.text, () => { if (S.phase==='listen') phRepeat(t); });
   }
@@ -1496,18 +1516,23 @@ function fcTurn(idx) {
   const turn = S.scenario.turns[idx];
   if (turn.speaker === 'agent') {
     setStatus('FULL CONV');
+    // 音声OFFのサイレントモードでは「今すぐ次へ」ボタンも表示
+    const tapBtn = (S.silentMode && !S.silentTts)
+      ? `<button class="btn btn-sub" style="margin-top:8px;width:100%;font-size:.75rem" onclick="fcAgentAdvanceNow(${idx})">今すぐ次へ →</button>`
+      : `<div style="font-size:.73rem;color:rgba(18,33,61,.4);margin-top:6px">次のターンへ進んでいます...</div>`;
     setBody(`
       <div class="sp-lbl mono">STAFF / PARTNER</div>
       <div class="agent-box">${esc(turn.text)}</div>
       ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
-      <div style="font-size:.73rem;color:rgba(18,33,61,.4);margin-top:6px">次のターンへ進んでいます...</div>
+      ${tapBtn}
     `);
     const advance = () => {
       if (!S.fullConv) return;
       if (idx + 1 < 4) fcTurn(idx + 1);
       else if (S.silentMode) fcReviewSilent(); else fcReview();
     };
-    speak(turn.text, advance, 1500);
+    // 音声OFF時: 2秒後に自動進行(mutedDelay); 音声ON時: TTS終了後に進行
+    speak(turn.text, advance, 2000);
   } else if (S.silentMode) {
     fcTurnSilent(idx, turn);
   } else {
@@ -2177,15 +2202,15 @@ function qaNext() {
 
 function toggleSilentMode() {
   S.silentMode = !S.silentMode;
-  api.put('/api/settings', { silent_mode: S.silentMode }).catch(() => {});
+  api.put('/api/settings', { silent_mode: S.silentMode, silent_tts: S.silentTts }).catch(() => {});
   renderHome();
 }
 
-function toggleTTS() {
-  S.ttsEnabled = !S.ttsEnabled;
-  if (!S.ttsEnabled) { clearTimeout(_speakTimer); speechSynthesis.cancel(); }
-  const btn = $id('mute-btn');
-  if (btn) btn.textContent = S.ttsEnabled ? '🔊 音声ON' : '🔇 ミュート';
+function toggleSilentTts() {
+  S.silentTts = !S.silentTts;
+  if (!S.silentTts) { clearTimeout(_speakTimer); speechSynthesis.cancel(); }
+  api.put('/api/settings', { silent_mode: S.silentMode, silent_tts: S.silentTts }).catch(() => {});
+  renderHome();
 }
 
 // 1. ユーザーターン開始 — 頭の中で考える時間
@@ -2206,21 +2231,21 @@ function phSilentReady(turn) {
   `);
 }
 
-// 2. 模範解答を表示 + TTS + 自己申告ボタン
+// 2. 模範解答を表示 + TTS(音声ONのみ) + 自己申告ボタン
 function phSilentReveal(turn) {
   S.phase = 'silent-reveal';
   setStatus('MODEL ANSWER');
   const isLast = S.turnIdx === 3;
+  // replay button only when audio is ON
+  const speakBtn = S.silentTts
+    ? `<button class="btn-speak-model" style="margin-bottom:10px" onclick="speakOnly(${JSON.stringify(turn.text)},this)">🔊 もう一度聞く</button>`
+    : '';
   setBody(`
     <div class="sp-lbl mono">模範解答</div>
     <div class="agent-box">${esc(turn.text)}</div>
     ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
-    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;margin-bottom:4px">
-      <button id="mute-btn" class="btn btn-sub" style="font-size:.72rem" onclick="toggleTTS()">
-        ${S.ttsEnabled ? '🔊 音声ON' : '🔇 ミュート'}
-      </button>
-    </div>
-    <div style="font-size:.78rem;color:rgba(18,33,61,.55);margin:10px 0 8px">
+    ${speakBtn}
+    <div style="font-size:.78rem;color:rgba(18,33,61,.55);margin:12px 0 8px">
       頭の中で言えましたか？
     </div>
     <div class="btn-row">
@@ -2230,7 +2255,8 @@ function phSilentReveal(turn) {
       </button>
     </div>
   `);
-  if (S.ttsEnabled) speak(turn.text, null);
+  // speak() respects S.silentTts via the muted-mode check
+  speak(turn.text, null);
 }
 
 // 3. 自己申告 → 次のターンへ
@@ -2245,7 +2271,7 @@ function silentReport(couldSay) {
 // SILENT MODE — full conversation
 // ═══════════════════════════════════════════════════════════
 
-// ユーザーターン: 4秒カウントダウン後に模範解答表示
+// ユーザーターン: 4秒カウントダウン後に模範解答を自動表示
 function fcTurnSilent(idx, turn) {
   setStatus('YOUR TURN · THINK');
   setBody(`
@@ -2267,15 +2293,20 @@ function fcTurnSilent(idx, turn) {
   }, 1000);
 }
 
-// 模範解答を表示してTTS再生 → 次のターンへ自動進行
+// 模範解答を表示 → TTS(音声ON時) → 次のターンへ自動進行
+// 音声OFF時は2秒表示後に進行(タップで即進みも可)
 function showFCSilentAnswer(idx, turn) {
   if (!S.fullConv) return;
   setStatus('MODEL ANSWER');
+  const nextFn = `fcAdvanceNow(${idx})`;
   setBody(`
     <div class="sp-lbl mono">模範解答</div>
     <div class="agent-box">${esc(turn.text)}</div>
     ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
-    <div style="font-size:.73rem;color:rgba(18,33,61,.4);margin-top:8px">次のターンへ進んでいます...</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
+      <div style="font-size:.73rem;color:rgba(18,33,61,.4)">次のターンへ進んでいます...</div>
+      <button class="btn btn-sub" style="font-size:.72rem;padding:6px 12px" onclick="${nextFn}">今すぐ次へ →</button>
+    </div>
   `);
   const advance = () => {
     if (!S.fullConv) return;
@@ -2283,9 +2314,31 @@ function showFCSilentAnswer(idx, turn) {
       if (!S.fullConv) return;
       const next = idx + 1;
       if (next < 4) fcTurn(next); else fcReviewSilent();
-    }, 800);
+    }, 600);
   };
+  // audio ON: advance after TTS ends; audio OFF: advance after 2s (mutedDelay)
   speak(turn.text, advance, 2000);
+}
+
+// "今すぐ次へ →" ボタンで即時進行(pendingタイマーをキャンセル)
+function fcAdvanceNow(idx) {
+  clearTimeout(_speakTimer);
+  clearTimeout(listenTimer);
+  speechSynthesis.cancel();
+  if (!S.fullConv) return;
+  const next = idx + 1;
+  if (next < 4) fcTurn(next); else fcReviewSilent();
+}
+
+// FC agentターン(音声OFF時)の即時進行ボタン
+function fcAgentAdvanceNow(idx) {
+  clearTimeout(_speakTimer);
+  clearTimeout(listenTimer);
+  speechSynthesis.cancel();
+  if (!S.fullConv) return;
+  const next = idx + 1;
+  if (next < 4) fcTurn(next);
+  else if (S.silentMode) fcReviewSilent(); else fcReview();
 }
 
 // サイレントFC用レビュー画面 (スコアなし)
@@ -2303,10 +2356,14 @@ function fcReviewSilent() {
         ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
       </div>`;
     }
+    // show speak button only when audio is ON
+    const speakBtn = S.silentTts
+      ? `<button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(turn.text)},this)">🔊</button>`
+      : '';
     return `<div class="fc-review-item">
       <div style="display:flex;align-items:center;margin-bottom:5px">
         <div class="rlbl mono" style="margin-bottom:0">YOUR TURN ${i+1} — 模範解答</div>
-        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(turn.text)},this)">🔊</button>
+        ${speakBtn}
       </div>
       <div class="rtxt">${esc(turn.text)}</div>
       ${turn.text_jp ? `<div class="text-jp" style="margin-bottom:4px">${esc(turn.text_jp)}</div>` : ''}
@@ -2614,7 +2671,7 @@ function showSplash() {
   S.profile    = prof;
   S.cardOrder  = order;
   S.silentMode = settings.silent_mode || false;
-  S.ttsEnabled = true;
+  S.silentTts  = settings.silent_tts !== false; // default true
   await splashDone;
   renderHome();
 })();
