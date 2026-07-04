@@ -343,6 +343,79 @@ html,body{height:100%;color:#fff;
 
 /* intro practice shell (reuses .pass, .pbody etc.) */
 .intro-pass-wrap{padding:0}
+
+/* ══════════════════ ① PASSPORT STAMP ══════════════════ */
+.stamp-overlay{position:fixed;inset:0;display:flex;align-items:center;
+  justify-content:center;z-index:9999;pointer-events:none}
+.stamp-svg{filter:drop-shadow(0 6px 28px rgba(176,34,14,.45));
+  animation:stampDrop 150ms cubic-bezier(.05,.9,.25,1) forwards,
+    stampSettle .4s ease 150ms forwards, stampFade .35s ease 1.9s forwards}
+@keyframes stampDrop{
+  from{transform:scale(1.4) rotate(-14deg);opacity:0}
+  to{transform:scale(1.0) rotate(-12deg);opacity:1}}
+@keyframes stampSettle{
+  0%{transform:scale(1.0) rotate(-12deg)}
+  30%{transform:scale(1.04) rotate(-13.5deg)}
+  65%{transform:scale(.97) rotate(-11deg)}
+  100%{transform:scale(1.0) rotate(-12deg)}}
+@keyframes stampFade{from{opacity:1}to{opacity:0}}
+
+/* ══════════════════ ② MIC VISUALIZER ══════════════════ */
+.viz-wrap{display:flex;align-items:center;gap:3px;height:28px;margin-left:6px}
+.viz-bar{width:5px;background:var(--accent);border-radius:3px;height:4px;
+  transition:height 55ms ease-out;flex-shrink:0}
+
+/* ══════════════════ ③⑤ HOME HEADER EXTRAS ══════════════════ */
+.home-meta{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.departure-cntdwn{font-family:'Space Grotesk','Courier New',monospace;font-size:.6rem;
+  letter-spacing:.2em;color:var(--accent);opacity:.8;text-transform:uppercase}
+.world-clock{font-family:'Space Grotesk','Courier New',monospace;font-size:.58rem;
+  letter-spacing:.12em;color:rgba(255,255,255,.38);text-transform:uppercase}
+.home-hd-btns{display:flex;gap:7px;flex-shrink:0;margin-top:1px}
+
+/* ══════════════════ ④ PASSPORT PAGE ══════════════════ */
+.passport-w{padding:16px 16px 40px}
+.passport-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.passport-summary{background:rgba(246,162,28,.1);border:1px solid rgba(246,162,28,.28);
+  border-radius:8px;padding:14px 16px;margin-bottom:20px;text-align:center}
+.passport-total{font-family:'Space Grotesk','Courier New',monospace;font-size:1.1rem;
+  letter-spacing:.2em;color:var(--accent);font-weight:700}
+.passport-total-sub{font-size:.62rem;letter-spacing:.1em;color:rgba(255,255,255,.4);
+  margin-top:3px;font-family:'Space Grotesk',monospace}
+.passport-cat{margin-bottom:24px}
+.passport-cat-hd{font-family:'Space Grotesk','Courier New',monospace;font-size:.6rem;
+  letter-spacing:.22em;color:rgba(255,255,255,.45);text-transform:uppercase;
+  margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08)}
+.passport-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.pstamp{aspect-ratio:1;border-radius:4px;display:flex;align-items:center;
+  justify-content:center;position:relative;cursor:default;font-size:.55rem;
+  font-family:'Space Grotesk',monospace;font-weight:700;letter-spacing:.04em}
+.pstamp.uncl{border:1.5px dashed rgba(255,255,255,.2);color:rgba(255,255,255,.25)}
+.pstamp.cl{border:none;color:#fff}
+.pstamp.cl svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.9}
+.pstamp-no{position:absolute;bottom:2px;right:3px;font-size:.42rem;opacity:.7}
+
+/* ══════════════════ ⑥ STAGGER ANIMATION ══════════════════ */
+.stagger{opacity:0;animation:staggerIn .32s ease both}
+@keyframes staggerIn{
+  from{opacity:0;transform:translateY(9px)}
+  to{opacity:1;transform:translateY(0)}}
+
+/* ══════════════════ ⑦ SPLASH SCREEN ══════════════════ */
+#splash{position:fixed;inset:0;background:#12213D;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:10000;transition:opacity .4s ease}
+.splash-plane{color:var(--accent);margin-bottom:28px}
+.splash-plane svg{width:64px;height:64px}
+.splash-title{font-family:'Space Grotesk','Courier New',monospace;
+  font-size:1.75rem;letter-spacing:.28em;color:var(--accent);font-weight:700;
+  min-height:2.2rem;text-align:center}
+.flap-char{display:inline-block;transition:opacity .06s}
+.flap-unsettled{color:rgba(246,162,28,.45)}
+.splash-sub{font-family:'Space Grotesk','Courier New',monospace;
+  font-size:.64rem;letter-spacing:.45em;color:rgba(255,255,255,.35);
+  margin-top:14px;animation:fadeIn .5s ease 1.4s both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
@@ -423,6 +496,15 @@ const ICON = {
     `<path d="M3 21v-1a8 8 0 0 1 11-7.4"/>` +
     `<path d="M15 13h5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3l-3 2.5V20a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z"/>`
   ),
+  // passport / book icon — 20x20
+  passport: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" ` +
+    `stroke="#F6A21C" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">` +
+    `<rect x="3" y="2" width="14" height="20" rx="2"/>` +
+    `<line x1="3" y1="8" x2="17" y2="8"/>` +
+    `<circle cx="10" cy="14" r="2.5"/>` +
+    `<line x1="6.5" y1="19.5" x2="13.5" y2="19.5"/>` +
+    `</svg>`,
+
   // gear (Lucide "Settings") — 20x20
   gear: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" ` +
     `stroke="#F6A21C" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">` +
@@ -755,14 +837,24 @@ function renderHome() {
   <div class="home-hd">
     <div class="home-hd-text">
       <h1 class="home-title">MUNICH TRIP · GATE ENGLISH</h1>
-      <div class="home-sub">カテゴリを選んで練習を開始してください</div>
+      <div class="home-meta">
+        <div class="departure-cntdwn">${daysUntilDeparture()}</div>
+        <div class="world-clock" id="world-clock"></div>
+      </div>
     </div>
-    <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">${ICON.gear}</button>
+    <div class="home-hd-btns">
+      <button class="gear-btn" onclick="goPassport()" title="パスポート・スタンプ帳">${ICON.passport}</button>
+      <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">${ICON.gear}</button>
+    </div>
   </div>
   <div class="cat-grid" id="cat-grid">${cards}</div>
   <button class="reset-btn" onclick="doReset()">進捗をリセット</button>`;
 
   initCardDrag();
+  applyStagger('.cat-card');
+  if (_clockTimer) clearInterval(_clockTimer);
+  updateWorldClock();
+  _clockTimer = setInterval(updateWorldClock, 60000);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -933,6 +1025,7 @@ function renderScenarios() {
     <div class="sboard-hd"><span>SCENARIO</span><span>STATUS</span></div>
     ${cards}
   </div>`;
+  applyStagger('.scard');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1053,7 +1146,9 @@ function launchMic(expected, onDone) {
   if (!area) return;
   if (S.useFallback) { showFallback(area, expected, cb); return; }
   area.innerHTML = `
-    <div class="mic-row"><div class="mic-dot"></div>録音中... 英語で話してください（2.5秒の無音で自動確定）</div>
+    <div class="mic-row"><div class="mic-dot"></div>録音中...
+      <div class="viz-wrap" id="viz-wrap">${'<div class="viz-bar"></div>'.repeat(7)}</div>
+    </div>
     <div class="live-transcript" id="live-transcript"></div>
     <button class="btn btn-primary btn-confirm" onclick="forceConfirm()">✓ これで確定</button>
     <button class="fb-toggle" onclick="toggleFB()">うまく聞き取れない時はテキスト入力</button>
@@ -1065,6 +1160,7 @@ function launchMic(expected, onDone) {
     t => cb(t, expected),
     () => { showFallback($id('mic-area'), expected, cb); }
   );
+  startViz();
 }
 let _launchMicCb = null;
 
@@ -1309,6 +1405,7 @@ async function phClear() {
       <div class="clear-sub">${esc(S.scenario.title_jp)} をクリアしました！</div>
       <button class="btn btn-primary" onclick="backToList()">← 一覧に戻る</button>
     </div>`);
+  showStamp();
 }
 
 function curTurn() { return S.scenario.turns[S.turnIdx]; }
@@ -1490,6 +1587,7 @@ function renderIntro() {
     <div class="section-lbl">${sectionLabel}</div>
     ${listHtml}
   </div>`;
+  applyStagger('.phrase-row, .qa-row');
 }
 
 function switchIntroSection(sec) {
@@ -1914,19 +2012,240 @@ async function doReset() {
 function stop() {
   S.fullConv = false;
   stopRecog();
+  stopViz();
   speechSynthesis.cancel();
   clearTimeout(listenTimer);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ① PASSPORT STAMP ANIMATION
+// ═══════════════════════════════════════════════════════════
+function showStamp() {
+  const old = $id('stamp-overlay');
+  if (old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = 'stamp-overlay';
+  ov.className = 'stamp-overlay';
+  ov.innerHTML = `<svg class="stamp-svg" width="210" height="210" viewBox="0 0 210 210">
+    <!-- outer jagged ring (dashes simulate ink-edge) -->
+    <circle cx="105" cy="105" r="96" fill="none" stroke="#B5220E" stroke-width="9"
+      stroke-dasharray="5 3.5" opacity=".88"/>
+    <!-- inner rings -->
+    <circle cx="105" cy="105" r="84" fill="none" stroke="#B5220E" stroke-width="2.2"/>
+    <circle cx="105" cy="105" r="80" fill="rgba(181,34,14,.07)"/>
+    <!-- arc label top -->
+    <path id="sa" d="M 30,105 A 75,75 0 0,1 180,105" fill="none"/>
+    <text font-size="11.5" font-weight="700" fill="#B5220E" letter-spacing="4.5"
+      font-family="'Space Grotesk','Courier New',monospace">
+      <textPath href="#sa" startOffset="9%">MUNICH · GERMANY</textPath></text>
+    <!-- CLEARED big text -->
+    <text x="105" y="112" text-anchor="middle" dominant-baseline="middle"
+      font-size="28" font-weight="700" fill="#B5220E" letter-spacing="3"
+      font-family="'Space Grotesk','Courier New',monospace">CLEARED</text>
+    <!-- divider -->
+    <line x1="56" y1="123" x2="154" y2="123" stroke="#B5220E" stroke-width="1.6"/>
+    <!-- 完了 -->
+    <text x="105" y="137" text-anchor="middle" font-size="13" fill="#B5220E"
+      letter-spacing="8" font-family="'Space Grotesk','Courier New',monospace">完了</text>
+  </svg>`;
+  document.body.appendChild(ov);
+  setTimeout(() => ov.remove(), 2500);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ② MIC WAVEFORM VISUALIZER
+// ═══════════════════════════════════════════════════════════
+let _vizStream = null, _vizRaf = null, _vizAnalyser = null;
+
+async function startViz() {
+  stopViz();
+  try {
+    _vizStream = await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    const actx = new (window.AudioContext || window.webkitAudioContext)();
+    const src = actx.createMediaStreamSource(_vizStream);
+    _vizAnalyser = actx.createAnalyser();
+    _vizAnalyser.fftSize = 64;
+    src.connect(_vizAnalyser);
+    const data = new Uint8Array(_vizAnalyser.frequencyBinCount);
+    function tick() {
+      _vizRaf = requestAnimationFrame(tick);
+      _vizAnalyser.getByteFrequencyData(data);
+      document.querySelectorAll('.viz-bar').forEach((bar, i) => {
+        const idx = Math.floor(i * 6);
+        const h = Math.max(3, Math.round((data[idx] / 255) * 26));
+        bar.style.height = h + 'px';
+      });
+    }
+    tick();
+  } catch(_) { /* no mic permission — fallback to text only */ }
+}
+
+function stopViz() {
+  if (_vizRaf) { cancelAnimationFrame(_vizRaf); _vizRaf = null; }
+  if (_vizStream) { _vizStream.getTracks().forEach(t => t.stop()); _vizStream = null; }
+  _vizAnalyser = null;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ③ DEPARTURE COUNTDOWN
+// ═══════════════════════════════════════════════════════════
+function daysUntilDeparture() {
+  const dep = new Date('2026-08-03T00:00:00+09:00');
+  const now = new Date();
+  const d = Math.ceil((dep - now) / 86400000);
+  if (d > 0) return `DEPARTURE IN ${d} DAYS`;
+  if (d === 0) return 'DEPARTURE TODAY ✈';
+  return `DEPARTED ${Math.abs(d)} DAYS AGO`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ④ PASSPORT PAGE
+// ═══════════════════════════════════════════════════════════
+const PCAT = {
+  travel:  { jp:'移動系', color:'#F6A21C' },
+  social:  { jp:'社交系', color:'#5B9BD5' },
+  meeting: { jp:'会議系', color:'#3E8E63' },
+};
+
+async function goPassport() {
+  stop(); S.screen = 'passport';
+  const all = await api.get('/api/scenarios');
+  renderPassport(all);
+}
+
+function renderPassport(scenarios) {
+  const total   = scenarios.length;
+  const cleared = scenarios.filter(s => s.cleared).length;
+  const pct     = total ? Math.round((cleared/total)*100) : 0;
+
+  const checkSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+    stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/></svg>`;
+
+  const sections = Object.keys(PCAT).map(cat => {
+    const info  = PCAT[cat];
+    const scens = scenarios.filter(s => s.category === cat);
+    const clCnt = scens.filter(s => s.cleared).length;
+    const stamps = scens.map(s => {
+      if (s.cleared) {
+        return `<div class="pstamp cl" style="background:${info.color}" title="${esc(s.title_en)}">
+          ${checkSvg}<span class="pstamp-no">${s.no}</span></div>`;
+      }
+      return `<div class="pstamp uncl" title="${esc(s.title_en)}">
+        <span class="pstamp-no">${s.no}</span></div>`;
+    }).join('');
+    return `<div class="passport-cat stagger" style="animation-delay:${Object.keys(PCAT).indexOf(cat)*80}ms">
+      <div class="passport-cat-hd">${info.jp} · ${cat.toUpperCase()}
+        <span style="float:right;color:${info.color}">${clCnt}/${scens.length}</span></div>
+      <div class="passport-grid">${stamps}</div>
+    </div>`;
+  }).join('');
+
+  $app.innerHTML = `
+  <div class="passport-w">
+    <div class="passport-nav">
+      <button class="btn-back" onclick="goHome()">← HOME</button>
+      <div class="bw-title">PASSPORT</div>
+    </div>
+    <div class="passport-summary stagger">
+      <div class="passport-total">${cleared} / ${total}</div>
+      <div class="passport-total-sub">SCENARIOS CLEARED · ${pct}% COMPLETE</div>
+    </div>
+    ${sections}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ⑤ WORLD CLOCK
+// ═══════════════════════════════════════════════════════════
+let _clockTimer = null;
+const _timeFmt = tz => new Intl.DateTimeFormat('ja-JP', {
+  hour:'2-digit', minute:'2-digit', hour12:false, timeZone:tz
+}).format(new Date());
+
+function updateWorldClock() {
+  const el = $id('world-clock');
+  if (!el) { clearInterval(_clockTimer); _clockTimer = null; return; }
+  el.textContent = `TYO ${_timeFmt('Asia/Tokyo')}  ·  MUC ${_timeFmt('Europe/Berlin')}`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ⑥ STAGGER ANIMATION
+// ═══════════════════════════════════════════════════════════
+function applyStagger(selector, delayMs=70) {
+  document.querySelectorAll(selector).forEach((el, i) => {
+    el.classList.add('stagger');
+    el.style.animationDelay = (i * delayMs) + 'ms';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// ⑦ SPLASH SCREEN
+// ═══════════════════════════════════════════════════════════
+function showSplash() {
+  return new Promise(resolve => {
+    const first   = !sessionStorage.getItem('splashed');
+    const holdMs  = first ? 2200 : 900;
+    sessionStorage.setItem('splashed', '1');
+
+    const splash = document.createElement('div');
+    splash.id = 'splash';
+    const titleEl = document.createElement('div');
+    titleEl.className = 'splash-title';
+    splash.innerHTML = `<div class="splash-plane">${ICON.travel}</div>`;
+    splash.appendChild(titleEl);
+    splash.innerHTML += `<div class="splash-sub">GATE ENGLISH</div>`;
+    // re-append titleEl after innerHTML reset
+    splash.insertBefore(titleEl, splash.querySelector('.splash-sub'));
+    document.body.appendChild(splash);
+
+    // split-flap character animation
+    const TEXT   = 'MUNICH TRIP';
+    const CHARS  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ·0123456789';
+    const spans  = [];
+    for (let i = 0; i < TEXT.length; i++) {
+      const sp = document.createElement('span');
+      sp.className = 'flap-char flap-unsettled';
+      sp.textContent = TEXT[i] === ' ' ? ' ' : CHARS[Math.floor(Math.random()*CHARS.length)];
+      titleEl.appendChild(sp);
+      spans.push(sp);
+    }
+
+    const flipsPerChar = first ? 7 : 3;
+    TEXT.split('').forEach((ch, i) => {
+      if (ch === ' ') { spans[i].textContent = ' '; spans[i].classList.remove('flap-unsettled'); return; }
+      let count = 0;
+      const total = flipsPerChar + i;
+      const iv = setInterval(() => {
+        count++;
+        if (count >= total) {
+          clearInterval(iv);
+          spans[i].textContent = ch;
+          spans[i].classList.remove('flap-unsettled');
+        } else {
+          spans[i].textContent = CHARS[Math.floor(Math.random()*CHARS.length)];
+        }
+      }, first ? 65 : 35);
+    });
+
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      setTimeout(() => { splash.remove(); resolve(); }, 420);
+    }, holdMs - 420);
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════
 (async () => {
+  const splashDone = showSplash();
   [S.categories, S.profile, S.cardOrder] = await Promise.all([
     api.get('/api/categories'),
     api.get('/api/profile'),
     api.get('/api/categories/order'),
   ]);
+  await splashDone;
   renderHome();
 })();
 </script>
