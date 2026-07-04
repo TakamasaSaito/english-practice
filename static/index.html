@@ -41,6 +41,7 @@ html,body{height:100%;color:#fff;
     );
   background-attachment:fixed}
 #app{min-height:100dvh;max-width:448px;margin:0 auto;
+  padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,16px)}
 
 /* ── typography ── */
@@ -687,10 +688,12 @@ function speak(text, onDone) {
   u.onend  = done;
   u.onerror = done;
   speechSynthesis.cancel();
+  // iOS AudioSession guard: if mic was active within 250ms, wait for it to release
+  const delay = Math.max(80, 250 - (Date.now() - _recogEndedAt));
   _speakTimer = setTimeout(() => {
     listenTimer = setTimeout(done, Math.max(text.split(' ').length * 700, 5000));
     speechSynthesis.speak(u);
-  }, 80);
+  }, delay);
 }
 
 // ── speakOnly() — called directly from onclick buttons ────
@@ -705,7 +708,9 @@ function speakOnly(text, btn) {
   clearTimeout(_speakTimer);
   const u = _makeUtt(text);
   speechSynthesis.cancel();
-  _speakTimer = setTimeout(() => speechSynthesis.speak(u), 80);
+  // iOS AudioSession guard: if mic was active within 250ms, wait for it to release
+  const delay = Math.max(80, 250 - (Date.now() - _recogEndedAt));
+  _speakTimer = setTimeout(() => speechSynthesis.speak(u), delay);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -717,6 +722,7 @@ let silenceTimer = null;
 let finalBuffer = '';
 let pendingOnResult = null;
 let recogDone = false;
+let _recogEndedAt = 0;  // timestamp when mic session fully ended (for AudioSession guard)
 
 function startRecog(onResult, onErr) {
   if (!SR || S.useFallback) { S.useFallback = true; if (onErr) onErr('unsupported'); return; }
@@ -753,6 +759,7 @@ function startRecog(onResult, onErr) {
   // ブラウザが勝手に終了した場合もここで確定
   recog.onend = () => {
     S.recognizing = false;
+    _recogEndedAt = Date.now();  // AudioSession release timestamp
     if (!recogDone) deliverTranscript();
   };
 
@@ -778,7 +785,12 @@ function forceConfirm() { deliverTranscript(); }
 
 function stopRecog() {
   clearTimeout(silenceTimer);
-  if (recog) { try { recog.stop(); } catch(_){} recog = null; }
+  if (recog) {
+    const r = recog;
+    recog = null;
+    try { r.abort(); } catch(_) {}  // abort() forces immediate session end on iOS
+    try { r.stop();  } catch(_) {}
+  }
   S.recognizing = false;
 }
 
