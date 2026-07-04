@@ -9,11 +9,14 @@ SEED_PATH = "scenarios_seed.json"
 PROFILE_DEFAULT = {
     "name_en": "Takamasa Saito",
     "role_en": "Chief Architect",
+    "role_jp": "チーフアーキテクト",
     "focus_en": "IT simplification and enterprise architecture",
+    "focus_jp": "ITシンプリフィケーションとエンタープライズアーキテクチャ",
     "base_en": "Tokyo",
     "origin_en": "Kanagawa",
     "university_en": "Doshisha University in Kyoto",
     "purpose_en": "a hackathon to validate AI-driven in-house development",
+    "purpose_jp": "AI活用による内製開発の技術検証を行うハッカソン",
     "stay_nights": 4,
     "hobbies_en": "tennis, shogi, and golf",
 }
@@ -46,9 +49,11 @@ def main():
         );
         CREATE TABLE IF NOT EXISTS profile (
             id INTEGER PRIMARY KEY CHECK (id = 1),
-            name_en TEXT NOT NULL, role_en TEXT NOT NULL, focus_en TEXT NOT NULL,
+            name_en TEXT NOT NULL, role_en TEXT NOT NULL, role_jp TEXT NOT NULL DEFAULT '',
+            focus_en TEXT NOT NULL, focus_jp TEXT NOT NULL DEFAULT '',
             base_en TEXT NOT NULL, origin_en TEXT NOT NULL, university_en TEXT NOT NULL,
-            purpose_en TEXT NOT NULL, stay_nights INTEGER NOT NULL, hobbies_en TEXT NOT NULL
+            purpose_en TEXT NOT NULL, purpose_jp TEXT NOT NULL DEFAULT '',
+            stay_nights INTEGER NOT NULL, hobbies_en TEXT NOT NULL
         );
         DELETE FROM turn;
         DELETE FROM progress;
@@ -66,10 +71,11 @@ def main():
                 (sid, i, t["speaker"], t["text"], t.get("hint"), t.get("text_jp")),
             )
     conn.execute("""
-        INSERT OR IGNORE INTO profile (id,name_en,role_en,focus_en,base_en,origin_en,
-            university_en,purpose_en,stay_nights,hobbies_en)
-        VALUES (1,:name_en,:role_en,:focus_en,:base_en,:origin_en,
-            :university_en,:purpose_en,:stay_nights,:hobbies_en)
+        INSERT OR IGNORE INTO profile
+            (id,name_en,role_en,role_jp,focus_en,focus_jp,base_en,origin_en,
+             university_en,purpose_en,purpose_jp,stay_nights,hobbies_en)
+        VALUES (1,:name_en,:role_en,:role_jp,:focus_en,:focus_jp,:base_en,:origin_en,
+            :university_en,:purpose_en,:purpose_jp,:stay_nights,:hobbies_en)
     """, PROFILE_DEFAULT)
     conn.commit()
     conn.close()

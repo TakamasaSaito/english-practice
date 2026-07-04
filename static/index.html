@@ -296,34 +296,45 @@ html,body{height:100%;color:#fff;
 /* ══════════════════ INTRO SCREEN ══════════════════ */
 .intro-w{padding:12px 16px 32px}
 .intro-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+
+/* segment control tabs */
 .tab-row{display:flex;gap:0;margin-bottom:16px;
-  border:1px solid rgba(246,162,28,.3);border-radius:6px;overflow:hidden}
+  border:1px solid rgba(246,162,28,.35);border-radius:6px;overflow:hidden}
 .tab-btn{flex:1;background:none;border:none;
-  font-family:'Courier New',monospace;font-size:.62rem;letter-spacing:.14em;
+  font-family:'Space Grotesk','Courier New',monospace;font-size:.62rem;letter-spacing:.14em;
   color:rgba(246,162,28,.55);padding:9px 4px;cursor:pointer;text-align:center;
-  border-right:1px solid rgba(246,162,28,.2);transition:background .12s}
+  border-right:1px solid rgba(246,162,28,.2);transition:background .12s,color .12s}
 .tab-btn:last-child{border-right:none}
-.tab-btn.active{background:rgba(246,162,28,.15);color:var(--accent);font-weight:700}
+.tab-btn.active{background:var(--accent);color:#12213D;font-weight:700}
 .tab-btn:active{opacity:.7}
 
+/* section label */
+.section-lbl{font-family:'Space Grotesk','Courier New',monospace;font-size:.6rem;
+  letter-spacing:.2em;color:rgba(246,162,28,.5);text-transform:uppercase;margin-bottom:12px}
+
+/* phrase cards (cream background) */
 .phrase-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.phrase-row{background:var(--board);border:1px solid rgba(246,162,28,.18);
-  border-radius:6px;padding:12px 14px;cursor:pointer;transition:background .1s}
-.phrase-row:active{background:rgba(246,162,28,.08)}
-.phrase-num{font-family:'Courier New',monospace;font-size:.58rem;
-  letter-spacing:.16em;color:rgba(246,162,28,.5);margin-bottom:4px}
-.phrase-en{font-size:.88rem;color:#fff;line-height:1.5}
-.phrase-jp{font-size:.72rem;color:rgba(255,255,255,.38);margin-top:3px;line-height:1.4}
+.phrase-row{background:#F5F2EA;border-radius:8px;padding:13px 15px;cursor:pointer;
+  box-shadow:0 1px 2px rgba(0,0,0,.06),0 3px 10px rgba(0,0,0,.12);
+  transition:transform .1s,box-shadow .1s}
+.phrase-row:active{transform:scale(.98);box-shadow:0 1px 2px rgba(0,0,0,.04),0 1px 4px rgba(0,0,0,.08)}
+.phrase-num{font-family:'Space Grotesk','Courier New',monospace;font-size:.56rem;
+  letter-spacing:.2em;color:var(--accent);margin-bottom:5px}
+.phrase-en{font-size:.9rem;color:#12213D;font-weight:600;line-height:1.5}
+.phrase-jp{font-size:.72rem;color:#5C6B7A;margin-top:4px;line-height:1.45}
 
-.qa-row{background:var(--board);border:1px solid rgba(246,162,28,.18);
-  border-radius:6px;padding:12px 14px;cursor:pointer;transition:background .1s;margin-bottom:8px}
-.qa-row:active{background:rgba(246,162,28,.08)}
-.qa-q-lbl{font-family:'Courier New',monospace;font-size:.56rem;
-  letter-spacing:.16em;color:rgba(246,162,28,.6);margin-bottom:3px}
-.qa-q{font-size:.85rem;color:rgba(255,255,255,.9);line-height:1.45}
-.qa-a{font-size:.78rem;color:rgba(255,255,255,.35);margin-top:4px;line-height:1.4}
+/* Q&A cards (cream background) */
+.qa-row{background:#F5F2EA;border-radius:8px;padding:13px 15px;cursor:pointer;
+  box-shadow:0 1px 2px rgba(0,0,0,.06),0 3px 10px rgba(0,0,0,.12);
+  transition:transform .1s;margin-bottom:8px}
+.qa-row:active{transform:scale(.98)}
+.qa-q-lbl{font-family:'Space Grotesk','Courier New',monospace;font-size:.54rem;
+  letter-spacing:.2em;color:var(--accent);margin-bottom:4px}
+.qa-q{font-size:.88rem;color:#12213D;font-weight:600;line-height:1.45}
+.qa-a{font-size:.76rem;color:#5C6B7A;margin-top:5px;line-height:1.4}
 
-.full-intro-btn{width:100%;padding:12px;font-family:'Courier New',monospace;
+/* full intro CTA — inherits .btn.btn-primary */
+.full-intro-btn{width:100%;padding:12px;font-family:'Space Grotesk','Courier New',monospace;
   font-size:.72rem;letter-spacing:.14em;margin-top:4px}
 
 /* intro practice shell (reuses .pass, .pbody etc.) */
@@ -1310,15 +1321,18 @@ function renderProfile() {
       <div class="prof-title mono">PROFILE SETTINGS</div>
     </div>
     <div class="prof-form">
-      ${profField('name_en',      'Name (English)',       p.name_en,      'text')}
-      ${profField('role_en',      'Role / Title',         p.role_en,      'text')}
-      ${profField('focus_en',     'Focus Area',           p.focus_en,     'text')}
-      ${profField('base_en',      'Base Office',          p.base_en,      'text')}
-      ${profField('origin_en',    'Hometown / Origin',    p.origin_en,    'text')}
-      ${profField('university_en','University',           p.university_en,'text')}
-      ${profField('purpose_en',   'Purpose of Visit',     p.purpose_en,   'text')}
-      ${profField('stay_nights',  'Stay (nights)',        p.stay_nights,  'number')}
-      ${profField('hobbies_en',   'Hobbies',              p.hobbies_en,   'text')}
+      ${profField('name_en',      'Name (English)',            p.name_en,      'text')}
+      ${profField('role_en',      'Role / Title (EN)',         p.role_en,      'text')}
+      ${profField('role_jp',      'Role / Title (JP)',         p.role_jp||'',  'text')}
+      ${profField('focus_en',     'Focus Area (EN)',           p.focus_en,     'text')}
+      ${profField('focus_jp',     'Focus Area (JP)',           p.focus_jp||'', 'text')}
+      ${profField('base_en',      'Base Office',               p.base_en,      'text')}
+      ${profField('origin_en',    'Hometown / Origin',         p.origin_en,    'text')}
+      ${profField('university_en','University',                p.university_en,'text')}
+      ${profField('purpose_en',   'Purpose of Visit (EN)',     p.purpose_en,   'text')}
+      ${profField('purpose_jp',   'Purpose of Visit (JP)',     p.purpose_jp||'','text')}
+      ${profField('stay_nights',  'Stay (nights)',             p.stay_nights,  'number')}
+      ${profField('hobbies_en',   'Hobbies',                   p.hobbies_en,   'text')}
       <button class="btn btn-primary full-intro-btn prof-save mono" onclick="saveProfile()">
         ✓ &nbsp;SAVE
       </button>
@@ -1338,11 +1352,14 @@ async function saveProfile() {
   const body = {
     name_en:       get('name_en'),
     role_en:       get('role_en'),
+    role_jp:       get('role_jp'),
     focus_en:      get('focus_en'),
+    focus_jp:      get('focus_jp'),
     base_en:       get('base_en'),
     origin_en:     get('origin_en'),
     university_en: get('university_en'),
     purpose_en:    get('purpose_en'),
+    purpose_jp:    get('purpose_jp'),
     stay_nights:   parseInt(get('stay_nights')||'0',10),
     hobbies_en:    get('hobbies_en'),
   };
@@ -1360,11 +1377,11 @@ function buildIntroData(p) {
     { text: `Good morning everyone. I'm ${p.name_en}, joining you from the ${p.base_en} office.`,
       text_jp: `おはようございます。${p.base_en}オフィスから参りました、${p.name_en}です。` },
     { text: `I work as ${p.role_en}, focusing on ${p.focus_en}.`,
-      text_jp: `私は${p.role_en}として、${p.focus_en}を担当しています。` },
+      text_jp: `私は${p.role_jp}として、${p.focus_jp}を担当しています。` },
     { text: `This is my first time visiting the Munich office.`,
       text_jp: `ミュンヘンオフィスへの訪問は今回が初めてです。` },
     { text: `I'm here this week for ${p.purpose_en}.`,
-      text_jp: `今週は${p.purpose_en}のためにこちらに来ています。` },
+      text_jp: `今週は${p.purpose_jp}のためにこちらに来ています。` },
     { text: `I'm looking forward to learning how your team works here.`,
       text_jp: `こちらのチームの働き方をぜひ学ばせてください。` },
     { text: `Please feel free to reach out to me anytime during my stay.`,
@@ -1450,7 +1467,7 @@ function renderIntro() {
         <div class="phrase-jp">${esc(item.text_jp)}</div>
       </div>`).join('') +
       `</div>
-      <button class="btn btn-outline full-intro-btn mono" onclick="startFullIntro()">
+      <button class="btn btn-primary full-intro-btn" onclick="startFullIntro()">
         ▶ FULL INTRODUCTION — 通し練習
       </button>`;
   }
@@ -1462,12 +1479,11 @@ function renderIntro() {
       <div class="bw-title">MY INTRODUCTION</div>
     </div>
     <div class="tab-row">
-      <button class="tab-btn mono${sec==='A'?' active':''}" onclick="switchIntroSection('A')">A · FORMAL</button>
-      <button class="tab-btn mono${sec==='B'?' active':''}" onclick="switchIntroSection('B')">B · CASUAL</button>
-      <button class="tab-btn mono${sec==='C'?' active':''}" onclick="switchIntroSection('C')">C · Q&amp;A</button>
+      <button class="tab-btn${sec==='A'?' active':''}" onclick="switchIntroSection('A')">A · FORMAL</button>
+      <button class="tab-btn${sec==='B'?' active':''}" onclick="switchIntroSection('B')">B · CASUAL</button>
+      <button class="tab-btn${sec==='C'?' active':''}" onclick="switchIntroSection('C')">C · Q&amp;A</button>
     </div>
-    <div style="font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.18em;
-      color:rgba(246,162,28,.5);margin-bottom:12px">${sectionLabel}</div>
+    <div class="section-lbl">${sectionLabel}</div>
     ${listHtml}
   </div>`;
 }
