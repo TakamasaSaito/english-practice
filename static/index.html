@@ -143,17 +143,21 @@ html,body{height:100%;color:#fff;
 .scard::before{content:'';position:absolute;left:0;top:0;bottom:0;
   width:4px;background:var(--accent)}
 .scard-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;
-  color:rgba(246,162,28,.6)}
+  color:#B5710E}
 .scard-body{flex:1;min-width:0}
-.scard-en{font-family:'Space Grotesk','Courier New',monospace;font-size:.65rem;
-  letter-spacing:.14em;color:rgba(255,255,255,.9);font-weight:600;text-transform:uppercase;
+/* cream card — explicit dark colors to defeat inherited body{color:#fff} */
+.scard .scard-en{font-family:'Space Grotesk','Courier New',monospace;font-size:.65rem;
+  letter-spacing:.14em;color:#12213D;font-weight:600;text-transform:uppercase;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.scard-jp{font-size:.68rem;color:rgba(255,255,255,.38);margin-top:2px}
+.scard .scard-jp{font-size:.68rem;color:#5C6B7A;margin-top:2px;line-height:1.4}
 .sbadge{font-family:'Space Grotesk','Courier New',monospace;font-size:.58rem;
   letter-spacing:.08em;font-weight:700;padding:4px 9px;border-radius:20px;flex-shrink:0;
   white-space:nowrap}
-.sbadge.ready{color:var(--accent);border:1px solid rgba(246,162,28,.45);background:none}
-.sbadge.cleared{color:#fff;background:rgba(62,142,99,.85);border:1px solid var(--success)}
+/* READY: dark navy text + amber outline — readable on cream (#12213D on #F5F2EA ≈ 10:1) */
+.scard .sbadge.ready{color:#12213D;border:1px solid rgba(176,109,14,.55);
+  background:rgba(246,162,28,.12)}
+/* CLEARED: white text on green — readable */
+.scard .sbadge.cleared{color:#fff;background:#3E8E63;border:1px solid #3E8E63}
 
 /* ══════════════════ PRACTICE ══════════════════ */
 .pw{padding:12px 16px 24px}
