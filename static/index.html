@@ -255,9 +255,14 @@ html,body{height:100%;color:#fff;
 
 /* speak model button */
 .btn-speak-model{background:none;border:1px solid rgba(18,33,61,.2);
-  color:rgba(18,33,61,.6);font-size:.67rem;padding:3px 8px;border-radius:4px;
-  cursor:pointer;vertical-align:middle;margin-left:6px}
-.btn-speak-model:active{opacity:.65}
+  color:rgba(18,33,61,.6);font-size:.67rem;padding:4px 10px;border-radius:4px;
+  cursor:pointer;vertical-align:middle;margin-left:6px;
+  touch-action:manipulation;            /* kills 300ms iOS delay */
+  -webkit-tap-highlight-color:rgba(246,162,28,.2);
+  transition:background .12s,opacity .12s,color .12s;user-select:none}
+.btn-speak-model:active,.btn-speak-model.speaking{
+  background:rgba(246,162,28,.18);color:#12213D;opacity:1;
+  border-color:rgba(246,162,28,.6)}
 
 /* full conversation review */
 .fc-review-item{border-bottom:1px solid rgba(18,33,61,.1);padding-bottom:16px;margin-bottom:16px}
@@ -621,42 +626,79 @@ const SICON_MAP = {
 // ═══════════════════════════════════════════════════════════
 // SPEECH SYNTHESIS
 // ═══════════════════════════════════════════════════════════
+
+// ── voice loading (sync on Chrome, async on iOS) ──────────
 let bestVoice = null;
 function pickVoice() {
   const vs = speechSynthesis.getVoices();
+  if (!vs.length) return;   // not yet loaded — retry on voiceschanged
   bestVoice =
     vs.find(v => v.lang === 'en-US' && v.localService) ||
     vs.find(v => v.lang.startsWith('en-US')) ||
     vs.find(v => v.lang.startsWith('en')) || null;
 }
+// addEventListener is more reliable on iOS than property assignment alone
+try { speechSynthesis.addEventListener('voiceschanged', pickVoice); } catch(_) {}
 speechSynthesis.onvoiceschanged = pickVoice;
 pickVoice();
 
-let listenTimer = null;
-function speak(text, onDone) {
-  speechSynthesis.cancel();
-  clearTimeout(listenTimer);
+// ── iOS TTS unlock ────────────────────────────────────────
+// iOS requires speechSynthesis.speak() to be called from a user
+// gesture at least once per session.  Fire a silent utterance on
+// the first touchstart so all subsequent speak() calls work even
+// when invoked after async/await (outside direct gesture context).
+let _ttsUnlocked = false;
+document.addEventListener('touchstart', function() {
+  if (_ttsUnlocked) return;
+  _ttsUnlocked = true;
+  pickVoice();
+  const wake = new SpeechSynthesisUtterance('');
+  wake.volume = 0;
+  speechSynthesis.speak(wake);
+}, {once: true, passive: true});
+
+// ── utterance factory ──────────────────────────────────────
+function _makeUtt(text) {
+  pickVoice();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US';
   u.rate = 0.95;
-  pickVoice();
   if (bestVoice) u.voice = bestVoice;
-  const done = () => { clearTimeout(listenTimer); if (onDone) onDone(); };
-  u.onend = done;
-  u.onerror = done;
-  // fallback: auto-advance if onend never fires
-  listenTimer = setTimeout(done, Math.max(text.split(' ').length * 700, 5000));
-  speechSynthesis.speak(u);
+  return u;
 }
 
-// TTS のみ（コールバック不要・結果画面などで使う）
-function speakOnly(text) {
-  speechSynthesis.cancel();
+// ── speak() — game-flow TTS (may run outside gesture context) ──
+// iOS bug: cancel() → speak() in the same tick is silently dropped.
+// 80 ms defer resolves it and stays within iOS's ~3 s activation window.
+let listenTimer = null;
+let _speakTimer  = null;
+function speak(text, onDone) {
   clearTimeout(listenTimer);
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US'; u.rate = 0.95;
-  pickVoice(); if (bestVoice) u.voice = bestVoice;
-  speechSynthesis.speak(u);
+  clearTimeout(_speakTimer);
+  const u = _makeUtt(text);
+  const done = () => { clearTimeout(listenTimer); if (onDone) onDone(); };
+  u.onend  = done;
+  u.onerror = done;
+  speechSynthesis.cancel();
+  _speakTimer = setTimeout(() => {
+    listenTimer = setTimeout(done, Math.max(text.split(' ').length * 700, 5000));
+    speechSynthesis.speak(u);
+  }, 80);
+}
+
+// ── speakOnly() — called directly from onclick buttons ────
+// btn: the button element; used for immediate visual feedback so
+// the user knows the tap registered even before audio starts.
+function speakOnly(text, btn) {
+  if (btn) {
+    btn.classList.add('speaking');
+    setTimeout(() => btn.classList.remove('speaking'), 900);
+  }
+  clearTimeout(listenTimer);
+  clearTimeout(_speakTimer);
+  const u = _makeUtt(text);
+  speechSynthesis.cancel();
+  _speakTimer = setTimeout(() => speechSynthesis.speak(u), 80);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1223,7 +1265,7 @@ function onTranscript(transcript, expected) {
     <div class="rsec">
       <div style="display:flex;align-items:center;margin-bottom:5px">
         <div class="rlbl mono" style="margin-bottom:0">模範解答</div>
-        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)})">🔊 正しい発音を聞く</button>
+        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)},this)">🔊 正しい発音を聞く</button>
       </div>
       <div class="rtxt">${esc(expected)}</div>
       ${textJp ? `<div class="text-jp">${esc(textJp)}</div>` : ''}
@@ -1373,7 +1415,7 @@ function fcReview() {
         <div class="rtxt">${log.transcript ? esc(log.transcript) : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
         <div style="display:flex;align-items:center;margin:8px 0 5px">
           <div class="rlbl mono" style="margin-bottom:0">模範解答</div>
-          <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(log.expected)})">🔊 発音を聞く</button>
+          <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(log.expected)},this)">🔊 発音を聞く</button>
         </div>
         <div class="rtxt" style="margin-bottom:6px">${esc(log.expected)}</div>
         ${log.text_jp ? `<div class="text-jp" style="margin-bottom:6px">${esc(log.text_jp)}</div>` : ''}
@@ -1685,7 +1727,7 @@ function onTranscriptIntro(transcript, expected) {
     <div class="rsec">
       <div style="display:flex;align-items:center;margin-bottom:5px">
         <div class="rlbl mono" style="margin-bottom:0">模範</div>
-        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)})">🔊</button>
+        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)},this)">🔊</button>
       </div>
       <div class="rtxt">${esc(expected)}</div>
       <div class="text-jp">${esc(phrase.text_jp)}</div>
@@ -1818,7 +1860,7 @@ function fullIntroReview() {
         <div class="rtxt">${log.transcript ? esc(log.transcript) : '<em style="opacity:.45">（聞き取れませんでした）</em>'}</div>
         <div style="display:flex;align-items:center;margin:6px 0 4px">
           <div class="rlbl mono" style="margin-bottom:0">模範</div>
-          <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(log.expected)})">🔊</button>
+          <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(log.expected)},this)">🔊</button>
         </div>
         <div class="rtxt">${esc(log.expected)}</div>
         ${log.text_jp ? `<div class="text-jp" style="margin-bottom:5px">${esc(log.text_jp)}</div>` : ''}
@@ -1920,7 +1962,7 @@ function onTranscriptQA(transcript, expected) {
     <div class="rsec">
       <div style="display:flex;align-items:center;margin-bottom:5px">
         <div class="rlbl mono" style="margin-bottom:0">模範解答</div>
-        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)})">🔊</button>
+        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(expected)},this)">🔊</button>
       </div>
       <div class="rtxt">${esc(expected)}</div>
       <div class="text-jp">${esc(item.a_jp)}</div>
