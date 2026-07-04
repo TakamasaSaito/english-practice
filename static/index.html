@@ -359,8 +359,7 @@ html,body{height:100%;color:#fff;
 .intro-pass-wrap{padding:0}
 
 /* ══════════════════ ① PASSPORT STAMP ══════════════════ */
-.stamp-overlay{position:fixed;inset:0;display:flex;align-items:center;
-  justify-content:center;z-index:9999;pointer-events:none}
+.stamp-mount{display:flex;justify-content:center;margin-top:20px;pointer-events:none}
 .stamp-svg{filter:drop-shadow(0 6px 28px rgba(176,34,14,.45));
   animation:stampDrop 150ms cubic-bezier(.05,.9,.25,1) forwards,
     stampSettle .4s ease 150ms forwards, stampFade .35s ease 1.9s forwards}
@@ -917,12 +916,16 @@ function updateLiveTranscript(final, interim) {
 // SPLIT-FLAP
 // ═══════════════════════════════════════════════════════════
 const FLAP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ:./ -';
+// version counter cancels any in-flight animation on the same element
+let _flapVer = 0;
 function splitFlap(el, target) {
   const T = target.toUpperCase();
   const len = T.length;
+  const ver = ++_flapVer;
   let f = 0;
   const SETTLE = 3, total = len * SETTLE + 5;
   const tick = () => {
+    if (_flapVer !== ver) return; // cancelled by newer call
     let out = '';
     for (let i = 0; i < len; i++) {
       if (f >= i * SETTLE + SETTLE) out += T[i];
@@ -1643,6 +1646,7 @@ async function phClear() {
       <div class="clear-title mono">SCENARIO CLEAR</div>
       <div class="clear-sub">${esc(S.scenario.title_jp)} をクリアしました！</div>
       <button class="btn btn-primary" onclick="backToList()">← 一覧に戻る</button>
+      <div id="stamp-mount" class="stamp-mount"></div>
     </div>`);
   showStamp();
 }
@@ -2442,12 +2446,9 @@ function stop() {
 // ① PASSPORT STAMP ANIMATION
 // ═══════════════════════════════════════════════════════════
 function showStamp() {
-  const old = $id('stamp-overlay');
-  if (old) old.remove();
-  const ov = document.createElement('div');
-  ov.id = 'stamp-overlay';
-  ov.className = 'stamp-overlay';
-  ov.innerHTML = `<svg class="stamp-svg" width="210" height="210" viewBox="0 0 210 210">
+  const mount = $id('stamp-mount');
+  if (!mount) return;
+  mount.innerHTML = `<svg class="stamp-svg" width="140" height="140" viewBox="0 0 210 210">
     <!-- outer jagged ring (dashes simulate ink-edge) -->
     <circle cx="105" cy="105" r="96" fill="none" stroke="#B5220E" stroke-width="9"
       stroke-dasharray="5 3.5" opacity=".88"/>
@@ -2469,8 +2470,7 @@ function showStamp() {
     <text x="105" y="137" text-anchor="middle" font-size="13" fill="#B5220E"
       letter-spacing="8" font-family="'Space Grotesk','Courier New',monospace">完了</text>
   </svg>`;
-  document.body.appendChild(ov);
-  setTimeout(() => ov.remove(), 2500);
+  setTimeout(() => { if (mount) mount.innerHTML = ''; }, 2500);
 }
 
 // ═══════════════════════════════════════════════════════════
