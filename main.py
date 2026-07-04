@@ -69,6 +69,10 @@ class ProfileIn(BaseModel):
     hobbies_en: str
 
 
+class SettingsIn(BaseModel):
+    silent_mode: bool
+
+
 def init_db():
     with get_db() as conn:
         conn.executescript("""
@@ -120,6 +124,7 @@ def init_db():
             "ALTER TABLE profile ADD COLUMN role_jp TEXT NOT NULL DEFAULT ''",
             "ALTER TABLE profile ADD COLUMN focus_jp TEXT NOT NULL DEFAULT ''",
             "ALTER TABLE profile ADD COLUMN purpose_jp TEXT NOT NULL DEFAULT ''",
+            "ALTER TABLE profile ADD COLUMN silent_mode INTEGER NOT NULL DEFAULT 0",
         ]:
             try:
                 conn.execute(migration)
@@ -329,6 +334,24 @@ def api_clear(sid: int):
 def api_reset():
     with get_db() as conn:
         conn.execute("DELETE FROM progress")
+    return {"status": "ok"}
+
+
+@app.get("/api/settings")
+def api_get_settings():
+    with get_db() as conn:
+        row = conn.execute("SELECT silent_mode FROM profile WHERE id=1").fetchone()
+    silent = bool(row["silent_mode"]) if row and row["silent_mode"] is not None else False
+    return {"silent_mode": silent}
+
+
+@app.put("/api/settings")
+def api_put_settings(data: SettingsIn):
+    with get_db() as conn:
+        conn.execute(
+            "UPDATE profile SET silent_mode=? WHERE id=1",
+            (1 if data.silent_mode else 0,),
+        )
     return {"status": "ok"}
 
 

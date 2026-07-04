@@ -415,6 +415,27 @@ html,body{height:100%;color:#fff;
   from{opacity:0;transform:translateY(9px)}
   to{opacity:1;transform:translateY(0)}}
 
+/* ══════════════════ SILENT MODE ══════════════════ */
+.mode-toggle{display:flex;align-items:center;gap:4px;background:none;
+  border:1px solid rgba(246,162,28,.32);padding:5px 9px;border-radius:6px;
+  cursor:pointer;font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.12em;color:rgba(246,162,28,.72);
+  transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+.mode-toggle.silent{background:rgba(246,162,28,.1);color:var(--accent);
+  border-color:rgba(246,162,28,.55)}
+.mode-toggle:active{opacity:.6}
+.silent-badge{font-family:'Courier New',monospace;font-size:.5rem;
+  letter-spacing:.14em;color:#12213D;background:var(--accent);
+  border-radius:3px;padding:2px 6px;display:inline-block;vertical-align:middle;
+  margin-left:6px;font-weight:700}
+.silent-think{text-align:center;padding:22px 0 6px;
+  font-size:.9rem;color:rgba(18,33,61,.55);line-height:1.8}
+.silent-cue{font-family:'Courier New',monospace;font-size:.66rem;
+  letter-spacing:.18em;color:var(--accent);text-align:center;
+  margin:4px 0 14px}
+.silent-timer{text-align:center;font-family:'Courier New',monospace;
+  font-size:.65rem;letter-spacing:.1em;color:rgba(18,33,61,.4);margin-bottom:8px}
+
 /* ══════════════════ ⑦ SPLASH SCREEN ══════════════════ */
 #splash{position:fixed;inset:0;background:#12213D;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -451,6 +472,9 @@ const S = {
   useFallback: false,
   fullConv: false,
   fullConvLogs: [],
+  // mode
+  silentMode: false,   // SILENT = no mic, self-report based
+  ttsEnabled: true,    // per-session TTS mute toggle (not persisted)
   // profile
   profile: null,
   cardOrder: [],   // ['travel','social','meeting','intro'] persisted order
@@ -663,12 +687,17 @@ function _makeUtt(text) {
 
 // ── speak() — game-flow TTS ────────────────────────────────
 // 80 ms defer avoids same-tick speak() after previous utterance ends.
+// mutedDelay: ms to wait before calling onDone when TTS is muted (0 = skip, >0 = reading time)
 let listenTimer = null;
 let _speakTimer  = null;
 let _ttsEndedAt  = 0;   // timestamp when TTS ended (for mic-start guard ③)
-function speak(text, onDone) {
+function speak(text, onDone, mutedDelay=80) {
   clearTimeout(listenTimer);
   clearTimeout(_speakTimer);
+  if (!S.ttsEnabled) {
+    if (onDone) _speakTimer = setTimeout(onDone, mutedDelay);
+    return;
+  }
   const u = _makeUtt(text);
   const done = () => {
     clearTimeout(listenTimer);
@@ -973,6 +1002,12 @@ function renderHome() {
       </div>
     </div>
     <div class="home-hd-btns">
+      <button class="mode-toggle${S.silentMode ? ' silent' : ''}" onclick="toggleSilentMode()" title="モード切替">
+        ${S.silentMode
+          ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg> SILENT`
+          : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> SPEAKING`
+        }
+      </button>
       <button class="gear-btn" onclick="goPassport()" title="パスポート・スタンプ帳">${ICON.passport}</button>
       <button class="gear-btn" onclick="goProfile()" title="プロフィール設定">${ICON.gear}</button>
     </div>
@@ -1172,7 +1207,7 @@ function renderPractice() {
     </div>
     <div class="pass">
       <div class="pass-hd">
-        <div class="pass-en">${esc(sc.title_en.toUpperCase())}</div>
+        <div class="pass-en">${esc(sc.title_en.toUpperCase())}${S.silentMode ? ' <span class="silent-badge">SILENT</span>' : ''}</div>
         <div class="pass-jp">${esc(sc.title_jp)}</div>
         <div class="pass-meta">
           <span class="turn-lbl mono" id="turn-lbl">TURN 1 / 4</span>
@@ -1196,6 +1231,7 @@ function startTurn(idx) {
   if (SR) S.useFallback = false; // ② allow SR retry on new turn
   const turn = S.scenario.turns[idx];
   if (turn.speaker === 'agent') phListen(turn);
+  else if (S.silentMode) phSilentReady(turn);
   else phReady(turn);
 }
 
@@ -1203,19 +1239,40 @@ function startTurn(idx) {
 function phListen(turn) {
   S.phase = 'listen';
   setStatus('LISTEN');
-  setBody(`
-    <div class="sp-lbl mono">STAFF / PARTNER</div>
-    <div class="agent-box" id="agent-box">${esc(turn.text)}</div>
-    ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
-    <button class="btn btn-outline" onclick="replayTTS()">🔊&nbsp; もう一度聞く</button>
-    <button class="btn btn-sub" style="margin-left:8px;font-size:.75rem" onclick="phRepeat(curTurn())">スキップ →</button>
-  `);
-  speak(turn.text, () => { if (S.phase==='listen') phRepeat(turn); });
+  if (S.silentMode) {
+    // Silent mode: no auto-advance; user taps "考える →" manually
+    setBody(`
+      <div class="sp-lbl mono">STAFF / PARTNER</div>
+      <div class="agent-box">${esc(turn.text)}</div>
+      ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-outline" style="font-size:.75rem" onclick="replayTTS()">🔊 もう一度</button>
+        <button id="mute-btn" class="btn btn-sub" style="font-size:.72rem" onclick="toggleTTS()">
+          ${S.ttsEnabled ? '🔊 音声ON' : '🔇 ミュート'}
+        </button>
+        <button class="btn btn-primary" style="flex:1;font-size:.8rem" onclick="phSilentReady(curTurn())">考える →</button>
+      </div>
+    `);
+    if (S.ttsEnabled) speak(turn.text, null);
+  } else {
+    setBody(`
+      <div class="sp-lbl mono">STAFF / PARTNER</div>
+      <div class="agent-box" id="agent-box">${esc(turn.text)}</div>
+      ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
+      <button class="btn btn-outline" onclick="replayTTS()">🔊&nbsp; もう一度聞く</button>
+      <button class="btn btn-sub" style="margin-left:8px;font-size:.75rem" onclick="phRepeat(curTurn())">スキップ →</button>
+    `);
+    speak(turn.text, () => { if (S.phase==='listen') phRepeat(turn); });
+  }
 }
 
 function replayTTS() {
   const t = curTurn();
-  speak(t.text, () => { if (S.phase==='listen') phRepeat(t); });
+  if (S.silentMode) {
+    if (S.ttsEnabled) speak(t.text, null);
+  } else {
+    speak(t.text, () => { if (S.phase==='listen') phRepeat(t); });
+  }
 }
 
 // ─── REPEAT (shadowing) ───────────────────────────────────
@@ -1391,18 +1448,35 @@ function phStartFullConv() {
   S.phase = 'fc-intro';
   setStatus('FULL CONVERSATION');
   setProgress(4);
-  setBody(`
-    <div style="text-align:center;padding:8px 0 16px">
-      <div style="font-size:1.6rem;margin-bottom:10px">🎤</div>
-      <div style="font-family:'Courier New',monospace;font-size:.75rem;letter-spacing:.18em;
-        color:var(--accent);font-weight:700;margin-bottom:12px">FULL CONVERSATION</div>
-      <p style="font-size:.86rem;color:rgba(18,33,61,.7);line-height:1.65;margin-bottom:20px">
-        4ターンを通して会話してみましょう。<br>ヒントも模範解答も表示しません。<br>終わったら振り返りを確認できます。
-      </p>
-      <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="startFullConv()">通し練習を始める →</button>
-      <button class="reset-btn" onclick="phClear()">スキップしてクリア</button>
-    </div>
-  `);
+  if (S.silentMode) {
+    setBody(`
+      <div style="text-align:center;padding:8px 0 16px">
+        <div style="font-size:1.6rem;margin-bottom:10px">🎧</div>
+        <div style="font-family:'Courier New',monospace;font-size:.75rem;letter-spacing:.18em;
+          color:var(--accent);font-weight:700;margin-bottom:12px">FULL CONVERSATION · SILENT</div>
+        <p style="font-size:.86rem;color:rgba(18,33,61,.7);line-height:1.65;margin-bottom:20px">
+          4ターンの流れを頭の中で追いましょう。<br>
+          エージェント発話の後、4秒間で<br>
+          頭の中で応答し、模範解答を確認します。
+        </p>
+        <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="startFullConv()">通し練習を始める →</button>
+        <button class="reset-btn" onclick="phClear()">スキップしてクリア</button>
+      </div>
+    `);
+  } else {
+    setBody(`
+      <div style="text-align:center;padding:8px 0 16px">
+        <div style="font-size:1.6rem;margin-bottom:10px">🎤</div>
+        <div style="font-family:'Courier New',monospace;font-size:.75rem;letter-spacing:.18em;
+          color:var(--accent);font-weight:700;margin-bottom:12px">FULL CONVERSATION</div>
+        <p style="font-size:.86rem;color:rgba(18,33,61,.7);line-height:1.65;margin-bottom:20px">
+          4ターンを通して会話してみましょう。<br>ヒントも模範解答も表示しません。<br>終わったら振り返りを確認できます。
+        </p>
+        <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="startFullConv()">通し練習を始める →</button>
+        <button class="reset-btn" onclick="phClear()">スキップしてクリア</button>
+      </div>
+    `);
+  }
 }
 
 function startFullConv() {
@@ -1428,10 +1502,14 @@ function fcTurn(idx) {
       ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
       <div style="font-size:.73rem;color:rgba(18,33,61,.4);margin-top:6px">次のターンへ進んでいます...</div>
     `);
-    speak(turn.text, () => {
+    const advance = () => {
       if (!S.fullConv) return;
-      if (idx + 1 < 4) fcTurn(idx + 1); else fcReview();
-    });
+      if (idx + 1 < 4) fcTurn(idx + 1);
+      else if (S.silentMode) fcReviewSilent(); else fcReview();
+    };
+    speak(turn.text, advance, 1500);
+  } else if (S.silentMode) {
+    fcTurnSilent(idx, turn);
   } else {
     setStatus('YOUR TURN');
     setBody(`
@@ -2094,6 +2172,156 @@ function qaNext() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// SILENT MODE — step practice
+// ═══════════════════════════════════════════════════════════
+
+function toggleSilentMode() {
+  S.silentMode = !S.silentMode;
+  api.put('/api/settings', { silent_mode: S.silentMode }).catch(() => {});
+  renderHome();
+}
+
+function toggleTTS() {
+  S.ttsEnabled = !S.ttsEnabled;
+  if (!S.ttsEnabled) { clearTimeout(_speakTimer); speechSynthesis.cancel(); }
+  const btn = $id('mute-btn');
+  if (btn) btn.textContent = S.ttsEnabled ? '🔊 音声ON' : '🔇 ミュート';
+}
+
+// 1. ユーザーターン開始 — 頭の中で考える時間
+function phSilentReady(turn) {
+  S.phase = 'silent-ready';
+  setStatus('THINK');
+  speechSynthesis.cancel();
+  setBody(`
+    <div class="sp-lbl mono">YOUR TURN</div>
+    <div class="hint-box">
+      <div class="hint-lbl mono">この内容を英語で（頭の中で）</div>
+      ${esc(turn.text_jp || turn.hint || '')}
+    </div>
+    <div class="silent-cue">頭の中で英語を組み立てましょう</div>
+    <button class="btn btn-primary" style="width:100%" onclick="phSilentReveal(curTurn())">
+      答えを確認する →
+    </button>
+  `);
+}
+
+// 2. 模範解答を表示 + TTS + 自己申告ボタン
+function phSilentReveal(turn) {
+  S.phase = 'silent-reveal';
+  setStatus('MODEL ANSWER');
+  const isLast = S.turnIdx === 3;
+  setBody(`
+    <div class="sp-lbl mono">模範解答</div>
+    <div class="agent-box">${esc(turn.text)}</div>
+    ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;margin-bottom:4px">
+      <button id="mute-btn" class="btn btn-sub" style="font-size:.72rem" onclick="toggleTTS()">
+        ${S.ttsEnabled ? '🔊 音声ON' : '🔇 ミュート'}
+      </button>
+    </div>
+    <div style="font-size:.78rem;color:rgba(18,33,61,.55);margin:10px 0 8px">
+      頭の中で言えましたか？
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-sub" onclick="silentReport(false)">言えなかった</button>
+      <button class="btn btn-primary" onclick="silentReport(true)">
+        ${isLast ? '言えた！ → 完了' : '言えた！ → 次へ'}
+      </button>
+    </div>
+  `);
+  if (S.ttsEnabled) speak(turn.text, null);
+}
+
+// 3. 自己申告 → 次のターンへ
+function silentReport(couldSay) {
+  speechSynthesis.cancel();
+  const next = S.turnIdx + 1;
+  if (next < 4) { setProgress(next); startTurn(next); }
+  else phStartFullConv();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SILENT MODE — full conversation
+// ═══════════════════════════════════════════════════════════
+
+// ユーザーターン: 4秒カウントダウン後に模範解答表示
+function fcTurnSilent(idx, turn) {
+  setStatus('YOUR TURN · THINK');
+  setBody(`
+    <div class="sp-lbl mono">YOUR TURN</div>
+    <div class="silent-think">頭の中で応答してみましょう</div>
+    <div class="silent-timer" id="fc-silent-timer">4秒後に模範解答を表示...</div>
+  `);
+  let remaining = 4;
+  const tick = setInterval(() => {
+    remaining--;
+    const el = $id('fc-silent-timer');
+    if (!el || !S.fullConv) { clearInterval(tick); return; }
+    if (remaining > 0) {
+      el.textContent = `${remaining}秒後に模範解答を表示...`;
+    } else {
+      clearInterval(tick);
+      showFCSilentAnswer(idx, turn);
+    }
+  }, 1000);
+}
+
+// 模範解答を表示してTTS再生 → 次のターンへ自動進行
+function showFCSilentAnswer(idx, turn) {
+  if (!S.fullConv) return;
+  setStatus('MODEL ANSWER');
+  setBody(`
+    <div class="sp-lbl mono">模範解答</div>
+    <div class="agent-box">${esc(turn.text)}</div>
+    ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
+    <div style="font-size:.73rem;color:rgba(18,33,61,.4);margin-top:8px">次のターンへ進んでいます...</div>
+  `);
+  const advance = () => {
+    if (!S.fullConv) return;
+    setTimeout(() => {
+      if (!S.fullConv) return;
+      const next = idx + 1;
+      if (next < 4) fcTurn(next); else fcReviewSilent();
+    }, 800);
+  };
+  speak(turn.text, advance, 2000);
+}
+
+// サイレントFC用レビュー画面 (スコアなし)
+function fcReviewSilent() {
+  S.fullConv = false;
+  setStatus('FC COMPLETE');
+  const l = $id('turn-lbl'); if (l) l.textContent = 'SILENT · DONE';
+  const f = $id('prog-fill'); if (f) f.style.width = '100%';
+
+  const items = S.scenario.turns.map((turn, i) => {
+    if (turn.speaker === 'agent') {
+      return `<div class="fc-review-item">
+        <div class="rlbl mono">AGENT — TURN ${i+1}</div>
+        <div class="rtxt">${esc(turn.text)}</div>
+        ${turn.text_jp ? `<div class="text-jp">${esc(turn.text_jp)}</div>` : ''}
+      </div>`;
+    }
+    return `<div class="fc-review-item">
+      <div style="display:flex;align-items:center;margin-bottom:5px">
+        <div class="rlbl mono" style="margin-bottom:0">YOUR TURN ${i+1} — 模範解答</div>
+        <button class="btn-speak-model" onclick="speakOnly(${JSON.stringify(turn.text)},this)">🔊</button>
+      </div>
+      <div class="rtxt">${esc(turn.text)}</div>
+      ${turn.text_jp ? `<div class="text-jp" style="margin-bottom:4px">${esc(turn.text_jp)}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  setBody(`
+    <div style="font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.16em;
+      color:var(--accent);margin-bottom:16px;font-weight:700">FULL CONVERSATION · SILENT REVIEW</div>
+    ${items}
+    <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="phClear()">クリア！ →</button>
+  `);
+}
+
+// ═══════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════
 async function goHome() {
@@ -2376,11 +2604,17 @@ function showSplash() {
 // ═══════════════════════════════════════════════════════════
 (async () => {
   const splashDone = showSplash();
-  [S.categories, S.profile, S.cardOrder] = await Promise.all([
+  const [cats, prof, order, settings] = await Promise.all([
     api.get('/api/categories'),
     api.get('/api/profile'),
     api.get('/api/categories/order'),
+    api.get('/api/settings'),
   ]);
+  S.categories = cats;
+  S.profile    = prof;
+  S.cardOrder  = order;
+  S.silentMode = settings.silent_mode || false;
+  S.ttsEnabled = true;
   await splashDone;
   renderHome();
 })();
