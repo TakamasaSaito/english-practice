@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import sqlite3
 from contextlib import contextmanager
@@ -10,7 +11,13 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-DB_PATH = "english_practice.db"
+_data_dir = os.environ.get("DATA_DIR")
+if _data_dir:
+    Path(_data_dir).mkdir(parents=True, exist_ok=True)
+    DB_PATH = str(Path(_data_dir) / "english_practice.db")
+else:
+    DB_PATH = "english_practice.db"
+
 SEED_PATH = "scenarios_seed.json"
 
 app = FastAPI()
@@ -337,6 +344,51 @@ def api_reset():
     with get_db() as conn:
         conn.execute("DELETE FROM progress")
     return {"status": "ok"}
+
+
+@app.post("/api/admin/reseed")
+def api_admin_reseed():
+    seed = Path(SEED_PATH)
+    if not seed.exists():
+        raise HTTPException(404, "Seed file not found")
+    scenarios = json.loads(seed.read_text(encoding="utf-8"))
+    with get_db() as conn:
+        # Save cleared progress keyed by (category, no) before wiping
+        saved = {
+            (r["category"], r["no"]): (r["cleared"], r["cleared_at"])
+            for r in conn.execute("""
+                SELECT s.category, s.no, p.cleared, p.cleared_at
+                FROM progress p JOIN scenario s ON s.id = p.scenario_id
+                WHERE p.cleared = 1
+            """).fetchall()
+        }
+        conn.execute("PRAGMA foreign_keys = OFF")
+        conn.execute("DELETE FROM turn")
+        conn.execute("DELETE FROM progress")
+        conn.execute("DELETE FROM scenario")
+        conn.execute(
+            "UPDATE sqlite_sequence SET seq=0 WHERE name IN ('scenario','turn')"
+        )
+        conn.execute("PRAGMA foreign_keys = ON")
+        for s in scenarios:
+            cur = conn.execute(
+                "INSERT INTO scenario (category, category_jp, no, title_jp, title_en) VALUES (?,?,?,?,?)",
+                (s["category"], s["category_jp"], s["no"], s["title_jp"], s["title_en"]),
+            )
+            sid = cur.lastrowid
+            for i, t in enumerate(s["turns"], 1):
+                conn.execute(
+                    "INSERT INTO turn (scenario_id, seq, speaker, text, hint, text_jp) VALUES (?,?,?,?,?,?)",
+                    (sid, i, t["speaker"], t["text"], t.get("hint"), t.get("text_jp")),
+                )
+            key = (s["category"], s["no"])
+            if key in saved:
+                cleared, cleared_at = saved[key]
+                conn.execute(
+                    "INSERT INTO progress (scenario_id, cleared, cleared_at) VALUES (?,?,?)",
+                    (sid, cleared, cleared_at),
+                )
+    return {"status": "ok", "seeded": len(scenarios), "progress_restored": len(saved)}
 
 
 @app.get("/api/settings")

@@ -1,9 +1,16 @@
 """Run directly: python seed.py  — clears and re-seeds the database."""
 import json
+import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = "english_practice.db"
+_data_dir = os.environ.get("DATA_DIR")
+if _data_dir:
+    Path(_data_dir).mkdir(parents=True, exist_ok=True)
+    DB_PATH = str(Path(_data_dir) / "english_practice.db")
+else:
+    DB_PATH = "english_practice.db"
+
 SEED_PATH = "scenarios_seed.json"
 
 PROFILE_DEFAULT = {
